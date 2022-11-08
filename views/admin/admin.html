@@ -1,0 +1,850 @@
+<!-- <?php
+
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
+}
+
+?> -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+
+    <!-- Fontawesome -->
+    <!-- <script src="https://kit.fontawesome.com/57ff89206e.js" crossorigin="anonymous"></script> -->
+    <link href="/views/fontawesome-free-6.2.0-web/css/fontawesome.css" rel="stylesheet">
+    <link href="/views/fontawesome-free-6.2.0-web/css/brands.css" rel="stylesheet">
+    <link href="/views/fontawesome-free-6.2.0-web/css/solid.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;500;600;700;900&family=Righteous&display=swap"
+        rel="stylesheet">
+    <!-- CSS stylesheet -->
+    <link rel="stylesheet" href="admin.css">
+    <title>Profesor</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-app">
+            <div class="container-fluid px-5">
+                <a class="navbar-brand " href="#">
+                    <i class="fa-solid fa-book"></i>
+                    ScheduleApp
+                </a>
+
+                <a class="navbar-brand " href="#">
+                    Username
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid  d-flex justify-content-center">
+        <div class="row main d-flex justify-content-center py-0 mx-0 w-100 ">
+            <!-- <div class="col"></div> -->
+
+            <div class="col-lg-8 m-5">
+                <div class="row ">
+                    <div class="col">
+                        <!-- Add Courses -->
+                        <div class="row course-input justify-content-center mb-5 p-2">
+                            <form action="#">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <div class="col-4 ">
+                                        <div class="mb-0 px-4">
+                                            <label class="form-label" for="course-name">Course Name</label>
+                                        </div>
+                                        <div class="px-4 ">
+                                            <input class="form-input inpt" type="text" name="course-name"
+                                                id="course-name">
+                                        </div>
+                                    </div>
+                                    <div class="col-4 ">
+                                        <div class="px-3">
+                                            <label class="form-label" for="course-type">Course type </label>
+                                        </div>
+                                        <div class="px-3 ">
+                                            <input class="form-input inpt" type="text" name="course-type"
+                                                id="course-type">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-3 px-4  d-flex align-bottom">
+                                        <button class="px-4 py-1" type="submit">ADD COURSE</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Courses Table -->
+                        <div class="row course-table justify-content-center">
+                            <div class="col-md ">
+                                <div class="row header d-flex align-content-center justify-content-center">
+                                    <div class="col-2 d-flex align-content-center justify-content-center ">ID</div>
+                                    <div class="col-8 d-flex align-content-center justify-content-center">Course</div>
+                                    <div class="col-2 d-flex align-content-center justify-content-center">Type</div>
+                                </div>
+                                <div class="row data-record">
+                                    <div class="col-2 d-flex align-content-center justify-content-center">1</div>
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <div class="col-11 title" data-course-title="Inteligenta Artificiala">
+                                                Inteligenta artificiala
+                                            </div>
+                                            <div class="col-1 d-flex align-items-center justify-content-end see-more">
+                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                <div class="row choice-modal">
+                                                    <div class="col">
+                                                        <!-- Delete button -->
+                                                        <div class="row">
+                                                            <button type="button" class="col mx-auto delete-button"
+                                                                data-bs-toggle="modal" data-bs-target="delete-modal">
+                                                                Delete Course
+                                                            </button>
+                                                        </div>
+
+                                                        <!-- See Scheduled button -->
+                                                        <div class="row">
+                                                            <button type="button" class="col mx-auto schedule-button"
+                                                                data-bs-toggle="modal" data-bs-target="schedule-modal">
+                                                                See Scheduled
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2 course-type" data-course-type="Curs">Curs</div>
+                                </div>
+
+                                <div class="row data-record">
+                                    <div class="col-2 d-flex align-content-center justify-content-center">2</div>
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <div class="col-11 title" data-course-title="Medii de proiectare si programare">
+                                                Medii de proiectare si programare</div>
+                                            <div class="col-1 d-flex  align-items-center justify-content-end see-more">
+                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                <div class="row choice-modal">
+                                                    <div class="col">
+                                                        <!-- Delete button -->
+                                                        <div class="row">
+                                                            <button type="button" class="col mx-auto delete-button"
+                                                                data-bs-toggle="modal" data-bs-target="delete-modal">
+                                                                Delete Course
+                                                            </button>
+                                                        </div>
+
+                                                        <!-- See Scheduled button -->
+                                                        <div class="row">
+                                                            <button type="button" class="col mx-auto schedule-button"
+                                                                data-bs-toggle="modal" data-bs-target="schedule-modal">
+                                                                See Scheduled
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2 course-type" data-course-type="Seminar">Seminar</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-2 d-flex align-content-center justify-content-center">3</div>
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <div class="col-11">Metodologii pentru procese software</div>
+                                            <div class="col-1 d-flex  align-items-center justify-content-end see-more">
+                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                <div class="row choice-modal">
+                                                    <div class="col">
+                                                        <!-- Delete button -->
+                                                        <div class="row">
+                                                            <button type="button" class="col mx-auto delete-button"
+                                                                data-bs-toggle="modal" data-bs-target="delete-modal">
+                                                                Delete Course
+                                                            </button>
+                                                        </div>
+
+                                                        <!-- See Scheduled button -->
+                                                        <div class="row">
+                                                            <button type="button" class="col mx-auto schedule-button"
+                                                                data-bs-toggle="modal" data-bs-target="schedule-modal">
+                                                                See Scheduled
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">Curs</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-2 d-flex align-content-center justify-content-center">4</div>
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <div class="col-11">Modele in programarea paralela</div>
+                                            <div class="col-1 d-flex  align-items-center justify-content-end">
+                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                <div class="row choice-modal">
+                                                    <div class="col ">
+                                                        <button class="row mx-auto">
+                                                            <div class="col">Delete Course</div>
+                                                        </button>
+                                                        <button class="row mx-auto">See Scheduled</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">Laborator</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-2 d-flex align-content-center justify-content-center">5</div>
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <div class="col-11">Programare orientata obiect</div>
+                                            <div class="col-1 d-flex  align-items-center justify-content-end">
+                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                <div class="row choice-modal">
+                                                    <div class="col ">
+                                                        <button class="row mx-auto">
+                                                            <div class="col">Delete Course</div>
+                                                        </button>
+                                                        <button class="row mx-auto">See Scheduled</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">Curs</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-2 d-flex align-content-center justify-content-center">6</div>
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <div class="col-11">Proiect de cercetare in calcul de inalta performanta
+                                            </div>
+                                            <div class="col-1 d-flex  align-items-center justify-content-end">
+                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                <div class="row choice-modal">
+                                                    <div class="col ">
+                                                        <button class="row mx-auto">
+                                                            <div class="col">Delete Course</div>
+                                                        </button>
+                                                        <button class="row mx-auto">See Scheduled</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">Seminar</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-2 d-flex align-content-center justify-content-center">7</div>
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <div class="col-11">Servere de date</div>
+                                            <div class="col-1 d-flex  align-items-center justify-content-end">
+                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                <div class="row choice-modal">
+                                                    <div class="col ">
+                                                        <button class="row mx-auto">
+                                                            <div class="col">Delete Course</div>
+                                                        </button>
+                                                        <button class="row mx-auto">See Scheduled</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">Curs</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-2 d-flex align-content-center justify-content-center">8</div>
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <div class="col-11">Medii de proiectare si programare</div>
+                                            <div class="col-1 d-flex  align-items-center justify-content-end">
+                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                <div class="row choice-modal">
+                                                    <div class="col ">
+                                                        <button class="row mx-auto">
+                                                            <div class="col">Delete Course</div>
+                                                        </button>
+                                                        <button class="row mx-auto">See Scheduled</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">Laborator</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-2 d-flex align-content-center justify-content-center">9</div>
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <div class="col-11">Medii de proiectare si programare</div>
+                                            <div class="col-1 d-flex  align-items-center justify-content-end">
+                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                <div class="row choice-modal">
+                                                    <div class="col ">
+                                                        <button class="row mx-auto">
+                                                            <div class="col">Delete Course</div>
+                                                        </button>
+                                                        <button class="row mx-auto">See Scheduled</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">Seminar</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-2 d-flex align-content-center justify-content-center">10</div>
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <div class="col-11">Verificarea si validarea sistemelor soft</div>
+                                            <div class="col-1 d-flex  align-items-center justify-content-end">
+                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                <div class="row choice-modal">
+                                                    <div class="col ">
+                                                        <button class="row mx-0 w-100">
+                                                            <div class="col">Delete Course</div>
+                                                        </button>
+                                                        <button class="row mx-auto">See Scheduled</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">Curs</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Pagination -->
+                <div class="row course-table-pagination my-3">
+                    <div class="col-5 "></div>
+                    <div class="col-2 d-flex justify-content-end align-items-end">
+                        <div class="row ">
+                            <div class="col-4">
+                                <a class="color px-2" href="#" title="forward">
+                                    <i class="fa-solid fa-caret-left"></i>
+                                </a>
+                            </div>
+
+                            <div class="col-4 d-flex justify-content-center align-items-center color">2</div>
+
+                            <div class="col-4 d-flex justify-content-start align-items-center ">
+                                <a class="color px-2" href="#" title="backward">
+                                    <i class="fa-solid fa-caret-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-5"></div>
+                </div>
+
+            </div>
+
+            <!-- Assigned To  -->
+            <div class="col-lg-2 my-5 mx-2 pb-0 assigned-block">
+                <div class="row form-container">
+                    <div class="col">
+                        <div class="row header">
+                            <div class="col d-flex justify-content-center align-items-center">
+                                Assigned to
+                            </div>
+                        </div>
+                        <div class="row assigned-block-rows">
+                            <!-- Form -->
+                            <div class="col px-0 ">
+                                <form class="assigned-block-form">
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="233">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row ">
+                                        <div class="col d-flex justify-content-end p-0 my-2">
+                                            <input type="checkbox" id="232">
+                                        </div>
+
+                                        <div class="col d-flex justify-content-start align-items-center">
+                                            <label for="232">232</label>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row mt-3">
+                    <div class="col px-0">
+                        <button class="w-100 py-2" type="submit">SAVE</button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Modal on Delete Course -->
+    <div class="modal fade " id="delete-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <h5 class="modal-title"></h5> -->
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                </div>
+                <div class="modal-body" id="some-id">
+                    Are you sure you want to delete
+                    <span class="course-title"></span> - Type <span class="course-type"> ?</span>
+                </div>
+                <div class="modal-footer justify-content-around">
+                    <form action="#" method="post">
+                        <button type="submit" class="btn px-4 btn-yes" data-bs-dismiss="modal">Yes</button>
+                    </form>
+                    <button type="button" class="btn px-4 btn-no" data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal on See Scheduled -->
+
+    <div class="modal fade " id="schedule-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header schedule-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">See Scheduled for - <span class="course-title"></span>
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row py-3 px-5">
+                        <div class="col mx-0">
+                            <table class="w-100" data-toggle="table" id="schedule-table">
+                                <thead>
+                                    <tr data-height="1" class="table-head">
+                                        <th data-field="hour" data-width="80">
+                                            <!-- <div onclick="download_PDF()">
+                                                    <i class="fa fa-download"
+                                                        style="font-size:25px;color: #FFFBD6;"></i>
+                                                </div> -->
+                                        </th>
+                                        <th data-field="monday" data-width="150">Monday</th>
+                                        <th data-field="tuesday" data-width="150">Tuesday</th>
+                                        <th data-field="wednesday" data-width="150">Wednesday</th>
+                                        <th data-field="thursday" data-width="150">Thursday</th>
+                                        <th data-field="friday" data-width="150">Friday</th>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <th>8-9</th>
+                                    <td data-row-id="1" data-toggle="modal" data-target="#courseModal"></td>
+                                    <td data-row-id="2" data-toggle="modal" data-target="#courseModal"></td>
+                                    <td data-row-id="3" data-toggle="modal" data-target="#courseModal">ISS</td>
+                                    <td data-row-id="4" data-toggle="modal" data-target="#courseModal"></td>
+                                    <td data-row-id="5" data-toggle="modal" data-target="#courseModal">OS</td>
+                                </tr>
+                                <tr>
+                                    <th>9-10</th>
+                                    <td class="table-data" data-row-id="6" data-toggle="modal"
+                                        data-target="#courseModal">
+                                        <div class="container">
+                                            <div class="row justify-content-end">
+                                                <div class="col-4 justify-content-end">AI</div>
+                                                <div class="col-4 justify-content-center">
+                                                    <form action="#" method="post">
+                                                        <button class="delete-from-schedule" type="submit">
+                                                            <!-- <p hidden>delete</p> -->
+                                                            <i class="fa-solid fa-trash-can"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    <td data-row-id="7" data-toggle="modal" data-target="#courseModal">ASC</td>
+                                    <td data-row-id="8" data-toggle="modal" data-target="#courseModal"></td>
+                                    <td data-row-id="9" data-toggle="modal" data-target="#courseModal">OS</td>
+                                    <td data-row-id="10" data-toggle="modal" data-target="#courseModal"></td>
+                                </tr>
+                                <tr>
+                                    <th>10-11</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>11-12</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>12-13</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>13-14</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>14-15</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>15-16</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>16-17</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>17-18</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>18-19</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>19-20</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div> -->
+        </div>
+    </div>
+    </div>
+
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+        integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+        crossorigin="anonymous"></script>
+
+    <script src="./admin.js"></script>
+
+</body>
+
+</html>
