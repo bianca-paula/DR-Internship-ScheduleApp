@@ -4,15 +4,15 @@ include_once('../utils/DBConfig.php');
 
 class UserRoles{
 
-    private $user_id;
-    private $role_id;
+    // private $user_id;
+    // private $role_id;
 
     private DBConfig $db_config;
 
-    function __construct(DBConfig $db, $user_id, $role_id){
+    function __construct(DBConfig $db){
         $this->db_config = $db;
-        $this->user_id = $user_id;
-        $this->role_id = $role_id;
+        // $this->user_id = $user_id;
+        // $this->role_id = $role_id;
 
         $user_role_table = $this->db_config->connection->query($this->checktable());
     
