@@ -41,7 +41,7 @@ class DbConfiguration
                 $this->connection->query($sql);
             }   
             $this->execute("use $this->database_name");         
-            echo nl2br("Connection successfully established \n");
+            //echo nl2br("Connection successfully established \n");
         } 
         catch (PDOException $exception) {
             echo nl2br("Connection failed: " . $exception->getMessage() . "\n");

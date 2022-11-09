@@ -1,6 +1,4 @@
 <?php
-include_once('../utils/DbConfiguration.php');
-
 
 class User {
     // Properties
@@ -43,8 +41,8 @@ class User {
     private static function createUserTable(){
         return "CREATE TABLE IF NOT EXISTS User(
                     id INT AUTO_INCREMENT PRIMARY KEY,
-                    email VARCHAR(20) NOT NULL UNIQUE,
-                    password VARCHAR(100) NOT NULL,
+                    email VARCHAR(30) NOT NULL UNIQUE,
+                    password VARCHAR(50) NOT NULL,
                     first_name VARCHAR(30) NOT NULL,
                     last_name VARCHAR(20) NOT NULL,
                     prefix VARCHAR(10)
@@ -88,6 +86,12 @@ class User {
         
         return $sql__insert_stmt;
         
+        /* Adding some test accounts
+        return $sql__insert_stmt . "('test_admin@studmail.com' , '" . md5('test') . "', 'FNAT', 'LNAT', ''),
+                                    ('test_professor@studmail.com' , '" . md5('test') . "', 'FNPT', 'LNPT', 'drd.'),
+                                    ('test_student@studmail.com' , '" . md5('test') . "', 'FNST', 'LNST', '');";
+        */ 
+                                   
     }
     
     private static function createRandomPassword() {
@@ -120,6 +124,19 @@ class User {
         }
         
         return null;
+        
+    }
+    
+    function getUserRole($user_id){
+        $query = "SELECT role.name FROM role INNER JOIN userrole
+        ON role.id = userrole.role_id WHERE userrole.user_id = " . $user_id;
+        
+        $response = $this->db_config->connection->query($query);
+        $role = $response->fetch();
+        if (isset($role['name'])){
+            return $role['name'];
+        }
+        else return null;
         
     }
     

@@ -1,29 +1,7 @@
 <?php
+include_once "../../utils/DbConfiguration.php";
+include_once "../../models/User.php";
 
-$users = array(
-    array('email' => 'lala@gmail.com',
-        'password' => 'lala',
-        'role' => 'admin'),
-    array('email' => 'floaredesoare@gmail.com',
-        'password' => 'floaredesoare',
-        'role' => 'professor'),
-    array('email' => 'polonic@gmail.com',
-        'password' => 'polonic',
-        'role' => 'student')
-);
-
-
-// To be adapted to use database
-function verify_user($email, $password, $users){
-    // Checks that the credentials are valid and returns the user if it can be found
-    
-    foreach($users as $user) {
-        if ($user['email'] == $email && $user['password'] == $password){
-            return $user;
-        }
-    }
-    return null;
-}
 
 function display_login_view($error_visibility){
     ?>
@@ -70,14 +48,27 @@ if($_SERVER['REQUEST_METHOD']=='POST'
     && !empty($_POST['input_email'])
     && !empty($_POST['input_password'])) {
        
-        $user = verify_user($_POST['input_email'], $_POST['input_password'], $users);
+        // TO BE MODIFIED WHEN USER CLASS NO LONGER USES A DBCONFIG
+        
+        $db_config = new DbConfiguration();
+        $utility_user = new User($db_config, "", "", "", "", "");
+        $user = $utility_user->verifyUser($_POST['input_email'], $_POST['input_password']);
+        
+        
         if(!is_null($user)){
             // If user credentials are valid, set cookie variables and redirect the user
-            $expires = time()+7*24*60*60;
-            setcookie('role', $user['role'], $expires, '/');
-            setcookie('logged_in', 'true', $expires, '/');
+            $user_role = $utility_user->getUserRole($user->get_id());
+            if (is_null($user_role)){
+                header("Location: error_view.php");  // an error view for users with no role
+                exit();
+            }
             
-            switch($user['role']){
+            $expires = time()+7*24*60*60;
+            setcookie('role', $user_role, $expires, '/');
+            setcookie('logged_in', 'true', $expires, '/');
+            setcookie('user_id', $user->get_id(),  $expires, '/');
+            
+            switch($user_role){
                 case 'admin':
                     header("Location: admin.php");  // to replace with Admin Main Page
                     exit();
