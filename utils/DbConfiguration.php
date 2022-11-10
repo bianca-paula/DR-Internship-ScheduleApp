@@ -1,6 +1,5 @@
 <?php
 
-
 class DbConfiguration
 {
     protected $type;
@@ -8,7 +7,7 @@ class DbConfiguration
     protected $user_name;
     protected $password;
     protected $database_name;
-    public $connection; 
+    public $connection;
     protected $port;
     protected $charset;
     
@@ -33,21 +32,19 @@ class DbConfiguration
             $sql = "CREATE DATABASE $this->database_name";
             $sql_check_db_exists = "SELECT SCHEMA_NAME
             FROM INFORMATION_SCHEMA.SCHEMATA
-            WHERE SCHEMA_NAME = '" . $this->database_name . "'";
+            WHERE SCHEMA_NAME = '$this->database_name';";
             $this->connection = $this->create_connection($dsn, $this->user_name, $this->password, $options);
-            $check_if_db = $this->connection->query($sql_check_db_exists); 
-            
+            $check_if_db = $this->connection->query($sql_check_db_exists);
             if(!isset($check_if_db->fetch()['SCHEMA_NAME'])){
                 $this->connection->query($sql);
-            }   
-            $this->execute("use $this->database_name");         
-            echo nl2br("Connection successfully established \n");
-        } 
+            }
+            $this->execute("use $this->database_name");
+            // echo nl2br("Connection successfully established \n");
+        }
         catch (PDOException $exception) {
             echo nl2br("Connection failed: " . $exception->getMessage() . "\n");
         }
     }
-    
     
     function create_connection($connection_string, $user_name, $password, $options)
     {
@@ -55,20 +52,15 @@ class DbConfiguration
     }
     
     
-    
-    
-    //return true if successfull 
+    //return true if successfull
     //and as response the query response for SELECT statement
     //return false if unsuccsessfull
     function execute($query)
     {
         try {
-            //exec(): PDO built in method for executing SQL queries
-            $sql = $this->connection->exec($query);
-            if (!$sql) {
-                return false;
-            }
-            return $sql;
+            $statement = $this->connection->query($query);
+            $object = $statement->fetchAll(PDO::FETCH_OBJ);
+            return $object;
         } catch (InvalidArgumentException $exception) {
             error_log("Parameter was not passed. " . $exception->getMessage(), 0);
             return false;
