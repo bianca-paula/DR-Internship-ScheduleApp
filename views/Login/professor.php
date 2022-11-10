@@ -7,7 +7,7 @@ if(isset($_COOKIE['role']) && $_COOKIE['role'] == "professor"
 }
 else
 {
-    header("Location: http://localhost/DR-Internship-ScheduleApp/views/Login/login.php");
+    header("Location: http://localhost/DR-Internship-ScheduleApp/views/Login/LoginPage.php");
     exit();
 }
 ?>

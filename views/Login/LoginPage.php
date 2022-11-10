@@ -1,5 +1,5 @@
 <?php
-include_once "../../utils/DbConfiguration.php";
+include_once "../../utils/DbConfig.php";
 include_once "../../models/User.php";
 
 
@@ -8,7 +8,7 @@ function display_login_view($error_visibility){
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="../../assets/style/login.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;500;600;700;900&family=Righteous&display=swap"
         rel="stylesheet" 
@@ -23,7 +23,7 @@ function display_login_view($error_visibility){
     <div id="login_card">
 
         <div class="logo">
-            <img src="images/logo_books.png" id="logo_image" alt="Logo Image">
+            <img src="../../assets/images/logo_books.png" id="logo_image" alt="Logo Image">
             <label>ScheduleApp</label>
         </div>
         
@@ -50,8 +50,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'
        
         // TO BE MODIFIED WHEN USER CLASS NO LONGER USES A DBCONFIG
         
-        $db_config = new DbConfiguration();
+        $db_config = new DbConfig();
         $utility_user = new User($db_config, "", "", "", "", "");
+        
+        // will be changed so that it uses a UserHelper class
         $user = $utility_user->verifyUser($_POST['input_email'], $_POST['input_password']);
         
         
@@ -98,12 +100,3 @@ if($_SERVER['REQUEST_METHOD']=='POST'
     }
     
  ?>
-
-
-
-
-
-
-
-
-
