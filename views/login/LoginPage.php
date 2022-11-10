@@ -1,6 +1,7 @@
 <?php
-include_once "../../utils/DbConfig.php";
+include_once "../../utils/DbConfiguration.php";
 include_once "../../models/User.php";
+include_once "../../helpers/UserHelper.php";
 
 
 function display_login_view($error_visibility){
@@ -27,7 +28,7 @@ function display_login_view($error_visibility){
             <label>ScheduleApp</label>
         </div>
         
-        <form method="post" action="login.php">
+        <form method="post" action="LoginPage.php">
             <input type="email" class="credential_input" id="input_email" placeholder="E-mail" name="input_email">
             <input type="password" class="credential_input" id="input_password" placeholder="Password" name="input_password">
             <p style="visibility:<?php echo $error_visibility; ?>"> Credentials don't match! Try again.</p>
@@ -48,18 +49,17 @@ if($_SERVER['REQUEST_METHOD']=='POST'
     && !empty($_POST['input_email'])
     && !empty($_POST['input_password'])) {
        
-        // TO BE MODIFIED WHEN USER CLASS NO LONGER USES A DBCONFIG
         
-        $db_config = new DbConfig();
-        $utility_user = new User($db_config, "", "", "", "", "");
+        $db_config = new DbConfiguration();
+        UserHelper::setUpUserTable($db_config);
         
         // will be changed so that it uses a UserHelper class
-        $user = $utility_user->verifyUser($_POST['input_email'], $_POST['input_password']);
+        $user = UserHelper::verifyUser($db_config, $_POST['input_email'], $_POST['input_password']);
         
         
         if(!is_null($user)){
             // If user credentials are valid, set cookie variables and redirect the user
-            $user_role = $utility_user->getUserRole($user->get_id());
+            $user_role = UserHelper::getUserRole($db_config, $user->get_id());
             if (is_null($user_role)){
                 header("Location: error_view.php");  // an error view for users with no role
                 exit();
