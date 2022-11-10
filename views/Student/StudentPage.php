@@ -122,7 +122,7 @@ $results = $scheduled_courses->getScheduledCourses();
       </div>
       <div class="modal-body">
 
-        <form id="leave-form" action="" method="POST">
+        <form id="leave-form" action="SubmitLeave.php" method="POST">
             <label for="medical-leave">In order to add a medical leave, please upload the medical document.</label>
             <input type="file" id="medical-leave" name="medical-leave"> 
         </form>
@@ -159,10 +159,44 @@ $results = $scheduled_courses->getScheduledCourses();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-table@1.21.1/dist/bootstrap-table.min.js"></script>
     <script src="https://kit.fontawesome.com/aca3ebed9c.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+    <script src="https://unpkg.com/jspdf-autotable@3.5.22/dist/jspdf.plugin.autotable.js"></script>
+
+    <!-- <script src="https://unpkg.com/jspdf-autotable@3.5.25/dist/jspdf.plugin.autotable.js"></script> -->
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js" integrity="sha512-UcDEnmFoMh0dYHu0wGsf5SKB7z7i5j3GuXHCnb3i4s44hfctoLihr896bxM0zL7jGkcHQXXrJsFIL62ehtd6yQ==" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script> -->
     <script>
 
         function downloadPDF(){
             alert("Download PDF!");
+            // var pdf = new jsPDF();
+            // source = $('#schedule-table')[0];
+            // console.log(source);
+            // //pdf.fromHTML(source);
+            // pdf.autoTable(source);
+            // pdf.save('Test.pdf');
+
+            var pdfsize = 'a0';
+            var pdf = new jsPDF('l', 'pt', pdfsize);
+
+            pdf.autoTable({
+              html: '#schedule-table',
+              startY: 60,
+              styles: {
+                fontSize: 50,
+                cellWidth: 'wrap',
+                fillColor: [172, 112, 136]
+
+              },
+              columnStyles: {
+                1: {columnWidth: 'auto'}
+              }
+            });
+
+            pdf.save("MySchedule.pdf");
+
+            
         }
 
         function logoutPage(){
