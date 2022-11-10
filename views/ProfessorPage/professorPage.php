@@ -267,6 +267,60 @@
                 </div>
             </div>
         </div>
+
+        <footer class="footer">
+            <div class="alert alert-success alert-dismissible fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                Course was cancelled successfully!
+            </div>
+            <div class="alert alert-danger alert-dismissible fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                Course could not be cancelled. Try again!
+            </div>
+        </footer>
+
+    </div>
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" id="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Cancel Course</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-text">
+                        <p>In order to cancel “Inteligenta Artificiala” - Seminar with gr. 225, please select a date
+                            interval.</p>
+                    </div>
+                    <div class="modal-col">
+                        <form method="post" id="date">
+                            <div class="row">
+                                <div class="col-sm-4 text">
+                                    <label class="date-label" for="date-from">From</label>
+                                </div>
+                                <div class="col-sm-8 datetime">
+                                    <input class="date" type="text" id="fromDateId">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 text">
+                                    <label class="date-label" for="date-until">Until</label>
+                                </div>
+                                <div class="col-sm-8 datetime">
+                                    <input class="date" type="text" id="toDateId">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" form="date" value="Submit" class="modal-submit" />
+                </div>
+            </div>
+        </div>
     </div>
 
 </body>
