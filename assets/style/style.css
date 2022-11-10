@@ -94,12 +94,8 @@ td{
 }
 
 #course-details{
-    margin-left:1em;
+    margin-left:0 !important;
     padding-top: 2em;
-}
-
-#modal-course-name{
-    text-align: center;
 }
 
 .button-leave{

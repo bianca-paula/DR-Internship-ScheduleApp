@@ -1,14 +1,14 @@
 <?php
     include_once('../utils/DBConfiguration.php');
-    class Course {
+    class Room {
 
         private int $id;
         private string $name;
-        private string $type;
-        function __construct(int $id, string $name, string $type){
+        private int $capacity;
+        function __construct(int $id, string $name, int $capacity){
             $this->id = $id;
             $this->name = $name;
-            $this->type = $type;   
+            $this->capacity = $capacity;   
         }
 
         public function getID(){
@@ -19,16 +19,16 @@
             return $this->name;
         }
         
-        public function setName($name){
+        public function setName(string $name){
             $this->name=$name;
         }
 
-        public function getType(){
-            return $this->type;
+        public function getCapacity(){
+            return $this->capacity;
         }
         
-        public function setType($type){
-            $this->type=$type;
+        public function setcapacity(int $capacity){
+            $this->capacity=$capacity;
         }
     }
 ?>

@@ -3,18 +3,11 @@ error_reporting(E_ERROR | E_PARSE);
 include_once '../../utils/DBConfiguration.php';
 include_once '../../models/Course.php';
 include_once '../../models/ScheduledCourse.php';
+include_once '../../helpers/GeneralHelper.php';
 include_once '../../controllers/ScheduledCourseController.php';
-
-function getLogo(){
-    return '<img src="../../assets/images/logo_books.png" alt="Logo Books" height="40em">';
-}
-// function getCourses(){
-    $db = new DbConfiguration();
-    $scheduled_courses = new ScheduledCourseController($db);
-    
-    $results = $scheduled_courses->getScheduledCourses();
-    echo "aaaaaaaaa";
-// }
+$db = new DbConfiguration();
+$scheduled_courses = new ScheduledCourseController($db);
+$results = $scheduled_courses->getScheduledCourses();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +22,6 @@ function getLogo(){
     <link rel="stylesheet" href="../../assets/style/style.css">
     <!-- Google Fonts && Font Awesome -->
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" /> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Student Page</title>
 </head>
@@ -71,37 +63,28 @@ function getLogo(){
                           <?php
                             foreach($weekdays as $day) {
                             ?>
-                              <!-- <td data-toggle="modal" data-target="#courseModal"> -->
                                 <?php
-                                
-                                    // iterate throug results . find the one that is for current day (si week)
-                                    // pop-it out so iteration decrease
-                                    // print "b";
-                                    // $tdString='<td data-toggle="modal" data-target="#courseModal"';
-                                    $bool=0;
+                                    $has_value=false;
                                     $tdString='<td data-toggle="modal" data-target="#courseModal"';
-                                    foreach ($results as $course) {
-                                      
-                                      if($course["week_day"] === $day && ($course["from_hour"] === $hour || $course["until_hour"]==$hour+1)){
-                                        $courseObj=$scheduled_courses->getCourseById($course["course_id"]);
-                                        $course_id=$course["id"];
-                                        $tdString = $tdString . " data-object=$course_id " .">" .$courseObj->name . "|" . $courseObj->type;
-                                        $bool=1;
-                                        // print $courseObj->name . "|" . $courseObj->type;
+                                    foreach ($results as $course){
+                                      $from_hour = getHour($course->getFromDate());
+                                      $until_hour = getHour($course->getUntilDate());
+                                      $day_of_week = getDayOfWeek($course->getFromDate());
+                                      if($day_of_week === $day){
+                                        if(($from_hour === $hour || $from_hour === $hour+1)&& $has_value === false){
+                                          $courseObj=$scheduled_courses->getCourseById($course->getCourseID());
+                                          $course_id=$course->getID();
+                                          $tdString = $tdString . " data-object=$course_id " .'>' .$courseObj->getName() . '|' . $courseObj->getType() ;
+                                          $has_value=true;
+                                        } 
                                       }
-                                      // else {
-                                      //   $tdString = $tdString . ">";
-                                      // }
-                                      
                                     }
-                                    if($bool===0){
-                                      $tdString = $tdString . ">";
+                                    if($has_value===false){
+                                      $tdString = $tdString . '>';
                                     }
-                                    $tdString = $tdString . "</td>";
+                                    $tdString = $tdString . '</td>';
                                     echo $tdString;
-                         
                                 ?>
-                              <!-- </td> -->
                               <?php
                             }
                           ?>
@@ -162,15 +145,7 @@ function getLogo(){
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <h2 id="modal-course-name">Course</h2>
-        <div id="course-details">
-            <p>Type: </p>
-            <p>Room: </p>
-            <p>Professor: </p>
-            <p>Date: </p>
-            <p>Time: </p>
-        </div>
+      <div id="course-details" class="modal-body">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary upload-button" data-dismiss="modal" data-toggle="modal" data-target="#exampleModal">Add Medical Leave</button>
@@ -179,18 +154,12 @@ function getLogo(){
     </div>
   </div>
 <div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-table@1.21.1/dist/bootstrap-table.min.js"></script>
     <script src="https://kit.fontawesome.com/aca3ebed9c.js" crossorigin="anonymous"></script>
-    <!-- <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> -->
     <script>
-        console.log("YESS");
-        $(document).ready(function() {
-            console.log("Before Call");
-            setCellByID(15, "AI-Course");
-        });
 
         function downloadPDF(){
             alert("Download PDF!");
@@ -200,20 +169,12 @@ function getLogo(){
             alert("Logout!");
         }
 
-        function setCellByID(cellID, data){
-            console.log("In functiion");
-            var cell = $("td:data(row-id)")
-                .filter(function () {
-                    return $(this).data("row-id") === cellID;
-                });
-            console.log("CELL value: ", cell);
-        }
-
         $('#courseModal').on('show.bs.modal', function (event){
-            var row_id = $(event.relatedTarget).data('object') // Button that triggered the modal
-            window.alert(row_id); 
+            var selectedCourseID = $(event.relatedTarget).data('object') // Button that triggered the modal
+            $.get('../AjaxRequests/GetCourseDetails.php', {"id": selectedCourseID} , function(data){
+              $("#course-details").html(data);
+            });
         });
-
     </script>
 </body>
 </html>

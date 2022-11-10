@@ -40,7 +40,7 @@ class DbConfiguration
                 $this->connection->query($sql);
             }   
             $this->execute("use $this->database_name");         
-            echo nl2br("Connection successfully established \n");
+            // echo nl2br("Connection successfully established \n");
         } 
         catch (PDOException $exception) {
             echo nl2br("Connection failed: " . $exception->getMessage() . "\n");
@@ -59,12 +59,9 @@ class DbConfiguration
     function execute($query)
     {
         try {
-            //exec(): PDO built in method for executing SQL queries
-            $sql = $this->connection->exec($query);
-            if (!$sql) {
-                return false;
-            }
-            return $sql;
+            $statement = $this->connection->query($query);
+            $object = $statement->fetchAll(PDO::FETCH_OBJ);
+            return $object;
         } catch (InvalidArgumentException $exception) {
             error_log("Parameter was not passed. " . $exception->getMessage(), 0);
             return false;
