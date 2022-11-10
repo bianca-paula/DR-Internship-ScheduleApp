@@ -39,8 +39,6 @@ class DBConfig
             WHERE SCHEMA_NAME ='$this->database_name';";
 
             //Create connection
-            // var_dump($conString);
-            // die();
             $this->connection = $this->createConnection($conString, $this->user_name, $this->password, $options);
             $check_db_existence = $this->connection->query($sql_check_db_exists);
 
@@ -71,15 +69,11 @@ class DBConfig
     //return true if successfull 
     //and as response the query response for SELECT statement
     //return false if unsuccsessfull
-    function execute($query)
+    public function execute($query)
     {
         try {
-            //exec(): PDO built in method for executing SQL queries
-            $sql = $this->connection->exec($query);
-            if (!$sql) {
-                return false;
-            }
-            return $sql;
+            $sql = $this->getConnection()->query($query);
+            return $sql->fetchAll(PDO::FETCH_OBJ);
         } catch (InvalidArgumentException $e) {
             error_log("Parameter was not passed. " . $e->getMessage(), 0);
             return false;

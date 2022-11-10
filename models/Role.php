@@ -1,23 +1,25 @@
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'].'../utils/DBConfig.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '../utils/DBConfig.php';
 
-class Role{
+class Role
+{
 
     // private $id;
     // private $name;
-    private DBConfig $db_config;
+    private DBConfig $db;
 
-    function __construct(DBConfig $db){
+    function __construct(DBConfig $db)
+    {
         // $this->id = $id;
         // $this->name = $name;
-        $this->db_config = $db;
+        $this->db = $db;
         // echo $this->db_config->getConnection();
 
-        $role_table = $this->db_config->getConnection()->query($this->checktable());
-    
-        if(!isset($role_table->fetch()['TABLE_NAME'])){
-            $this->db_config->getConnection()->query($this->createRoleTable());
+        $role_table = $this->db->execute($this->checktable());
+        // var_dump($role_table);
+        if (!$role_table) {
+            $this->db->execute($this->createRoleTable());
         }
     }
 
@@ -26,17 +28,30 @@ class Role{
     //     return $this->db_config;
     // }
 
-    private function checktable(){
+    private function checktable()
+    {
         return "SELECT table_name 
         FROM INFORMATION_SCHEMA.TABLES 
         WHERE TABLE_NAME = 'Role'
         ";
     }
 
-    private function createRoleTable(){
+    private function createRoleTable()
+    {
         return "CREATE TABLE IF NOT EXISTS Role (
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(10) NOT NULL UNIQUE
         )";
+    }
+
+    public function insertRole($roleName)
+    {
+        $get_role = "SELECT name FROM Role WHERE name = '$roleName'";
+        $role_exists = $this->db->execute($get_role);
+        var_dump($role_exists);
+        if (!$role_exists) {
+            $sql = "INSERT INTO role (name) VALUES ('$roleName')";
+            return $this->db->execute($sql);
+        }
     }
 }

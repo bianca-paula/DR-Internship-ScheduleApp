@@ -12,5 +12,6 @@ $dotenv->load();
 include_once $_SERVER['DOCUMENT_ROOT'] . './utils/DbConfig.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . './models/Role.php';
 
-$connection = new DBConfig();
-$role = new Role($connection);
+$db_config = new DBConfig();
+$role = new Role($db_config);
+$role->insertRole("Student");
