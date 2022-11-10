@@ -122,7 +122,7 @@ $results = $scheduled_courses->getScheduledCourses();
       </div>
       <div class="modal-body">
 
-        <form id="leave-form" action="SubmitLeave.php" method="POST">
+        <form id="leave-form" action="" method="POST">
             <label for="medical-leave">In order to add a medical leave, please upload the medical document.</label>
             <input type="file" id="medical-leave" name="medical-leave"> 
         </form>
