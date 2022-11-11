@@ -80,3 +80,23 @@ class DBConfig
         }
     }
 }
+
+    //return true if successfull 
+    //and as response the query response for SELECT statement
+    //return false if unsuccsessfull
+    function execute($query)
+    {
+        $output = [];
+        try {
+            //exec(): PDO built in method for executing SQL queries
+            $sql = $this->connection->exec($query, $output);
+            if (!$sql) {
+                return false;
+            }
+            return $sql;
+        } catch (InvalidArgumentException $exception) {
+            error_log("Parameter was not passed. " . $exception->getMessage(), 0);
+            return false;
+        }
+    }
+}
