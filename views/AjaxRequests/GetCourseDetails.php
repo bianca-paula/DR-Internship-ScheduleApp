@@ -16,7 +16,7 @@ $db = new DbConfiguration();
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     $scheduled_course_ID=$_GET['id'];
     $sql = "SELECT *
-            FROM Scheduled_Course
+            FROM ScheduledCourse
             WHERE id = $scheduled_course_ID;";
     $statement = $db->connection->query($sql);
     $statement->setFetchMode(PDO::FETCH_OBJ);

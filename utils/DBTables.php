@@ -8,10 +8,10 @@ function create_role_table(){
 }
 
 function create_app_user_table(){
-    return "CREATE TABLE IF NOT EXISTS App_User(
+    return "CREATE TABLE IF NOT EXISTS User(
             id INT AUTO_INCREMENT PRIMARY KEY,
             email VARCHAR(20) NOT NULL UNIQUE,
-            password VARCHAR(20) NOT NULL,
+            password VARCHAR(32) NOT NULL,
             first_name VARCHAR(30) NOT NULL,
             last_name VARCHAR(20) NOT NULL,
             prefix VARCHAR(10)
@@ -19,10 +19,10 @@ function create_app_user_table(){
 }
 
 function create_user_role_table(){
-    return "CREATE TABLE IF NOT EXISTS User_Role(
+    return "CREATE TABLE IF NOT EXISTS UserRole(
             user_id INT,
             role_id INT,
-            FOREIGN KEY (user_id) REFERENCES app_user(id),
+            FOREIGN KEY (user_id) REFERENCES user(id),
             FOREIGN KEY (role_id) REFERENCES role(id),
             PRIMARY KEY (user_id, role_id)
     );";
@@ -36,10 +36,10 @@ function create_group_table(){
 }
 
 function create_group_user_table(){
-    return "CREATE TABLE IF NOT EXISTS Group_User(
+    return "CREATE TABLE IF NOT EXISTS GroupUser(
             user_id INT,
             group_id INT,
-            FOREIGN KEY (user_id) REFERENCES app_user(id),
+            FOREIGN KEY (user_id) REFERENCES user(id),
             FOREIGN KEY (group_id) REFERENCES `group`(id),
             PRIMARY KEY (user_id, group_id)
     );";
@@ -49,13 +49,12 @@ function create_course_table(){
     return "CREATE TABLE IF NOT EXISTS Course(
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(25) NOT NULL,
-            type ENUM('Lecture', 'Seminary', 'Laboratory') NOT NULL,
-            UNIQUE KEY (name, type)
+            type ENUM('Lecture', 'Seminary', 'Laboratory') NOT NULL
     );";
 }
 
 function create_group_course_table(){
-    return "CREATE TABLE IF NOT EXISTS Group_Course(
+    return "CREATE TABLE IF NOT EXISTS GroupCourse(
             course_id INT,
             group_id INT,
             FOREIGN KEY (course_id) REFERENCES course(id),
@@ -73,7 +72,7 @@ function create_room_table(){
 }
 
 function create_scheduled_course_table(){
-    return "CREATE TABLE IF NOT EXISTS Scheduled_Course(
+    return "CREATE TABLE IF NOT EXISTS ScheduledCourse(
             id INT AUTO_INCREMENT PRIMARY KEY,
             room_id INT NOT NULL,
             course_id INT NOT NULL,
@@ -85,7 +84,7 @@ function create_scheduled_course_table(){
 }
 
 function create_course_attendance_table(){
-    return "CREATE TABLE IF NOT EXISTS Course_Attendance(
+    return "CREATE TABLE IF NOT EXISTS CourseAttendance(
             user_id INT,
             scheduled_course_id INT,
             PRIMARY KEY(user_id, scheduled_course_id)
