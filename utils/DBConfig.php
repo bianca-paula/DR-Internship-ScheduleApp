@@ -1,5 +1,4 @@
 <?php
-
 class DbConfig
 {
     protected $server_name;
@@ -10,32 +9,24 @@ class DbConfig
 
     function __construct()
     {
-
         $this->server_name = $_ENV['DB_SERVER_NAME'];
         $this->user_name = $_ENV['USER_NAME'];
         $this->password = $_ENV['PASSWORD'];
         $this->database_name = $_ENV['DATABASE_NAME'];
-
-
         try {
             $conString = "mysql:host=$this->server_name";
             $this->connection = $this->createConnection($conString, $this->user_name, $this->password);
-            
             if (!$this->connection) {
                 //sql statement to create DATABASE_NAME
                 $sql = "CREATE DATABASE $this->database_name";
                 $this->execute($sql);
-
                 //sql statement for connection using execute() method
                 $this->connection = $this->createConnection("$conString.database=$this->database_name", $this->user_name, $this->password);
             }
-
-
-            
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             echo "Connection successfully established";
-        } catch (PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
+        } catch (PDOException $exception) {
+            echo "Connection failed: " . $exception->getMessage();
         }
     }
 
@@ -57,8 +48,8 @@ class DbConfig
                 return false;
             }
             return $sql;
-        } catch (InvalidArgumentException $e) {
-            error_log("Parameter was not passed. " . $e->getMessage(), 0);
+        } catch (InvalidArgumentException $exception) {
+            error_log("Parameter was not passed. " . $exception->getMessage(), 0);
             return false;
         }
     }
