@@ -68,15 +68,16 @@ class DbConfig
     //return false if unsuccsessfull
     function execute($query)
     {
+        $output = [];
         try {
             //exec(): PDO built in method for executing SQL queries
-            $sql = $this->connection->exec($query);
+            $sql = $this->connection->exec($query, $output);
             if (!$sql) {
                 return false;
             }
             return $sql;
-        } catch (InvalidArgumentException $e) {
-            error_log("Parameter was not passed. " . $e->getMessage(), 0);
+        } catch (InvalidArgumentException $exception) {
+            error_log("Parameter was not passed. " . $exception->getMessage(), 0);
             return false;
         }
     }
