@@ -1,5 +1,4 @@
 <?php
-    include_once('../utils/DBConfiguration.php');
     class Course {
 
         private int $id;

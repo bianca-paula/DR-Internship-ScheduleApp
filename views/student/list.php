@@ -1,32 +1,7 @@
-<?php 
-error_reporting(E_ERROR | E_PARSE);
-include_once '../../utils/DBConfiguration.php';
-include_once '../../models/Course.php';
-include_once '../../models/ScheduledCourse.php';
-include_once '../../helpers/DateTimeHelper.php';
-include_once '../../controllers/ScheduledCourseController.php';
-$db = new DbConfiguration();
-$scheduled_courses = new ScheduledCourseController($db);
-$results = $scheduled_courses->getScheduledCourses();
+<?php
+include_once '.\views\page-parts\Header.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap and Bootstrap Table -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.1/dist/bootstrap-table.min.css">
-    <!-- App Style -->
-    <link rel="stylesheet" href="../../assets/style/style.css">
-    <!-- Google Fonts && Font Awesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Student Page</title>
-</head>
-<body>
-     <div class="container-fluid">
+<div class="container-fluid">
         <div class="row px-4 py-4">
             <div class="col-9">
                 <table data-toggle="table" id="schedule-table">
@@ -143,49 +118,6 @@ $results = $scheduled_courses->getScheduledCourses();
     </div>
   </div>
 <div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.21.1/dist/bootstrap-table.min.js"></script>
-    <script src="https://kit.fontawesome.com/aca3ebed9c.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
-    <script src="https://unpkg.com/jspdf-autotable@3.5.22/dist/jspdf.plugin.autotable.js"></script>
-    <script>
-
-        function downloadPDF(){
-            alert("Download PDF!");
-            var pdfsize = 'a0';
-            var pdf = new jsPDF('l', 'pt', pdfsize);
-
-            pdf.autoTable({
-              html: '#schedule-table',
-              startY: 60,
-              styles: {
-                fontSize: 50,
-                cellWidth: 'wrap',
-                fillColor: [172, 112, 136]
-
-              },
-              columnStyles: {
-                1: {columnWidth: 'auto'}
-              }
-            });
-
-            pdf.save("MySchedule.pdf");
-
-            
-        }
-
-        function logoutPage(){
-            alert("Logout!");
-        }
-
-        $('#courseModal').on('show.bs.modal', function (event){
-            var selectedCourseID = $(event.relatedTarget).data('object') // Button that triggered the modal
-            $.get('../../controllers/AjaxRequests/GetCourseDetails.php', {"id": selectedCourseID} , function(data){
-              $("#course-details").html(data);
-            });
-        });
-    </script>
-</body>
-</html>
+<?php
+include_once '.\views\page-parts\Footer.php'
+?>

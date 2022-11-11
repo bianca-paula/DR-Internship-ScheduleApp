@@ -1,7 +1,7 @@
 <?php
 include_once '../utils/DBConfiguration.php';
+
 include_once '../models/Course.php';
-include_once '../helpers/GeneralHelper.php';
 include_once '../helpers/CourseHelper.php';
 include_once '../helpers/ScheduledCourseHelper.php';
 
@@ -12,7 +12,6 @@ class ScheduledCourseController{
         $this->db=$db;
     }
     public function getCourseById(int $course_id){
-        // $sql = getCourseQuery($course_id);
         $sql="SELECT *
         FROM Course
         WHERE id = $course_id;";
@@ -33,7 +32,7 @@ class ScheduledCourseController{
     }
 
     public function getScheduledCourseById(int $id){
-        $sql = getScheduledCourseQuery($id);
+        $sql = ScheduledCourseHelper::getScheduledCourseQuery($id);
         $statement = $this->db->connection->query($sql);
         $statement->setFetchMode(PDO::FETCH_OBJ);
         $scheduled_course = $statement->fetch();
