@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../../utils/appLogo/logo_books.png" type="image/icon type">
+    <link rel="icon" href="../../assets/images/logo_books.png" type="image/icon type">
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;500;600;700;900&family=Righteous&display=swap"
         rel="stylesheet" />
@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ab-datepicker@latest/css/datepicker.css"
         type="text/css" />
-    <link rel="stylesheet" href="../../utils/css/professorPage.css" />
+    <link rel="stylesheet" href="../../assets/style/professorPage.css" />
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -28,13 +28,13 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="navbar-left">
-            <img src="../../utils/appLogo/logo_books.png" class="img-fluid logo" alt="App Logo">
+            <img src="../../assets/images/logo_books.png" class="img-fluid logo" alt="App Logo">
             <span class="navbar-brand mb-0 h1 navbar-left">ScheduleApp</span>
         </div>
 
         <div class="navbar-right">
             <span class="navbar-brand mb-0 h1">username</span>
-            <span class="material-symbols-outlined">
+            <span class="material-symbols-outlined logout">
                 logout
             </span>
         </div>
@@ -136,7 +136,7 @@
             <div class="col-sm-8">
                 <div class="content-table">
                     <section class="table-responsive">
-                        <table class="courses-table table table-bordered">
+                        <table class="courses-table table">
                             <thead>
                                 <tr class="table-head">
                                     <th id="download-icon" scope="col"><i class="fa fa-download" aria-hidden="true"></i>
@@ -153,19 +153,18 @@
                                 <tr class="table-left-section">
                                     <th scope="row" class="table-head">8-9</th>
                                     <td class="row">
-                                        <div class="col-sm-10">
-                                            <p class="cell-content">225AI - S 505a</p>
+                                        <div class="col-sm-10 cell-content">
+                                            <p>225AI - S 505a</p>
                                         </div>
 
-                                        <div class="col-sm-2">
-                                            <div class="trash-can">
-                                                <a href="#trash" id="showModal" data-toggle="modal"
-                                                    data-target="#trashModal" data-pesti-attribute="another_attribute">
-                                                    <span class="material-symbols-outlined trash-icon" id="trash-can">
-                                                        delete_sweep
-                                                    </span>
-                                                </a>
-                                            </div>
+                                        <div class="col-sm-2 trash-can">
+                                            <a href="#trash" id="showModal" data-toggle="modal"
+                                                data-target="#trashModal" data-pesti-attribute="another_attribute">
+                                                <span class="material-symbols-outlined trash-icon" id="trash-can">
+                                                    delete_sweep
+                                                </span>
+                                            </a>
+
                                         </div>
                                     </td>
                                     <td></td>

@@ -9,7 +9,7 @@ $(document).ready(function () {
 // Click a list element and open/close the schedule card
 
 $(document).ready(function () {
-    $('.list-group-item').click(function () {
+    $('.list-group-item-action').click(function () {
         $('#card').toggle();
     });
 })
