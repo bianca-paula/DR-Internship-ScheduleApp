@@ -183,7 +183,8 @@ $results = $scheduled_courses->getScheduledCourses();
         $('#courseModal').on('show.bs.modal', function (event){
             var selectedCourseID = $(event.relatedTarget).data('object') // Button that triggered the modal
             $.get('../../controllers/AjaxRequests/GetCourseDetails.php', {"id": selectedCourseID} , function(data){
-              $("#course-details").html(data);
+              //$("#course-details").html(data);
+              console.log($.parseJSON(data));
             });
         });
     </script>

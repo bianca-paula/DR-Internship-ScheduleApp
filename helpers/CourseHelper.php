@@ -10,8 +10,8 @@ class CourseHelper{
         );";
     }
 
-    public static function getCourseQuery(int $course_id){
-        return "SELECT id, name, type FROM Course WHERE id = $course_id;";
+    public static function getCourseQuery(){
+        return "SELECT id, name, type FROM Course WHERE id = :course_id;";
     }
 
     public static function insertMockDataCourse(){

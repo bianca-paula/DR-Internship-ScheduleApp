@@ -1,6 +1,7 @@
 <?php
 include_once "DBTables.php";
 include_once "DBData.php";
+include_once "C:/xampp/htdocs/internship/DR-Internship-ScheduleApp/helpers/DBHelper.php";
 class DbConfiguration
 {
     protected $type;
@@ -30,17 +31,14 @@ class DbConfiguration
         try {
             // we don't add the database_name to DSN if it is not created
             $dsn = "$this->type:host=$this->server_name;port=$this->port;charset=$this->charset"; // DSN - data source name
-            $sql = "CREATE DATABASE $this->database_name";
-            $sql_check_db_exists = "SELECT SCHEMA_NAME
-            FROM INFORMATION_SCHEMA.SCHEMATA
-            WHERE SCHEMA_NAME = '$this->database_name';";
+            $sql = DBHelper::createDatabase($this->data);
+            $sql_check_db_exists = DBHelper::checkDatabase($this->database_name);;
             $this->connection = $this->create_connection($dsn, $this->user_name, $this->password, $options);
             $check_if_db = $this->connection->query($sql_check_db_exists);
             if(!isset($check_if_db->fetch()['SCHEMA_NAME'])){
                 $this->connection->query($sql);
             }   
             $this->execute("use $this->database_name");         
-            // echo nl2br("Connection successfully established \n");
         } 
         catch (PDOException $exception) {
             echo nl2br("Connection failed: " . $exception->getMessage() . "\n");
@@ -56,12 +54,15 @@ class DbConfiguration
     //return true if successfull 
     //and as response the query response for SELECT statement
     //return false if unsuccsessfull
-    function execute($query)
+    function execute(string $sql, $arguments=null)
     {
         try {
-            $statement = $this->connection->query($query);
-            $object = $statement->fetchAll(PDO::FETCH_OBJ);
-            return $object;
+            if(!$arguments){
+                return $this->connection->query($sql);
+            }
+            $statement = $this->connection->prepare($sql);
+            $statement->execute($arguments); //execute statement with arguments
+            return $statement;  //PDOStatement is returned
         } catch (InvalidArgumentException $exception) {
             error_log("Parameter was not passed. " . $exception->getMessage(), 0);
             return false;

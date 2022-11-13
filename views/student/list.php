@@ -38,7 +38,7 @@ include_once '.\views\page-parts\Header.php';
                                         if(($from_hour === $hour || $from_hour === $hour+1)&& $has_value === false){
                                           $courseObj=$scheduled_courses->getCourseById($course->getCourseID());
                                           $course_id=$course->getID();
-                                          $tdString = $tdString . " data-object=$course_id " .'>' .$courseObj->getName() . '|' . $courseObj->getType() ;
+                                          $tdString = $tdString . " data-object=$course_id " .'>' .$courseObj->getName() . ' ' . $courseObj->getType() ;
                                           $has_value=true;
                                         } 
                                       }
@@ -110,6 +110,14 @@ include_once '.\views\page-parts\Header.php';
         </button>
       </div>
       <div id="course-details" class="modal-body">
+        <h2 id="modal-course-name" class="text-center">Course</h2>
+        <div id="course-details" class="pl-2">
+            <p id="modal-course-type">Type: </p>
+            <p id="modal-course-room">Room: </p>
+            <p id="modal-course-professor">Professor: </p>
+            <p id="modal-course-date">Date: </p>
+            <p id="modal-course-time">Time: </p>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary upload-button" data-dismiss="modal" data-toggle="modal" data-target="#exampleModal">Add Medical Leave</button>

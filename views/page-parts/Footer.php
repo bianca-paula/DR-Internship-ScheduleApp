@@ -36,9 +36,22 @@
         }
 
         $('#courseModal').on('show.bs.modal', function (event){
-            var selectedCourseID = $(event.relatedTarget).data('object') // Button that triggered the modal
-            $.get('./controllers/AjaxRequests/GetCourseDetails.php', {"id": selectedCourseID} , function(data){
-              $("#course-details").html(data);
+            var modal = $(this);
+            var selected_course_ID = $(event.relatedTarget).data('object') // Button that triggered the modal
+            $.get('./controllers/AjaxRequests/GetCourseDetails.php', {"id": selected_course_ID} , function(data){
+              // $("#course-details").html(data);
+              console.log("In Footer");
+              console.log($.parseJSON(data));
+              var scheduled_course_json=$.parseJSON(data);
+              console.log(scheduled_course_json["course_type"]);
+              // modal.find('.modal-title').text('New message to ');
+              modal.find('#modal-course-name').text(scheduled_course_json["course_name"]);
+              modal.find('#modal-course-type').text("Type: " + scheduled_course_json["course_type"]);
+              modal.find('#modal-course-room').text("Room: " + scheduled_course_json["room_name"]);
+              modal.find('#modal-course-professor').text("Professor: ");
+              modal.find('#modal-course-date').text("Date: " + scheduled_course_json["from_date"]);
+              modal.find('#modal-course-time').text("Time: " + scheduled_course_json["from_hour"] + " - " + scheduled_course_json["until_hour"]);
+
             });
         });
     </script>

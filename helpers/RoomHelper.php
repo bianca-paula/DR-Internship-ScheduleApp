@@ -8,8 +8,8 @@ class RoomHelper{
         );";
     }
     
-    public static function getRoomQuery(int $roomID){
-        return "SELECT id, name, capacity FROM Room WHERE id = $roomID;";
+    public static function getRoomQuery(){
+        return "SELECT id, name, capacity FROM Room WHERE id = :room_id;";
     }
     
     public static function insert_room_table(){
