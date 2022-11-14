@@ -37,7 +37,7 @@ $course_table = array(
                 <div class="col-2 d-flex align-content-center justify-content-center"> <?php print($value['id']) ?></div>
                 <div class="col-8">
                     <div class="row">
-                        <div class="col-11 title" data-course-title="Inteligenta Artificiala"> <?php print($value['course_name']) ?> </div>
+                        <div class="col-11 title" data-course-title="<?php print($value['course_name']) ?>"> <?php print($value['course_name']) ?> </div>
                         <div class="col-1 d-flex align-items-center justify-content-end see-more">
                             <i class="fa-solid fa-ellipsis-vertical"></i>
                             <div class="row choice-modal">
@@ -62,7 +62,7 @@ $course_table = array(
                         </div>
                     </div>
                 </div>
-                <div class="col-2 course-type" data-course-type=" <?php ?>"> <?php print($value['type']) ?> </div>
+                <div class="col-2 course-type" data-course-type=" <?php print($value['type']) ?>"> <?php print($value['type']) ?> </div>
             </div>
         <?php } ?>
     </div>
