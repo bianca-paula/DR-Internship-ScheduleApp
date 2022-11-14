@@ -48,5 +48,9 @@ class ScheduledCourseController{
         return $courses;
     }
 
+    public static function view(){
+        
+    }
+
 }
 ?>

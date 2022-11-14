@@ -2,13 +2,13 @@
 error_reporting(E_ERROR | E_PARSE);
 include_once './utils/TemplateEngine.php';
 include_once './utils/DBConfiguration.php';
+include_once './controllers/RoutingController.php';
 
+$request = $_SERVER['REQUEST_URI'];
 
-$myfile='./views/student/list.php';
-$rows = array();
-$output = '';
-$output = TemplateEngine::template( $myfile, $rows );
-print $output;
+include_once './views/page-parts/Header.php';
 
+RoutingController::getRouteHandler($request);
 
+include_once './views/page-parts/Footer.php'
 ?>

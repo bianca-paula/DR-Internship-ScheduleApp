@@ -2,7 +2,7 @@
 
 class TemplateEngine{
 
-    public static function template($file, $args){
+    public static function template($file, $args=null){
         if ( !file_exists( $file ) ) {
             return '';
         }
@@ -14,5 +14,6 @@ class TemplateEngine{
         include $file;
         return ob_get_clean();
     }
+
 }
 ?>

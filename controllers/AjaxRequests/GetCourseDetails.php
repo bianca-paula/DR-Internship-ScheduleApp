@@ -11,6 +11,8 @@ include_once '../../helpers/CourseHelper.php';
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET");
 
+
+// metoda in Schedule course controller si din routing controller facem apel
 $db = new DbConfiguration();
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     $scheduled_course_id = $_GET['id'];
