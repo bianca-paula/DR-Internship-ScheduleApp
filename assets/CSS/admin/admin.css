@@ -150,10 +150,14 @@ body {
 }
 
 .assigned-block-rows {
-
     height: calc(100% - 3rem);
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+.assigned-block-rows>div {
+    background-color: #DEB6AB;
+
 }
 
 .assigned-block-rows::-webkit-scrollbar {
