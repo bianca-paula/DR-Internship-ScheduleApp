@@ -71,59 +71,9 @@
             </div>
         </div>
     </div>
-  <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Medical Leave</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-
-        <form id="leave-form" action="" method="POST">
-            <label for="medical-leave">In order to add a medical leave, please upload the medical document.</label>
-            <input type="file" id="medical-leave" name="medical-leave"> 
-        </form>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary cancel-button" data-dismiss="modal">Cancel</button>
-        <button type="submit" form="leave-form" class="btn btn-primary upload-button">Upload</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="courseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Details</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div id="course-details" class="modal-body">
-        <h2 id="modal-course-name" class="text-center">Course</h2>
-        <div id="course-details" class="pl-2">
-            <p id="modal-course-type">Type: </p>
-            <p id="modal-course-room">Room: </p>
-            <p id="modal-course-professor">Professor: </p>
-            <p id="modal-course-date">Date: </p>
-            <p id="modal-course-time">Time: </p>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary upload-button" data-dismiss="modal" data-toggle="modal" data-target="#exampleModal">Add Medical Leave</button>
-        <button type="button" class="btn btn-primary upload-button ml-auto" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-<div>
-
+<?php
+include_once './views/scheduled-course-modal/list.php'
+?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -132,7 +82,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
 <script src="https://unpkg.com/jspdf-autotable@3.5.22/dist/jspdf.plugin.autotable.js"></script>
 <script>
-
         function downloadPDF(){
             alert("Download PDF!");
             var pdfsize = 'a0';

@@ -1,27 +1,31 @@
 <?php 
+    include_once './controllers/ScheduledCourseController.php';
+    include_once './controllers/ErrorPageController.php';
     class RoutingController {
 
         static $baseURL="/internship/DR-Internship-ScheduleApp/";
-        public function __construct(){}
+        
+        public DbConfiguration $db;
+        public ScheduledCourseController $scheduled_courses;
+        public function __construct(DbConfiguration $db, ScheduledCourseController $scheduled_courses){
+            $this->db= $db;
+            $this->scheduled_courses= $scheduled_courses;
+        }
 
-        public static function getRouteHandler(string $request){
-            $myfile="";
+        public function getRouteHandler(string $request){
             switch ($request) {
                 case self::$baseURL:
-                    $myfile='./views/student/list.php';
+                    $this->scheduled_courses->view();
                     break;
-            
                 case (self::$baseURL.'student'):
-                    $myfile='./views/student/list.php';
+                    $this->scheduled_courses->view();
                     break;
             
                 default:
                     http_response_code(404);
-                    $myfile='./views/error-page/404.php';
+                    ErrorPageController::view("Invalid URL!");
                     break;
             }
-
-            print TemplateEngine::template($myfile);
         }
     }
     

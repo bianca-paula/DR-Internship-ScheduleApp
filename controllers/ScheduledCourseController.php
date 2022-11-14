@@ -48,8 +48,9 @@ class ScheduledCourseController{
         return $courses;
     }
 
-    public static function view(){
-        
+    public function view(){
+        $results = $this->getScheduledCourses();
+        print TemplateEngine::template('./views/student/list.php', array( 'results' => $results, 'scheduled_courses' => $this ));
     }
 
 }

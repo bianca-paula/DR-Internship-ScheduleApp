@@ -5,9 +5,7 @@ include_once './models/Course.php';
 include_once './models/ScheduledCourse.php';
 include_once './helpers/DateTimeHelper.php';
 include_once './controllers/ScheduledCourseController.php';
-$db = new DbConfiguration();
-$scheduled_courses = new ScheduledCourseController($db);
-$results = $scheduled_courses->getScheduledCourses();
+
 ?>
 
 <head>
