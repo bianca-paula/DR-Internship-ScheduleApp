@@ -14,19 +14,12 @@ class Role
         // $this->id = $id;
         // $this->name = $name;
         $this->db = $db;
-        // echo $this->db_config->getConnection();
 
         $role_table = $this->db->execute($this->checktable());
-        // var_dump($role_table);
         if (!$role_table) {
             $this->db->execute($this->createRoleTable());
         }
     }
-
-    // public function getConnection()
-    // {
-    //     return $this->db_config;
-    // }
 
     private function checktable()
     {

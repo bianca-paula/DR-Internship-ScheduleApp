@@ -1,8 +1,6 @@
 $(document).ready(function (e) {
     $('.see-more').click(function () {
         var choice = $(this).find('.choice-modal');
-        // console.log(this);
-        // console.log(choice);
         if (choice.css("display") == "none") {
             choice.css("display", "block");
         } else {
@@ -31,20 +29,4 @@ $(document).ready(function (e) {
         $('#delete-modal').find(".course-type").html(courseType);
     });
 
-    
-    // $('.schedule-button').click(function () {
-    //     location.href = "http://scheduleapp.local/views/admin/schedule.php";
-
-    //     // var courseTitle = $(this).parents('.data-record').find('.title').data('course-title');
-    //     // $('#schedule-modal').find(".course-title").html(courseTitle);
-    // });
-
-    // Show Schedule modal
-    // $('.schedule-button').click(function () {
-    //     // Show modal
-    //     $('#schedule-modal').modal('toggle');
-
-    //     var courseTitle = $(this).parents('.data-record').find('.title').data('course-title');
-    //     $('#schedule-modal').find(".course-title").html(courseTitle);
-    // });
 })
