@@ -319,7 +319,7 @@ th {
 
 .table-head>th {
     padding: 1rem;
-    font-weight: 400;
+    font-weight: 600;
     font-size: 1.4rem;
 }
 
@@ -349,12 +349,12 @@ td {
     padding: 0.8em;
 }
 
-.delete-from-schedule {
+.delete-button {
     border: none;
     background-color: transparent;
 }
 
-.delete-from-schedule i {
+.delete-button i {
     display: none;
     color: #f0d1c8;
 }
@@ -371,4 +371,32 @@ td {
 
 .table-data:hover {
     border: 1px solid #DBB6AB;
+}
+
+.title-color {
+    background-color: #AC7088;
+    border: 2px solid #753A52;
+    border-bottom: none;
+}
+
+.title-color, a:link {
+    color: #FFFBD6;
+}
+
+
+.title-color, a:visited {
+    color: #FFFBD6;
+}
+
+.title-color, a:hover {
+    color: #DBB6AB;
+}
+
+.title-color, a:active {
+    color: #FFFBD6;
+}
+
+.title-content {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
 }

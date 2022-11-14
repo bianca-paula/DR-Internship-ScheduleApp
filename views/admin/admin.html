@@ -144,12 +144,13 @@ if (isset($_GET['page'])) {
                                                         </div>
 
                                                         <!-- See Scheduled button -->
-                                                        <div class="row">
-                                                            <button type="button" class="col mx-auto schedule-button"
-                                                                data-bs-toggle="modal" data-bs-target="schedule-modal">
+                                                    <div class="row">
+                                                        <form action="./schedule.php">
+                                                            <button type="submit" class="col mx-auto schedule-button">
                                                                 See Scheduled
                                                             </button>
-                                                        </div>
+                                                        </form>
+                                                    </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -179,10 +180,11 @@ if (isset($_GET['page'])) {
 
                                                         <!-- See Scheduled button -->
                                                         <div class="row">
-                                                            <button type="button" class="col mx-auto schedule-button"
-                                                                data-bs-toggle="modal" data-bs-target="schedule-modal">
-                                                                See Scheduled
-                                                            </button>
+                                                            <form action="./schedule.php">
+                                                                <button type="submit" class="col mx-auto schedule-button">
+                                                                    See Scheduled
+                                                                </button>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -211,10 +213,12 @@ if (isset($_GET['page'])) {
 
                                                         <!-- See Scheduled button -->
                                                         <div class="row">
-                                                            <button type="button" class="col mx-auto schedule-button"
-                                                                data-bs-toggle="modal" data-bs-target="schedule-modal">
-                                                                See Scheduled
-                                                            </button>
+                                                            <form action="./schedule.php">
+                                                                <button type="submit"
+                                                                    class="col mx-auto schedule-button">
+                                                                    See Scheduled
+                                                                </button>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -703,7 +707,7 @@ if (isset($_GET['page'])) {
 
     <!-- Modal on See Scheduled -->
 
-    <div class="modal fade " id="schedule-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade " id="schedule-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header schedule-header">
@@ -719,11 +723,11 @@ if (isset($_GET['page'])) {
                                 <thead>
                                     <tr data-height="1" class="table-head">
                                         <th data-field="hour" data-width="80">
-                                            <!-- <div onclick="download_PDF()">
+                                             <div onclick="download_PDF()">
                                                     <i class="fa fa-download"
                                                         style="font-size:25px;color: #FFFBD6;"></i>
-                                                </div> -->
-                                        </th>
+                                                </div>
+                                         </th>
                                         <th data-field="monday" data-width="150">Monday</th>
                                         <th data-field="tuesday" data-width="150">Tuesday</th>
                                         <th data-field="wednesday" data-width="150">Wednesday</th>
@@ -749,8 +753,8 @@ if (isset($_GET['page'])) {
                                                 <div class="col-4 justify-content-center">
                                                     <form action="#" method="post">
                                                         <button class="delete-from-schedule" type="submit">
-                                                            <!-- <p hidden>delete</p> -->
-                                                            <i class="fa-solid fa-trash-can"></i>
+                                                             <p hidden>delete</p> 
+                                                             <i class="fa-solid fa-trash-can"></i>
                                                         </button>
                                                     </form>
                                                 </div>
@@ -848,13 +852,12 @@ if (isset($_GET['page'])) {
                     </div>
                 </div>
             </div>
-            <!-- <div class="modal-footer">
+             <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary">Save changes</button>
-                </div> -->
+                </div> 
         </div>
-    </div>
-    </div>
+    </div> -->
 
 
     <!-- JavaScript Bundle with Popper -->
