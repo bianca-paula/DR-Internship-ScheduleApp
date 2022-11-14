@@ -5,9 +5,13 @@ include_once '../../models/Course.php';
 include_once '../../models/ScheduledCourse.php';
 include_once '../../helpers/GeneralHelper.php';
 include_once '../../controllers/ScheduledCourseController.php';
+$user_id = 634;
+
 $db = new DbConfiguration();
 $scheduled_courses = new ScheduledCourseController($db);
-$results = $scheduled_courses->getScheduledCourses();
+$results = $scheduled_courses->getScheduleForUser($user_id); //getScheduledCourses();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,10 +75,10 @@ $results = $scheduled_courses->getScheduledCourses();
                                       $until_hour = getHour($course->getUntilDate());
                                       $day_of_week = getDayOfWeek($course->getFromDate());
                                       if($day_of_week === $day){
-                                        if(($from_hour === $hour || $from_hour === $hour+1)&& $has_value === false){
+                                        if(($from_hour === $hour || $until_hour === $hour+1)&& $has_value === false){
                                           $courseObj=$scheduled_courses->getCourseById($course->getCourseID());
                                           $course_id=$course->getID();
-                                          $tdString = $tdString . " data-object=$course_id " .'>' .$courseObj->getName() . '|' . $courseObj->getType() ;
+                                          $tdString = $tdString . " data-object=$course_id " .'>' .$courseObj->getName() . ' | ' . $courseObj->getType() ;
                                           $has_value=true;
                                         } 
                                       }
@@ -95,19 +99,15 @@ $results = $scheduled_courses->getScheduledCourses();
                     </tbody> 
                 </table>
             </div>
+            
             <div class="col-3">
                 <table data-toggle="table" id="alternatives">
                     <tr>
                         <th>Alternatives</th>
                     </tr>
-                    <tr>
-                        <td>Laborator AI grupa 255</td>
-                    </tr>
-                    <tr>
-                        <td>Laborator AI grupa 256</td>
-                    </tr>
                 </table>
             </div>
+            
         </div>
     </div>
   <!-- Modal -->
@@ -135,6 +135,7 @@ $results = $scheduled_courses->getScheduledCourses();
     </div>
   </div>
 </div>
+
 <!-- Modal -->
 <div class="modal fade" id="courseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -154,6 +155,7 @@ $results = $scheduled_courses->getScheduledCourses();
     </div>
   </div>
 <div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -203,12 +205,66 @@ $results = $scheduled_courses->getScheduledCourses();
             alert("Logout!");
         }
 
+
+		function populateAlternatives(course_id){
+			var table = document.getElementById("alternatives");
+			for(var i = 1; i < table.rows.length;)
+            {   
+               table.deleteRow(i);
+            }
+            
+            $.get('../AjaxRequests/GetAlternativeCourses.php', {"scheduled_id": course_id, "user_id": <?php echo $user_id?>} , function(data){
+            	var table = document.getElementById("alternatives");
+              	table.innerHTML = data;
+            });
+		}
+
+		
+		
+		function changeCourse(name, type, weekday, start_hour, end_hour){
+			var table = document.getElementById("schedule-table");
+			var row_idx_to_attach = 0;
+			var column_idx_to_attach = 0;
+			
+			
+			var r=0; //start counting rows in table
+			while(row=table.rows[r++]){
+				hour_interval = row.cells[0].innerHTML;
+				if(hour_interval.charAt(0) == start_hour.charAt(0) && hour_interval.charAt(1) == start_hour.charAt(1))
+					row_idx_to_attach = r-1; // row uses r before the incrementation
+			}
+			
+			var c=1; // start counting columns in table
+			while(c<=5){
+				var day = table.rows[0].cells[c].querySelector('.th-inner ').textContent;
+				if (weekday == day)
+					column_idx_to_attach = c;
+				c++;
+				
+			}
+			
+			course_length = end_hour - start_hour;
+			for(var hours_added = 0; hours_added < course_length; hours_added++)
+				table.rows[row_idx_to_attach + hours_added].cells[column_idx_to_attach].innerHTML = name + " | " + type;
+
+		}
+		
+		
+
         $('#courseModal').on('show.bs.modal', function (event){
             var selectedCourseID = $(event.relatedTarget).data('object') // Button that triggered the modal
+            populateAlternatives(selectedCourseID);
             $.get('../AjaxRequests/GetCourseDetails.php', {"id": selectedCourseID} , function(data){
               $("#course-details").html(data);
             });
         });
+        
+        
+        
     </script>
 </body>
 </html>
+
+
+
+

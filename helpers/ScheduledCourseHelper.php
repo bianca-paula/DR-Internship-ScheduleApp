@@ -30,7 +30,7 @@ function insertMockDataScheduledCourse(){
 }
 
 
-function getScheduledCoursesForUserId(int $user_id){
+function getScheduledCoursesForUserIdQuery(int $user_id){
     // Returns the query for selecting all scheduled courses for a student
     // [course_id, course_name, type, room_name, from_date, until_date]
     
@@ -53,18 +53,25 @@ function getScheduledCoursesForUserId(int $user_id){
             ON scheduled.room_id = room.id";
 }
 
+function getScheduledForUserQuery(int $user_id){
+    return "SELECT scheduledcourse.id as id, scheduledcourse.course_id as course_id, room_id, from_date, until_date FROM scheduledcourse INNER JOIN
+                    (
+                        SELECT course_id FROM
+                        groupuser INNER JOIN groupcourse ON groupuser.group_id = groupcourse.group_id
+                        WHERE user_id = " . $user_id . "
+                    ) as assignedcourses
+                            
+            ON assignedcourses.course_id = scheduledcourse.course_id";
+}
+
 
 function getUnfilteredAlternativesForCourse(string $course_name, string $course_type){
     // Returns the query for selecting all alternative scheduled courses for a given name and type
     // [course_id, room_id, from_date, until_date]
     
-    return "SELECT scheduledcourse.course_id, scheduledcourse.room_id, from_date, until_date FROM scheduledcourse INNER JOIN 
-            (
-                SELECT scheduledcourse.id as id, room_id, course_id FROM scheduledcourse
+    return "SELECT scheduledcourse.id as scheduled_id, from_date, until_date FROM scheduledcourse
                 INNER JOIN course ON scheduledcourse.course_id = course.id
-                WHERE course.name = " . $course_name . " AND course.type = " . $course_type . "
-            ) as alternatives
-            ON scheduledcourse.course_id = alternatives.course_id";
+                WHERE course.name = '". $course_name ."' AND course.type = '". $course_type ."'";
 }
 
 
@@ -84,13 +91,6 @@ function getProfessorForScheduledCourse(int $course_id){
             ON user.user_id = userrole.user_id
             WHERE role_id = 2";
 }
-
-
-
-
-
-
-
 
 
 ?>

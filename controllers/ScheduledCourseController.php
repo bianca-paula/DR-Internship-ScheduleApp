@@ -31,6 +31,23 @@ class ScheduledCourseController{
         $scheduled_courses = $this->convertToScheduledCourses($scheduled_courses_array);
         return $scheduled_courses;
     }
+    
+    
+    public function getScheduleForUser(int $user_id){
+        $sql = "SELECT scheduledcourse.id as id, scheduledcourse.course_id as course_id, room_id, from_date, until_date FROM scheduledcourse INNER JOIN
+                    (
+                        SELECT course_id FROM
+                        groupuser INNER JOIN groupcourse ON groupuser.group_id = groupcourse.group_id
+                        WHERE user_id = " . $user_id . "
+                    ) as assignedcourses
+                            
+            ON assignedcourses.course_id = scheduledcourse.course_id";
+        $statement = $this->db->connection->query($sql);
+        $scheduled_courses_array = $statement->fetchAll(PDO::FETCH_OBJ);
+        $scheduled_courses = $this->convertToScheduledCourses($scheduled_courses_array);
+        return $scheduled_courses;
+    }
+
 
     public function getScheduledCourseById(int $id){
         $sql = getScheduledCourseQuery($id);
