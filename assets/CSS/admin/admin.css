@@ -1,0 +1,381 @@
+body {
+    min-height: 100vh;
+    overflow: hidden;
+    background-color: #F5F5F5;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Navbar */
+
+.navbar-app {
+    background: #AC7088;
+    font-family: 'Righteous';
+    font-style: normal;
+    font-weight: 400;
+}
+
+.navbar-app a {
+    color: #FFFBD6;
+    font-size: 2rem;
+}
+
+.navbar-app a:hover {
+    color: #DBB6AB;
+}
+
+.header-logo {
+    height: 2.5rem;
+}
+
+/* Grid */
+
+.container.main {
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+}
+
+.course-input {
+    background-color: #DEB6AB;
+    color: #AC7088;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 3px;
+}
+
+.inpt {
+    line-height: 1.9rem;
+    border-radius: 3px;
+}
+
+.course-input button {
+    background-color: #AC7088;
+    color: #F5E8C7;
+    font-weight: 400;
+    font-family: 'Righteous', sans-serif;
+    border: 2px solid #AC7088;
+    border-radius: 3px;
+}
+
+.course-input button:hover {
+    background: rgba(172, 112, 136, 0.5);
+    color: #AC7088;
+    border: transparent;
+}
+
+.course-input input {
+    background-color: #f0d1c8;
+    border: transparent;
+}
+
+.main>div {
+    height: 75vh;
+}
+
+/* Courses Table */
+
+.course-table:not(.course-table .row.header) {
+    background-color: #DBB6AB;
+    color: #A4667F;
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-radius: 3px;
+}
+
+.course-table>.col-md {
+    border: 3px solid #8C5D70;
+
+    border-radius: 3px;
+
+}
+
+.course-table>.col-md>.row {
+    border-top: 3px solid #AC7088;
+}
+
+.course-table>.col-md>.row>div {
+    border-right: 3px solid #AC7088;
+}
+
+.course-table>.col-md>.row>:nth-child(3) {
+    border-right: none;
+}
+
+.course-table .row.header {
+    background: #AC7088;
+    color: #FFFBD6;
+    height: 3rem;
+    font-size: 2rem;
+}
+
+
+.fa-ellipsis-vertical {
+    display: none;
+}
+
+.course-table .col-md>.row:hover:not(.course-table .row.header) {
+    background: rgba(172, 112, 136, 0.5);
+    color: #FFFBD6;
+}
+
+.course-table .col-md .row:hover:not(.course-table .row.header) .fa-ellipsis-vertical {
+    display: inline;
+    cursor: pointer;
+}
+
+/* Assigned to Courses */
+
+.assigned-block .form-container {
+    color: #F5E8C7;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    height: calc(100% - 68px);
+}
+
+.assigned-block .form-container>.col {
+    height: 100%;
+    border: solid 3px #8C5D70;
+    border-radius: 3px;
+
+}
+
+.assigned-block .row.header {
+    border-bottom: solid 2px #8C5D70;
+    background: #AC7088;
+    font-size: 1.5rem;
+    height: 3rem;
+}
+
+.assigned-block-rows {
+    height: calc(100% - 3rem);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.assigned-block-rows>div {
+    background-color: #DEB6AB;
+
+}
+
+.assigned-block-rows::-webkit-scrollbar {
+    width: 8px;
+}
+
+.assigned-block-rows::-webkit-scrollbar-track {
+    background-color: #DEB6AB;
+}
+
+.assigned-block-rows::-webkit-scrollbar-thumb {
+    background: #AC7088;
+    border-radius: 5px;
+}
+
+.assigned-block-rows .row {
+    border-bottom: solid 2px #8C5D70;
+    background: #DEB6AB;
+}
+
+.assigned-block button {
+    background: #AC7088;
+    color: #F5E8C7;
+    border: solid 3px #8C5D70;
+    border-radius: 3px;
+    font-family: 'Righteous', sans-serif;
+    font-size: 1.245rem;
+}
+
+.assigned-block button:hover {
+    background: rgba(172, 112, 136, 0.5);
+    color: #AC7088;
+}
+
+
+/* Paginationn */
+
+.course-table-pagination {
+    margin-bottom: 0;
+}
+
+.course-table-pagination .color {
+    color: #AC7088;
+}
+
+.course-table-pagination a:hover {
+    border: solid 2px #8C5D70;
+    border-radius: 3px;
+}
+
+
+/* Modals */
+
+.choice-modal {
+    display: none;
+    position: absolute;
+    border: solid 2px #8C5D70;
+    z-index: 1;
+    background: #F5F5F5;
+}
+
+.choice-modal>.col>div {
+    border-bottom: #AC7088;
+}
+
+.choice-modal button {
+    border: none;
+    color: #AC7088;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+}
+
+.choice-modal button:hover {
+    background-color: #f0d1c8;
+    color: #8C5D70;
+}
+
+.choice-modal:hover {
+    display: block;
+    border-radius: 3px;
+}
+
+/* Delete Modal */
+
+.modal-header {
+    background-color: #BF1257;
+}
+
+.modal-body, .modal-footer {
+    background-color: #FFFBD6;
+    font-family: 'Righteous', sans-serif;
+    font-weight: 400;
+}
+
+.modal-body {
+    color: #BF1257;
+}
+
+.btn-yes {
+    color: #108C1D;
+    background: #DEB6AB;
+}
+
+.btn-no {
+    color: #BF1257;
+    background: #DEB6AB;
+}
+
+.btn-no:hover, .btn-yes:hover {
+    background: #DEB6AB;
+    border: #A4667F solid 2px;
+}
+
+.btn-yes:hover {
+    color: #108C1D;
+}
+
+.btn-no:hover {
+    color: #BF1257;
+}
+
+/* Schedule Modal */
+
+#schedule-table {
+    border-radius: 3px;
+}
+
+.schedule-header {
+    background-color: #AC7088;
+    color: #F5E8C7;
+    font-family: 'Righteous', sans-serif;
+}
+
+
+th, td {
+    border-collapse: collapse;
+    text-align: center;
+}
+
+
+
+th {
+    background-color: #AC7088;
+    color: #753A52;
+    padding: 0.4rem;
+    border: 2px solid #753A52 !important;
+}
+
+.table-head>th {
+    padding: 1rem;
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+
+td {
+    border: 2px solid #AC7088 !important;
+    background-color: #DBB6AB;
+    color: #A4667F;
+    font-weight: bolder;
+}
+
+.btn-close {
+    color: #F5E8C7;
+}
+
+#alternatives {
+    width: 100%;
+}
+
+#alternatives td {
+    padding: 0.8em;
+}
+
+.delete-button {
+    border: none;
+    background-color: transparent;
+}
+
+.delete-button i {
+    display: none;
+    color: #f0d1c8;
+}
+
+.table-data {
+    background-color: #B26383;
+    color: #f0d1c8;
+    border: 1px solid #753A52;
+}
+
+.table-data:hover .fa-trash-can {
+    display: inline;
+}
+
+.table-data:hover {
+    border: 1px solid #DBB6AB;
+}
+
+.title-color {
+    background-color: #AC7088;
+    border: 2px solid #753A52;
+    border-bottom: none;
+}
+
+.title-color, a:link {
+    color: #FFFBD6;
+}
+
+
+.title-color, a:visited {
+    color: #FFFBD6;
+}
+
+.title-color, a:hover {
+    color: #DBB6AB;
+}
+
+.title-color, a:active {
+    color: #FFFBD6;
+}
+
+.title-content {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+}
