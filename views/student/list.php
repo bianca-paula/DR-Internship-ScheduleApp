@@ -6,8 +6,7 @@
                         <tr>
                           <th data-field="hour" data-width="80"><div onclick="downloadPDF()"><i class="fa fa-download" style="font-size:25px;color: #FFFBD6;"></i></div></th>
                           <?php 
-                            $weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-                            foreach($weekdays as $day){
+                            foreach(WEEKDAYS as $day){
                           ?>
                               <th data-width="150"><?php print($day)?></th>
                             <?php 
@@ -22,7 +21,7 @@
                         <tr>
                           <th><?php print $hour; ?>-<?php print ($hour+1) ?></th>
                           <?php
-                            foreach($weekdays as $day) {
+                            foreach(WEEKDAYS as $day) {
                             ?>
                                 <?php
                                     $has_value=false;
@@ -111,13 +110,11 @@ include_once './views/scheduled-course-modal/list.php'
         $('#courseModal').on('show.bs.modal', function (event){
             var modal = $(this);
             var selected_course_ID = $(event.relatedTarget).data('object') // Button that triggered the modal
-            $.get('./controllers/AjaxRequests/GetCourseDetails.php', {"id": selected_course_ID} , function(data){
-              // $("#course-details").html(data);
+            $.get('/internship/DR-Internship-ScheduleApp/ajax/get-course-details', {"id": selected_course_ID} , function(data){
               console.log("In Footer");
               console.log($.parseJSON(data));
               var scheduled_course_json=$.parseJSON(data);
               console.log(scheduled_course_json["course_type"]);
-              // modal.find('.modal-title').text('New message to ');
               modal.find('#modal-course-name').text(scheduled_course_json["course_name"]);
               modal.find('#modal-course-type').text("Type: " + scheduled_course_json["course_type"]);
               modal.find('#modal-course-room').text("Room: " + scheduled_course_json["room_name"]);

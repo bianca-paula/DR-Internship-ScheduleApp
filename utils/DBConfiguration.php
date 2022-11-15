@@ -31,7 +31,7 @@ class DbConfiguration
         try {
             // we don't add the database_name to DSN if it is not created
             $dsn = "$this->type:host=$this->server_name;port=$this->port;charset=$this->charset"; // DSN - data source name
-            $sql = DBHelper::createDatabase($this->data);
+            $sql = DBHelper::createDatabase($this->database_name);
             $sql_check_db_exists = DBHelper::checkDatabase($this->database_name);;
             $this->connection = $this->create_connection($dsn, $this->user_name, $this->password, $options);
             $check_if_db = $this->connection->query($sql_check_db_exists);

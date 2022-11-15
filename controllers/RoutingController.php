@@ -6,21 +6,25 @@
         static $baseURL="/internship/DR-Internship-ScheduleApp/";
         
         public DbConfiguration $db;
-        public ScheduledCourseController $scheduled_courses;
-        public function __construct(DbConfiguration $db, ScheduledCourseController $scheduled_courses){
+        public ScheduledCourseController $scheduled_course_controller;
+        public function __construct(DbConfiguration $db, ScheduledCourseController $scheduled_course_controller){
             $this->db= $db;
-            $this->scheduled_courses= $scheduled_courses;
+            $this->scheduled_course_controller= $scheduled_course_controller;
         }
 
         public function getRouteHandler(string $request){
+            echo $request;
             switch ($request) {
                 case self::$baseURL:
-                    $this->scheduled_courses->view();
+                    $this->scheduled_course_controller->view();
                     break;
                 case (self::$baseURL.'student'):
-                    $this->scheduled_courses->view();
+                    $this->scheduled_course_controller->view();
                     break;
-            
+                case (self::$baseURL.'ajax/get-course-details'):
+                    echo "Yes";
+                    $this->scheduled_course_controller->getScheduledCourseDetails();
+                    break;
                 default:
                     http_response_code(404);
                     ErrorPageController::view("Invalid URL!");
