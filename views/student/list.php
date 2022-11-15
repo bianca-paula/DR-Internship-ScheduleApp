@@ -26,18 +26,18 @@
                             ?>
                                 <?php
                                     $has_value=false;
-                                    $tdString='<td> <div class="d-inline align-middle"';
+                                    $tdString='<td> <div class="d-inline align-middle" ';
                                     foreach ($results as $course){
                                       $from_hour = DateTimeHelper::getHour($course->getFromDate());
                                       $until_hour = DateTimeHelper::getHour($course->getUntilDate());
                                       $day_of_week = DateTimeHelper::getDayOfWeek($course->getFromDate());
                                       if($day_of_week === $day){
-                                        if(($from_hour === $hour || $from_hour === $hour+1)&& $has_value === false){
+                                        if(($from_hour === $hour || $until_hour === $hour+1)&& $has_value === false){
                                           $courseObj=$scheduled_courses->getCourseById($course->getCourseID());
                                           $course_id=$course->getID();
                                           $course_name=$courseObj->getName();
                                           $course_type=$courseObj->getType();
-                                          $tdString = $tdString . " id=" . $course_id . '>' .$course_name . ' ' . $course_type . "</div>".
+                                          $tdString = $tdString . " id=" . $course_id . " onclick = populateAlternatives($course_id)>" .$course_name . ' ' . $course_type . "</div>".
                                           '<div class=" d-inline float-right align-middle">
                                             <div class="dropright show">
                                                   <a href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -79,10 +79,7 @@
                         <th>Alternatives</th>
                     </tr>
                     <tr>
-                        <td>Laborator AI grupa 255</td>
-                    </tr>
-                    <tr>
-                        <td>Laborator AI grupa 256</td>
+                        <td>Select a course to see alternatives</td>
                     </tr>
                 </table>
             </div>
@@ -160,4 +157,98 @@ include_once './views/remove-scheduled-course-modal/list.php';
             // $('[data-object="1"]').removeAttr('data-object');
             $('[data-object="1"]').removeAttr('data-object', 'data-name', 'data-type');
         });
+
+
+
+        function emptyAlternatives(){
+		var table = document.getElementById("alternatives");
+			for(var i = 1; i < table.rows.length;)
+            {   
+               table.deleteRow(i);
+            }
+		}
+
+
+    <?php $user_id = 634; ?>
+		function populateAlternatives(course_id){
+			var table = document.getElementById("alternatives");
+            $.get('./controllers/AjaxRequests/GetAlternativeCourses.php', 
+            {"scheduled_id": course_id, "user_id": <?php echo $user_id?>} , function(data){
+            	var table = document.getElementById("alternatives");
+              	table.innerHTML = data;
+            });
+		}
+
+
+		function addCourseToCell(cell, id, name, type){
+				cell.setAttribute("id", id);
+        cell.setAttribute("onclick", "populateAlternatives(" + id + ")");
+				cell.innerHTML = name  +  ' ' +  type;
+		}
+		
+		
+		function emptyCell(cell){
+				cell.removeAttribute("id");
+        cell.removeAttribute("onclick");
+				cell.innerHTML = "";
+		}
+		
+		function checkStartHourIsFirstInInterval(hour_interval, start_hour){
+			if(hour_interval.charAt(0) == start_hour.charAt(0) && hour_interval.charAt(1) == start_hour.charAt(1))
+				return true;
+			if(hour_interval.charAt(0) == start_hour)
+				return true;
+			return false;
+		}
+		
+		function emptyCellWithID(id){
+			var table = document.getElementById("schedule-table");
+			
+			var r = 0;
+			while(row=table.rows[r++]){
+				var c = 0;
+				while(cell=row.cells[c++]){
+					if(cell.getAttribute("id") == id)
+						emptyCell(cell);
+				}
+			}
+		}
+		
+		
+		function changeCourse(previous_id, id, name, type, weekday, start_hour, end_hour){
+			var table = document.getElementById("schedule-table");
+			var row_idx_to_attach = 0;
+			var column_idx_to_attach = 0;
+			
+			
+			var r=0; //start counting rows in table
+			while(row=table.rows[r++]){
+				hour_interval = row.cells[0].innerHTML;
+				if(checkStartHourIsFirstInInterval(hour_interval, start_hour))
+					row_idx_to_attach = r-1; // row uses r before the incrementation
+			}
+			
+			var c=1; // start counting columns in table
+			while(c<=5){
+				var day = table.rows[0].cells[c].querySelector('.th-inner ').textContent;
+				if (weekday == day)
+					column_idx_to_attach = c;
+				c++;
+				
+			}
+			
+			emptyAlternatives();
+			emptyCellWithID(previous_id);
+			
+			course_length = end_hour - start_hour;
+			for(var hours_added = 0; hours_added < course_length; hours_added++){
+				var cell = table.rows[row_idx_to_attach + hours_added].cells[column_idx_to_attach];
+				addCourseToCell(cell, id, name, type);
+			}
+			
+
+		}
+		
+
+
     </script>
