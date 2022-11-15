@@ -9,28 +9,26 @@ include_once './helpers/ScheduledCourseHelper.php';
 class ScheduledCourseController{
 
     private DbConfiguration $db;
+    private CourseHelper $course_helper;
+    private ScheduledCourseHelper $scheduled_course_helper;
     public function __construct(DbConfiguration $db){
         $this->db=$db;
+        $this->course_helper = new CourseHelper($db);
+        $this->scheduled_course_helper = new ScheduledCourseHelper($db);
     }
-    
+
     public function getCourseById(int $course_id){
-        $sql = CourseHelper::getCourseQuery();
-        $course_object = $this->db->execute($sql, array('course_id' => $course_id))->fetch();
-        $course = new Course($course_object['id'], $course_object['name'], $course_object['type']);
+        $course = $this->course_helper->getCourseById($course_id);
         return $course;
     }
 
     public function getScheduledCourses(){
-        $sql = ScheduledCourseHelper::getScheduledCoursesQuery();
-        $scheduled_courses_array = $this->db->execute($sql)->fetchAll();
-        $scheduled_courses = $this->convertToScheduledCourses($scheduled_courses_array);
+        $scheduled_courses = $this->scheduled_course_helper->getScheduledCourses();
         return $scheduled_courses;
     }
 
     public function getScheduledCourseById(int $scheduled_coourse_id){
-        $sql = ScheduledCourseHelper::getScheduledCourseQuery();
-        $scheduled_course_object = $this->db->execute($sql, array('scheduled_course_id' => $scheduled_coourse_id))->fetch();
-        $scheduled_course = $this->convertToScheduledCourses($scheduled_course_object);
+        $scheduled_course = $this->scheduled_course_helper->getScheduledCourseByID($scheduled_coourse_id);
         return $scheduled_course;
     }
 
@@ -46,14 +44,6 @@ class ScheduledCourseController{
             else{
                 echo json_encode($scheduled_course_object);
             }
-    }
-
-    public function convertToScheduledCourses($scheduled_courses){
-        $courses = [];
-        foreach($scheduled_courses as $course){
-            $courses[] =new ScheduledCourse($course['id'], $course['room_id'], $course['course_id'], $course['from_date'], $course['until_date']);
-        }
-        return $courses;
     }
 
     public function view(){

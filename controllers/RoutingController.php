@@ -19,9 +19,9 @@
                     $this->scheduled_course_controller->view();
                     break;
                 // TO DO
-                // case (self::$baseURL.'ajax/get-course-details'):
-                //     $this->scheduled_course_controller->getScheduledCourseDetails();
-                //     break;
+                case '/get-course-details':
+                    $this->scheduled_course_controller->getScheduledCourseDetails();
+                    break;
                 default:
                     http_response_code(404);
                     ErrorPageController::view("Invalid URL!");
