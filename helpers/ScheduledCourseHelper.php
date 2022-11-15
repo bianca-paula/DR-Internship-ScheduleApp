@@ -1,6 +1,16 @@
 <?php
 
 class ScheduledCourseHelper{
+
+    const SCHEDULED_COURSE_BY_ID = "SELECT id, room_id, course_id, from_date, until_date 
+                                    FROM Scheduled_Course WHERE id = :scheduled_course_id;";
+    const SCHEDULED_COURSES = "SELECT id, room_id, course_id, from_date, until_date 
+                                FROM Scheduled_Course;";
+    
+
+    public static function getConstants() {
+        return (new ReflectionClass(get_class()))->getConstants();
+    }
     
     public static function createScheduledCourseTable(){
         return "CREATE TABLE IF NOT EXISTS Scheduled_Course(
@@ -20,7 +30,7 @@ class ScheduledCourseHelper{
     
     public static function getScheduledCourseQuery(){
         return "SELECT id, room_id, course_id, from_date, until_date 
-                FROM Scheduled_Course WHERE id = :scheduled_course_ID;";
+                FROM Scheduled_Course WHERE id = :scheduled_course_id;";
     }
     
     public static function insertMockDataScheduledCourse(){

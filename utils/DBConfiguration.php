@@ -1,7 +1,7 @@
 <?php
 include_once "DBTables.php";
 include_once "DBData.php";
-include_once "C:/xampp/htdocs/internship/DR-Internship-ScheduleApp/helpers/DBHelper.php";
+include_once "C:/xampp/htdocs/InternshipDR/DR-Internship-ScheduleApp/helpers/DBHelper.php";
 class DbConfiguration
 {
     protected $type;
@@ -31,12 +31,12 @@ class DbConfiguration
         try {
             // we don't add the database_name to DSN if it is not created
             $dsn = "$this->type:host=$this->server_name;port=$this->port;charset=$this->charset"; // DSN - data source name
-            $sql = DBHelper::createDatabase($this->database_name);
-            $sql_check_db_exists = DBHelper::checkDatabase($this->database_name);;
+            $sql = DBHelper::createDatabase();
+            $sql_check_db_exists = DBHelper::checkDatabase();;
             $this->connection = $this->create_connection($dsn, $this->user_name, $this->password, $options);
-            $check_if_db = $this->connection->query($sql_check_db_exists);
+            $check_if_db = $this->execute($sql_check_db_exists, array('database_name' => $this->database_name));
             if(!isset($check_if_db->fetch()['SCHEMA_NAME'])){
-                $this->connection->query($sql);
+                $this->execute($sql, array('database_name' => $this->database_name));
             }   
             $this->execute("use $this->database_name");         
         } 

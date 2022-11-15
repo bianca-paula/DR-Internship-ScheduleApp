@@ -12,35 +12,34 @@ class ScheduledCourseController{
     public function __construct(DbConfiguration $db){
         $this->db=$db;
     }
+    
     public function getCourseById(int $course_id){
         $sql = CourseHelper::getCourseQuery();
-        $courseObj = $this->db->execute($sql, array('course_id' => $course_id))->fetch();
-        $course = new Course($courseObj['id'], $courseObj['name'], $courseObj['type']);
+        $course_object = $this->db->execute($sql, array('course_id' => $course_id))->fetch();
+        $course = new Course($course_object['id'], $course_object['name'], $course_object['type']);
         return $course;
     }
 
     public function getScheduledCourses(){
         $sql = ScheduledCourseHelper::getScheduledCoursesQuery();
-        $statement = $this->db->connection->query($sql);
-        $scheduled_courses_array = $statement->fetchAll(PDO::FETCH_OBJ);
+        $scheduled_courses_array = $this->db->execute($sql)->fetchAll();
         $scheduled_courses = $this->convertToScheduledCourses($scheduled_courses_array);
         return $scheduled_courses;
     }
 
-    public function getScheduledCourseById(){
+    public function getScheduledCourseById(int $scheduled_coourse_id){
         $sql = ScheduledCourseHelper::getScheduledCourseQuery();
-        $statement = $this->db->connection->query($sql);
-        $statement->setFetchMode(PDO::FETCH_OBJ);
-        $scheduled_course = $statement->fetch();
-        $scheduled_courseObj = $this->convertToScheduledCourses($scheduled_course);
-        return $scheduled_courseObj;
+        $scheduled_course_object = $this->db->execute($sql, array('scheduled_course_id' => $scheduled_coourse_id))->fetch();
+        $scheduled_course = $this->convertToScheduledCourses($scheduled_course_object);
+        return $scheduled_course;
     }
 
+    // TO DO
     public function getScheduledCourseDetails(){
         // if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
             $scheduled_course_id = $_GET['id'];
             $query = ScheduledCourseHelper::getScheduledCourseDetails();
-            $scheduled_course_object = $this->db->execute($query, [$scheduled_course_id])->fetch();
+            $scheduled_course_object = $this->db->execute($query, array('scheduled_course_id' => $scheduled_course_id))->fetch();
             if(!$scheduled_course_object){
                 ErrorPageController::view("Invalid scheduled course ID!");
             }
@@ -52,7 +51,7 @@ class ScheduledCourseController{
     public function convertToScheduledCourses($scheduled_courses){
         $courses = [];
         foreach($scheduled_courses as $course){
-            $courses[] =new ScheduledCourse($course->id, $course->room_id, $course->course_id, $course->from_date, $course->until_date);
+            $courses[] =new ScheduledCourse($course['id'], $course['room_id'], $course['course_id'], $course['from_date'], $course['until_date']);
         }
         return $courses;
     }
