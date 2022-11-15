@@ -50,8 +50,6 @@
                                                   </div>
                                             </div>
                                           </div> 
-                                          
-
                                          ' ;
                                           $has_value=true;
                                         } 
@@ -180,16 +178,31 @@ include_once './views/remove-scheduled-course-modal/list.php';
 		}
 
 
+    
+
 		function addCourseToCell(cell, id, name, type){
-				cell.setAttribute("id", id);
-        cell.setAttribute("onclick", "populateAlternatives(" + id + ")");
-				cell.innerHTML = name  +  ' ' +  type;
+
+        var burger_menu = "<div class=\" d-inline float-right align-middle\">" +
+                                            "<div class=\"dropright show\">" +
+                                                  "<a href=\"#\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">" +
+                                                      "<i class=\"fa fa-ellipsis-v\"></i>" +
+                                                  "</a>" +
+
+                                                  "<div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\">" +
+                                                    "<a class=\"dropdown-item\" data-toggle=\"modal\" data-target=\"#courseModal\" data-object=" + id +  " >Course Details</a>" +
+                                                    "<a class=\"dropdown-item\" data-toggle=\"modal\" data-target=\"#removeScheduledCourseModal\" data-object=" + id + " data-name=" + name + " data-type=" + type + " >Remove Course</a>" +
+                                                  "</div>" +
+                                            "</div>" +
+                                          "</div> ";
+        
+        cell.setAttribute("id", id);
+				cell.innerHTML = "<div class=\"d-inline align-middle\" id=" + id + " onclick = populateAlternatives(" + id + ")>" + name  +  ' ' +  type + "</div>";
+        cell.children[0].insertAdjacentHTML('afterend', burger_menu);
 		}
 		
 		
 		function emptyCell(cell){
 				cell.removeAttribute("id");
-        cell.removeAttribute("onclick");
 				cell.innerHTML = "";
 		}
 		
@@ -208,8 +221,11 @@ include_once './views/remove-scheduled-course-modal/list.php';
 			while(row=table.rows[r++]){
 				var c = 0;
 				while(cell=row.cells[c++]){
-					if(cell.getAttribute("id") == id)
-						emptyCell(cell);
+          if(cell.getAttribute("id") == id){
+            //alert(cell.children[0]);
+            emptyCell(cell);
+          }
+						   
 				}
 			}
 		}

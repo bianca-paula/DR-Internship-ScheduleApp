@@ -26,11 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['scheduled_id'])) {
     printf("<tbody> <tr> <th> Alternatives </th> </tr>");
     
     // Get scheduled course
-    $query = getScheduledCourseQuery($_GET['scheduled_id']);
-    $statement = $db->connection->query($query);
-    $scheduled_course_as_array = $statement->fetchAll(PDO::FETCH_OBJ);
-    $scheduled_course = $scheduled_course_as_array[0];
-    $course_id =  $scheduled_course -> course_id;
+    $query = ScheduledCourseHelper::getScheduledCourseQuery();
+    $scheduled_course = $db->execute($query, array("scheduled_course_ID" => $_GET['scheduled_id'])) -> fetch();
+    $course_id =  $scheduled_course["course_id"];
     
     // Get course from scheduled course
     $query = CourseHelper::getCourseQuery();
@@ -40,9 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['scheduled_id'])) {
     $type = $course["type"];
     
     // Get all courses of the same type and name
-    $query = getUnfilteredAlternativesForCourse($name, $type);
+    $query = ScheduledCourseHelper::getUnfilteredAlternativesForCourse($name, $type);
     $alternatives_array = $db->execute($query)->fetchAll();
-    
     
     
     
