@@ -3,7 +3,7 @@
     include_once './controllers/ErrorPageController.php';
     class RoutingController {
 
-        static $baseURL="/internship/DR-Internship-ScheduleApp/";
+        static $baseURL="/InternshipDR/DR-Internship-ScheduleApp/";
         
         public DbConfiguration $db;
         public ScheduledCourseController $scheduled_courses;

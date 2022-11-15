@@ -1,7 +1,7 @@
 <?php
 include_once "DBTables.php";
 include_once "DBData.php";
-include_once "C:/xampp/htdocs/internship/DR-Internship-ScheduleApp/helpers/DBHelper.php";
+include_once "C:/xampp/htdocs/InternshipDR/DR-Internship-ScheduleApp/helpers/DBHelper.php";
 class DbConfiguration
 {
     protected $type;

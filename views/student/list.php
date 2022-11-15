@@ -26,7 +26,7 @@
                             ?>
                                 <?php
                                     $has_value=false;
-                                    $tdString='<td data-toggle="modal" data-target="#courseModal"';
+                                    $tdString='<td> <div class="d-inline align-middle" data-toggle="modal" data-target="#courseModal"';
                                     foreach ($results as $course){
                                       $from_hour = DateTimeHelper::getHour($course->getFromDate());
                                       $until_hour = DateTimeHelper::getHour($course->getUntilDate());
@@ -35,7 +35,22 @@
                                         if(($from_hour === $hour || $from_hour === $hour+1)&& $has_value === false){
                                           $courseObj=$scheduled_courses->getCourseById($course->getCourseID());
                                           $course_id=$course->getID();
-                                          $tdString = $tdString . " data-object=$course_id " .'>' .$courseObj->getName() . ' ' . $courseObj->getType() ;
+                                          $tdString = $tdString . " data-object=$course_id " .'>' .$courseObj->getName() . ' ' . $courseObj->getType() . "</div>".
+                                          '<div class=" d-inline float-right align-middle">
+                                            <div class="dropright show">
+                                                  <a href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                      <i class="fa fa-ellipsis-v"></i>
+                                                  </a>
+
+                                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    <a class="dropdown-item" href="#">Course Details</a>
+                                                    <a class="dropdown-item" href="#">Remove Course</a>
+                                                  </div>
+                                            </div>
+                                          </div> 
+                                          
+
+                                         ' ;
                                           $has_value=true;
                                         } 
                                       }
@@ -71,6 +86,18 @@
             </div>
         </div>
     </div>
+
+    <!-- <p data-toggle="dropdown" aria-haspopup="true" data-target="#drop-menu" aria-expanded="false">
+        Dropright
+    </p> -->
+
+    <!-- <div class="dropright" id="drop-menu">
+
+      <div class="dropdown-menu" id="dropdown-menu">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+      </div>
+    </div> -->
 <?php
 include_once './views/scheduled-course-modal/list.php'
 ?>
