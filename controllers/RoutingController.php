@@ -11,10 +11,10 @@
 
         public function getRouteHandler(string $request){
             switch ($request) {
-                case '/':
+                case '/DR-Internship-ScheduleApp/':
                     $this->scheduled_courses->view();
                     break;
-                case ('/student'):
+                case ('/DR-Internship-ScheduleApp/student'):
                     $this->scheduled_courses->view();
                     break;
             

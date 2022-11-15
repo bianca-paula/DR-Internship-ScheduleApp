@@ -24,7 +24,7 @@ class ScheduledCourseController{
 
     public function getScheduledCourses(){
         $sql = "SELECT *
-            FROM Scheduled_Course;";
+            FROM ScheduledCourse;";
         $statement = $this->db->connection->query($sql);
         $scheduled_courses_array = $statement->fetchAll(PDO::FETCH_OBJ);
         $scheduled_courses = $this->convertToScheduledCourses($scheduled_courses_array);
