@@ -34,7 +34,7 @@ $course_table = array(
         ?>
             <div class="row data-record">
 
-                <div class="col-2 d-flex align-content-center justify-content-center"> <?php print($value['id']) ?></div>
+                <div class="col-2 d-flex align-content-center justify-content-center id-col" data-course-id="<?php print($value['id']) ?>"> <?php print($value['id']) ?></div>
                 <div class="col-8">
                     <div class="row">
                         <div class="col-11 title" data-course-title="<?php print($value['course_name']) ?>"> <?php print($value['course_name']) ?> </div>
@@ -44,7 +44,7 @@ $course_table = array(
                                 <div class="col">
                                     <!-- Delete button -->
                                     <div class="row">
-                                        <button type="button" class="col mx-auto delete-button" data-bs-toggle="modal" data-bs-target="delete-modal">
+                                        <button type="button" class="col mx-auto delete-button delete" data-bs-toggle="modal" data-bs-target="delete-modal">
                                             Delete Course
                                         </button>
                                     </div>
@@ -62,7 +62,7 @@ $course_table = array(
                         </div>
                     </div>
                 </div>
-                <div class="col-2 course-type" data-course-type=" <?php print($value['type']) ?>"> <?php print($value['type']) ?> </div>
+                <div class="col-2 course-type" data-course-type="<?php print($value['type']) ?>"> <?php print($value['type']) ?> </div>
             </div>
         <?php } ?>
     </div>

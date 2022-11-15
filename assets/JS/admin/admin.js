@@ -22,11 +22,21 @@ $(document).ready(function (e) {
     //Show Delete modal
     $('.delete-button').click(function () {
         $('#delete-modal').modal('toggle');
+        var id = $(this).parents('.data-record').find('.id-col').data('course-id');
         var courseTitle = $(this).parents('.data-record').find('.title').data('course-title');
         var courseType = $(this).parents('.data-record').find('.course-type').data('course-type');
-       
+        
+        $('#delete-modal').find("input[name='id']").val(id);
         $('#delete-modal').find(".course-title").html(courseTitle);
         $('#delete-modal').find(".course-type").html(courseType);
     });
+
+    // $('.delete').click(function(){
+    //     var id = $(this).parents('#delete-course').find('.course-id').val();
+    //     console.log(id);
+    //     // $('#delete-modal').find(".course-id").html(id);
+
+    //     $('#modallCancel').attr('href','delete-course.php?id'+id);
+    // })
 
 })
