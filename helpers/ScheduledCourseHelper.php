@@ -1,13 +1,13 @@
 <?php
 function createScheduledCourseTable(){
     return "CREATE TABLE IF NOT EXISTS ScheduledCourse(
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            room_id INT NOT NULL,
-            course_id INT NOT NULL,
-            from_date DATETIME NOT NULL,
-            until_date DATETIME NOT NULL,
-            FOREIGN KEY (course_id) REFERENCES course(id),
-            FOREIGN KEY (room_id) REFERENCES room(id)
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        room_id INT NOT NULL,
+        course_id INT NOT NULL,
+        from_date DATETIME NOT NULL,
+        until_date DATETIME NOT NULL,
+        FOREIGN KEY (course_id) REFERENCES course(id),
+        FOREIGN KEY (room_id) REFERENCES room(id)
     );";
 }
 
