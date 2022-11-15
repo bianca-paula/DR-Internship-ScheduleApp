@@ -206,22 +206,62 @@ $results = $scheduled_courses->getScheduleForUser($user_id); //getScheduledCours
         }
 
 
-		function populateAlternatives(course_id){
-			var table = document.getElementById("alternatives");
+		function emptyAlternatives(){
+		var table = document.getElementById("alternatives");
 			for(var i = 1; i < table.rows.length;)
             {   
                table.deleteRow(i);
             }
-            
-            $.get('../AjaxRequests/GetAlternativeCourses.php', {"scheduled_id": course_id, "user_id": <?php echo $user_id?>} , function(data){
+		}
+
+		function populateAlternatives(course_id){
+			var table = document.getElementById("alternatives");
+            $.get('../AjaxRequests/GetAlternativeCourses.php', 
+            {"scheduled_id": course_id, "user_id": <?php echo $user_id?>} , function(data){
             	var table = document.getElementById("alternatives");
               	table.innerHTML = data;
             });
 		}
 
+
+		function addCourseToCell(cell, id, name, type){
+				cell.setAttribute("data-toggle", "modal");
+				cell.setAttribute("data-target", "#courseModal");
+				cell.setAttribute("data-object", id);
+				cell.innerHTML = name  +  ' | ' +  type;
+		}
 		
 		
-		function changeCourse(name, type, weekday, start_hour, end_hour){
+		function emptyCell(cell){
+				cell.removeAttribute("data-toggle");
+				cell.removeAttribute("data-target");
+				cell.removeAttribute("data-object");
+				cell.innerHTML = "";
+		}
+		
+		function checkStartHourIsFirstInInterval(hour_interval, start_hour){
+			if(hour_interval.charAt(0) == start_hour.charAt(0) && hour_interval.charAt(1) == start_hour.charAt(1))
+				return true;
+			if(hour_interval.charAt(0) == start_hour)
+				return true;
+			return false;
+		}
+		
+		function emptyCellWithID(id){
+			var table = document.getElementById("schedule-table");
+			
+			var r = 0;
+			while(row=table.rows[r++]){
+				var c = 0;
+				while(cell=row.cells[c++]){
+					if(cell.getAttribute("data-object") == id)
+						emptyCell(cell);
+				}
+			}
+		}
+		
+		
+		function changeCourse(previous_id, id, name, type, weekday, start_hour, end_hour){
 			var table = document.getElementById("schedule-table");
 			var row_idx_to_attach = 0;
 			var column_idx_to_attach = 0;
@@ -230,7 +270,7 @@ $results = $scheduled_courses->getScheduleForUser($user_id); //getScheduledCours
 			var r=0; //start counting rows in table
 			while(row=table.rows[r++]){
 				hour_interval = row.cells[0].innerHTML;
-				if(hour_interval.charAt(0) == start_hour.charAt(0) && hour_interval.charAt(1) == start_hour.charAt(1))
+				if(checkStartHourIsFirstInInterval(hour_interval, start_hour))
 					row_idx_to_attach = r-1; // row uses r before the incrementation
 			}
 			
@@ -243,9 +283,15 @@ $results = $scheduled_courses->getScheduleForUser($user_id); //getScheduledCours
 				
 			}
 			
+			emptyAlternatives();
+			emptyCellWithID(previous_id);
+			
 			course_length = end_hour - start_hour;
-			for(var hours_added = 0; hours_added < course_length; hours_added++)
-				table.rows[row_idx_to_attach + hours_added].cells[column_idx_to_attach].innerHTML = name + " | " + type;
+			for(var hours_added = 0; hours_added < course_length; hours_added++){
+				var cell = table.rows[row_idx_to_attach + hours_added].cells[column_idx_to_attach];
+				addCourseToCell(cell, id, name, type);
+			}
+			
 
 		}
 		

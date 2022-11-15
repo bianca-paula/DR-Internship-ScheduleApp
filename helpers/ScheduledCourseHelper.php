@@ -75,6 +75,7 @@ function getUnfilteredAlternativesForCourse(string $course_name, string $course_
 }
 
 
+
 function getProfessorForScheduledCourse(int $course_id){
     // Returns the query for selecting the teacher of a scheduled course
     // [prefix, first_name, last_name]
