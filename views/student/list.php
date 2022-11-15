@@ -35,7 +35,9 @@
                                         if(($from_hour === $hour || $from_hour === $hour+1)&& $has_value === false){
                                           $courseObj=$scheduled_courses->getCourseById($course->getCourseID());
                                           $course_id=$course->getID();
-                                          $tdString = $tdString . " data-object=$course_id " .'>' .$courseObj->getName() . ' ' . $courseObj->getType() . "</div>".
+                                          $course_name=$courseObj->getName();
+                                          $course_type=$courseObj->getType();
+                                          $tdString = $tdString . " data-object=$course_id " .'>' .$course_name . ' ' . $course_type . "</div>".
                                           '<div class=" d-inline float-right align-middle">
                                             <div class="dropright show">
                                                   <a href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -43,8 +45,8 @@
                                                   </a>
 
                                                   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                    <a class="dropdown-item" href="#">Course Details</a>
-                                                    <a class="dropdown-item" href="#">Remove Course</a>
+                                                    <a class="dropdown-item" data-toggle="modal" data-target="#courseModal" '. " data-object=$course_id " .'>Course Details</a>
+                                                    <a class="dropdown-item" data-toggle="modal" data-target="#removeScheduledCourseModal" '. " data-object=$course_id data-name=$course_name data-type=$course_type" .' >Remove Course</a>
                                                   </div>
                                             </div>
                                           </div> 
@@ -87,19 +89,9 @@
         </div>
     </div>
 
-    <!-- <p data-toggle="dropdown" aria-haspopup="true" data-target="#drop-menu" aria-expanded="false">
-        Dropright
-    </p> -->
-
-    <!-- <div class="dropright" id="drop-menu">
-
-      <div class="dropdown-menu" id="dropdown-menu">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-      </div>
-    </div> -->
 <?php
-include_once './views/scheduled-course-modal/list.php'
+include_once './views/scheduled-course-modal/list.php';
+include_once './views/remove-scheduled-course-modal/list.php';
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -152,5 +144,20 @@ include_once './views/scheduled-course-modal/list.php'
               modal.find('#modal-course-date').text("Date: " + scheduled_course_json["from_date"]);
               modal.find('#modal-course-time').text("Time: " + scheduled_course_json["from_hour"] + " - " + scheduled_course_json["until_hour"]);
             });
+        });
+
+        $('#removeScheduledCourseModal').on('show.bs.modal', function (event){
+            var modal = $(this);
+            var selected_course_ID = $(event.relatedTarget).data('object') // Button that triggered the modal
+            var selected_course_name = $(event.relatedTarget).data('name') // Button that triggered the modal
+            var selected_course_type = $(event.relatedTarget).data('type') // Button that triggered the modal
+            console.log(selected_course_name);
+            var remove_message = "Are you sure you want to remove "+ selected_course_name +" "+selected_course_type+" from your schedule?";
+            modal.find('#confirm-message').text(remove_message);
+
+            console.log($('div[data-object="1"]')); 
+            // $('[data-object="1"]').removeAttr('data-object');
+            // $('[data-object="1"]').removeAttr('data-object');
+            $('[data-object="1"]').removeAttr('data-object', 'data-name', 'data-type');
         });
     </script>

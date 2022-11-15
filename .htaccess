@@ -1,6 +1,5 @@
 DirectoryIndex index.php
 RewriteEngine On
-RewriteBase /InternshipDR/DR-Internship-ScheduleApp/
 RewriteRule ^index\.php＄ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
