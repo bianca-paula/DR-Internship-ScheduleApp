@@ -15,9 +15,6 @@
 
     <!-- Fontawesome -->
     <script src="https://kit.fontawesome.com/57ff89206e.js" crossorigin="anonymous"></script>
-    <!-- <link href="/views/fontawesome-free-6.2.0-web/css/fontawesome.css" rel="stylesheet">
-    <link href="/views/fontawesome-free-6.2.0-web/css/brands.css" rel="stylesheet">
-    <link href="/views/fontawesome-free-6.2.0-web/css/solid.css" rel="stylesheet"> -->
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;500;600;700;900&family=Righteous&display=swap" rel="stylesheet">

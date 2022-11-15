@@ -5,14 +5,12 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '../utils/DBConfig.php';
 class Role
 {
 
-    // private $id;
-    // private $name;
+    private $id;
+    private $name;
     private DBConfig $db;
 
     function __construct(DBConfig $db)
     {
-        // $this->id = $id;
-        // $this->name = $name;
         $this->db = $db;
 
         $role_table = $this->db->execute($this->checktable());

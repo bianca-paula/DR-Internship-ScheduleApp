@@ -3,10 +3,6 @@
 
           <tr data-height="1" class="table-head">
               <th data-field="hour" data-width="80">
-                  <!-- <div onclick="download_PDF()">
-                                                    <i class="fa fa-download"
-                                                        style="font-size:25px;color: #FFFBD6;"></i>
-                                                </div> -->
               </th>
               <th data-field="monday" data-width="150">Monday</th>
               <th data-field="tuesday" data-width="150">Tuesday</th>

@@ -1,16 +1,3 @@
-<!-- <?php
-
-if (isset($_GET['page'])) {
-    $page = $_GET['page'];
-} else {
-    $page = 1;
-}
-
-?> -->
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,10 +17,7 @@ if (isset($_GET['page'])) {
 
     <!-- Fontawesome -->
     <script src="https://kit.fontawesome.com/57ff89206e.js" crossorigin="anonymous"></script>
-    <!-- <link href="/views/fontawesome-free-6.2.0-web/css/fontawesome.css" rel="stylesheet">
-    <link href="/views/fontawesome-free-6.2.0-web/css/brands.css" rel="stylesheet">
-    <link href="/views/fontawesome-free-6.2.0-web/css/solid.css" rel="stylesheet"> -->
-
+   
     <!-- Google Fonts -->
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;500;600;700;900&family=Righteous&display=swap"
@@ -49,7 +33,6 @@ if (isset($_GET['page'])) {
 
     <div class="container-fluid  d-flex justify-content-center">
         <div class="row main d-flex justify-content-center py-0 mx-0 w-100 ">
-            <!-- <div class="col"></div> -->
 
             <div class="col-lg-8 m-5">
                 <div class="row ">
@@ -76,161 +59,6 @@ if (isset($_GET['page'])) {
 
     <!-- Modal on Delete Course -->
     <?php include './delete-modal.php' ?>
-
-
-    <!-- Modal on See Scheduled -->
-
-    <!-- <div class="modal fade " id="schedule-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-                <div class="modal-header schedule-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">See Scheduled for - <span
-                            class="course-title"></span>
-                    </h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row py-3 px-5">
-                        <div class="col mx-0">
-                            <table class="w-100" data-toggle="table" id="schedule-table">
-                                <thead>
-                                    <tr data-height="1" class="table-head">
-                                        <th data-field="hour" data-width="80">
-                                             <div onclick="download_PDF()">
-                                                    <i class="fa fa-download"
-                                                        style="font-size:25px;color: #FFFBD6;"></i>
-                                                </div>
-                                         </th>
-                                        <th data-field="monday" data-width="150">Monday</th>
-                                        <th data-field="tuesday" data-width="150">Tuesday</th>
-                                        <th data-field="wednesday" data-width="150">Wednesday</th>
-                                        <th data-field="thursday" data-width="150">Thursday</th>
-                                        <th data-field="friday" data-width="150">Friday</th>
-                                    </tr>
-                                </thead>
-                                <tr>
-                                    <th>8-9</th>
-                                    <td data-row-id="1" data-toggle="modal" data-target="#courseModal"></td>
-                                    <td data-row-id="2" data-toggle="modal" data-target="#courseModal"></td>
-                                    <td data-row-id="3" data-toggle="modal" data-target="#courseModal">ISS</td>
-                                    <td data-row-id="4" data-toggle="modal" data-target="#courseModal"></td>
-                                    <td data-row-id="5" data-toggle="modal" data-target="#courseModal">OS</td>
-                                </tr>
-                                <tr>
-                                    <th>9-10</th>
-                                    <td class="table-data" data-row-id="6" data-toggle="modal"
-                                        data-target="#courseModal">
-                                        <div class="container">
-                                            <div class="row justify-content-end">
-                                                <div class="col-4 justify-content-end">AI</div>
-                                                <div class="col-4 justify-content-center">
-                                                    <form action="#" method="post">
-                                                        <button class="delete-from-schedule" type="submit">
-                                                             <p hidden>delete</p> 
-                                                             <i class="fa-solid fa-trash-can"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </td>
-                                    <td data-row-id="7" data-toggle="modal" data-target="#courseModal">ASC</td>
-                                    <td data-row-id="8" data-toggle="modal" data-target="#courseModal"></td>
-                                    <td data-row-id="9" data-toggle="modal" data-target="#courseModal">OS</td>
-                                    <td data-row-id="10" data-toggle="modal" data-target="#courseModal"></td>
-                                </tr>
-                                <tr>
-                                    <th>10-11</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th>11-12</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th>12-13</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th>13-14</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th>14-15</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th>15-16</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th>16-17</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th>17-18</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th>18-19</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th>19-20</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-             <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div> 
-        </div>
-    </div> -->
 
 
     <!-- JavaScript Bundle with Popper -->
