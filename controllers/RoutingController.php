@@ -11,7 +11,6 @@
         }
 
         public function getRouteHandler(string $request){
-            echo $request;
             switch ($request) {
                 case '/':
                     $this->scheduled_course_controller->view();
@@ -20,15 +19,16 @@
                     $this->scheduled_course_controller->view();
                     break;
 
-                // TO DO
-                case '/schedule/get-course-details':
-                    $this->scheduled_course_controller->getScheduledCourseDetails();
-                    break;
                 default:
-                    if(strpos($request, "/schedule/get-course-details") === 0)
+                    if(strpos($request, "/get-course-details") === 0)
                     {
-                        echo 'Yes';
-                        echo $request;
+                        $this->scheduled_course_controller->getScheduledCourseDetails();
+                    }
+
+                    else if (strpos($request, "/alternative-courses/") === 0){
+                        $params = str_replace("/alternative-courses/", "",$request);
+                        $params_array = explode('&', $params);
+                        $this->scheduled_course_controller->getAlternativesForCourse($params_array[0]);
                     }
                     else{
                         http_response_code(404);

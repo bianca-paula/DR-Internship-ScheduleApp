@@ -17,8 +17,8 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary cancel-button" data-dismiss="modal">Cancel</button>
-        <button type="submit" form="leave-form" class="btn btn-primary upload-button">Upload</button>
+        <button type="button" class="btn btn-secondary cancel-button " data-dismiss="modal">Cancel</button>
+        <button type="submit" form="leave-form" class="btn btn-primary upload-button ml-auto">Upload</button>
       </div>
     </div>
   </div>

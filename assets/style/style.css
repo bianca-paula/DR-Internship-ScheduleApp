@@ -57,6 +57,7 @@ td{
     font-size: 1.2em;
 }
 
+
 .upload-button{
     background-color: #F5E8C7;
     font-family: 'Righteous', cursive;
@@ -105,3 +106,32 @@ td{
     border: none;
     
 }
+
+.fa-ellipsis-v{
+    color: #AC7088;
+}
+
+.dropdown-menu{
+    background-color: #FFEFE2;
+    border: 2px solid #AC7088;
+}
+
+/* a{
+    color: #AC7088 !important;
+} */
+
+.dropdown-menu a{
+    color: #AC7088 !important;
+    font-weight: 600;
+}
+
+.dropdown-menu a:hover{
+    background-color: #b38e9d;
+    color: #FFEFE2 !important; 
+}
+
+.dropdown-menu a:active{
+    background-color: #AC7088;
+    color:#FFEFE2 !important;
+}
+
