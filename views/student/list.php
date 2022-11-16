@@ -1,3 +1,6 @@
+<?php
+include_once './views/page-parts/header.php';
+?>
 <div class="container-fluid">
         <div class="row px-4 py-4">
             <div class="col-9">
@@ -124,11 +127,8 @@ include_once './views/remove-scheduled-course-modal/list.php';
         $('#courseModal').on('show.bs.modal', function (event){
             var modal = $(this);
             var selected_course_ID = $(event.relatedTarget).data('object') // Button that triggered the modal
-            $.get('/schedule/get-course-details/' + selected_course_ID, function(data){
-              console.log("In Footer");
-              console.log($.parseJSON(data));
+            $.get('/get-course-details/'+selected_course_ID, function(data){
               var scheduled_course_json=$.parseJSON(data);
-              console.log(scheduled_course_json["course_type"]);
               modal.find('#modal-course-name').text(scheduled_course_json["course_name"]);
               modal.find('#modal-course-type').text("Type: " + scheduled_course_json["course_type"]);
               modal.find('#modal-course-room').text("Room: " + scheduled_course_json["room_name"]);
@@ -148,8 +148,6 @@ include_once './views/remove-scheduled-course-modal/list.php';
             modal.find('#confirm-message').text(remove_message);
 
             console.log($('div[data-object="1"]')); 
-            // $('[data-object="1"]').removeAttr('data-object');
-            // $('[data-object="1"]').removeAttr('data-object');
             $('[data-object="1"]').removeAttr('data-object', 'data-name', 'data-type');
         });
 
@@ -266,3 +264,7 @@ include_once './views/remove-scheduled-course-modal/list.php';
 
 
     </script>
+
+<?php
+include_once './views/page-parts/Footer.php';
+?>

@@ -49,6 +49,13 @@ class ScheduledCourseHelper{
         return $scheduled_course;
     }
 
+    public function getScheduledCourseDetails(int $scheduled_course_id){
+        $sql = self::SCHEDULED_COURSE_DETAILS;
+        $scheduled_course_object = $this->db->execute($sql, array('scheduled_course_id' => $scheduled_course_id))->fetch();
+        // $scheduled_course = $this->convertToScheduledCourses($scheduled_course_object);
+        return $scheduled_course_object;
+    }
+
     public function getScheduledCourses(){
         $sql = self::SCHEDULED_COURSES;
         $scheduled_courses_array = $this->db->execute($sql)->fetchAll();
