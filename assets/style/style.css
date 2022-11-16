@@ -10,9 +10,6 @@ th, td {
 th{
     background-color: #AC7088;
     color: #FFFBD6;
-    /* border-left: 3px solid #753A52 !important;
-    border-top: 3px solid #753A52 !important;
-    border-right: 3px solid #753A52 !important; */
     border: 3px solid #753A52 !important;
 }
 
