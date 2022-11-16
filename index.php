@@ -19,6 +19,4 @@ $scheduled_courses = new ScheduledCourseController($db);
 $router = new RoutingController($db, $scheduled_courses);
 $request = $_SERVER['REQUEST_URI'];
 $router->getRouteHandler($request);
-
-include_once './views/page-parts/Footer.php'
 ?>
