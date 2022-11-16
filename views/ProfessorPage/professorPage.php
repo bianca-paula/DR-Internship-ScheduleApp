@@ -1,3 +1,12 @@
+<?php
+
+include_once "../../models/Course.php";
+
+$groups = array('231', '232', '233', '234', '235', '236', '237');
+$WEEKDAYS = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday');
+
+?>
+
 <!DOCTYPE html>
 
 <head>
@@ -34,7 +43,7 @@
 
         <div class="navbar-right">
             <span class="navbar-brand mb-0 h1">username</span>
-            <span class="material-symbols-outlined logout">
+            <span class="material-symbols-outlined logout" onclick="logoutPage()">
                 logout
             </span>
         </div>
@@ -51,29 +60,13 @@
 
                     <div class="list-group" id="list-tab" role="tablist">
                         <form method="post">
+                        <?php
+                        foreach ($groups as $group) {
+                        ?>
                             <div class="list">
-                                <ul class="list-group-item list-group-item-action" id="1">22A - Curs - Inteligenta
-                                    artificiala
-                                </ul>
-                                <ul class="list-group-item list-group-item-action" id="2">13A -Curs - Servere de date
-                                </ul>
-                                <ul class="list-group-item list-group-item-action" id="3">222 - Seminar - Inteligenta
-                                    artificiala </ul>
-                                <ul class="list-group-item list-group-item-action" id="4">225 - Seminar - Inteligenta
-                                    artificiala</ul>
-                                <ul class="list-group-item list-group-item-action" id="5">231 - Laborator - Inteligenta
-                                    artificiala</ul>
-                                <ul class="list-group-item list-group-item-action" id="6">232 - Laborator - Inteligenta
-                                    artificiala</ul>
-                                <ul class="list-group-item list-group-item-action" id="7">232 - Laborator - Inteligenta
-                                    artificiala</ul>
-                                <ul class="list-group-item list-group-item-action" id="8">232 - Laborator - Inteligenta
-                                    artificiala</ul>
-                                <ul class="list-group-item list-group-item-action" id="9">232 - Laborator - Inteligenta
-                                    artificiala</ul>
-                                <ul class="list-group-item list-group-item-action" id="10">232 - Laborator - Inteligenta
-                                    artificiala</ul>
+                                <ul class="list-group-item list-group-item-action" id="<?php print($group) ?>"> <?php print($group) ?> </ul>
                             </div>
+                            <?php } ?>
                         </form>
 
 
@@ -86,41 +79,38 @@
                                 <div class="input-group mb-3">
                                     <select class="custom-select" id="select-day">
                                         <option selected>Select day of week</option>
-                                        <option value="1" id="mon">Monday</option>
-                                        <option value="2" id="tue">Tuesday</option>
-                                        <option value="3" id="wed">Wednesday</option>
-                                        <option value="4" id="thu">Thursday</option>
-                                        <option value="5" id="fri">Friday</option>
+                                        <?php
+                                            foreach($WEEKDAYS as $day){
+                                        ?>
+                                        <option value="1" id="mon"><?php print($day)?></option>
+                                        <?php 
+                                            } 
+                                        ?>
                                     </select>
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <select class="custom-select" id="select-hour-interval">
                                         <option selected>Select hour interval</option>
-                                        <option value="1" id="8-9">8-9</option>
-                                        <option value="2" id="9-10">9-10</option>
-                                        <option value="3" id="10-11">10-11</option>
-                                        <option value="4" id="11-12">11-12</option>
-                                        <option value="5" id="12-13">12-13</option>
-                                        <option value="6" id="13-14">13-14</option>
-                                        <option value="7" id="14-15">14-15</option>
-                                        <option value="8" id="15-16">15-16</option>
-                                        <option value="9" id="16-17">16-17</option>
-                                        <option value="10" id="17-18">17-18</option>
-                                        <option value="11" id="18-19">18-19</option>
-                                        <option value="12" id="19-20">19-20</option>
+                                        <?php
+                                            for($hour = 8; $hour <= 19; $hour++) {
+                                        ?>
+                                        <option value="1" id="8-9"><?php print $hour; ?>-<?php print ($hour+1) ?></option>
+                                        
+                                        <?php 
+                                            } 
+                                        ?>
                                     </select>
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <select class="custom-select" id="select-room">
                                         <option selected>Select room</option>
-                                        <option value="1" class="room" id="505">505</option>
-                                        <option value="2" class="room" id="505a">505a</option>
-                                        <option value="3" class="room" id="505b">505b</option>
-                                        <option value="4" class="room" id="302">302</option>
-                                        <option value="5" class="room" id="304">304</option>
-                                        <option value="6" class="room" id="H02">H02</option>
+                                        <?php
+                                            foreach ($groups as $group) {
+                                        ?>
+                                        <option value="1" class="room" id="<?php print($group) ?>"><?php print($group) ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                         </form>
@@ -136,25 +126,30 @@
             <div class="col-sm-8">
                 <div class="content-table">
                     <section class="table-responsive">
-                        <table class="courses-table table">
+                        <table class="courses-table table" id="schedule-table">
                             <thead>
                                 <tr class="table-head">
-                                    <th id="download-icon" scope="col"><i class="fa fa-download" aria-hidden="true"></i>
-                                    </th>
-                                    <th scope="col">Mon</th>
-                                    <th scope="col">Tue</th>
-                                    <th scope="col">Wed</th>
-                                    <th scope="col">Thu</th>
-                                    <th scope="col">Fri</th>
+                                    <th id="download-icon" scope="col"><i class="fa fa-download" aria-hidden="true" onclick="downloadPDF()"></i></th>
+                                    
+                                    <?php 
+                                        foreach($WEEKDAYS as $day){
+                                    ?>
+                                    <th scope="col"><?php print($day)?></th>
+                                    <?php 
+                                        }
+                                    ?>
 
                                 </tr>
                             </thead>
                             <tbody>
+                            <?php
+                                for($hour = 8; $hour <= 19; $hour++) {
+                            ?>
                                 <tr class="table-left-section">
-                                    <th scope="row" class="table-head">8-9</th>
+                                    <th scope="row" class="table-head"><?php print $hour; ?>-<?php print ($hour+1) ?></th>
                                     <td class="row">
                                         <div class="col-sm-10 cell-content">
-                                            <p>225AI - S 505a</p>
+                                            <p></p>
                                         </div>
 
                                         <div class="col-sm-2 trash-can">
@@ -171,94 +166,9 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="table-head">9-10</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="table-head">10-11</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="table-head">11-12</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="table-head">12-13</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="table-head">13-14</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="table-head">14-15</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="table-head">15-16</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="table-head">16-17</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="table-head">17-18</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="table-head">18-19</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="table-head">19-20</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <?php
+                            }
+                          ?>
                                 </tr>
                             </tbody>
                         </table>

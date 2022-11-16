@@ -41,3 +41,29 @@ $(document).ready(function () {
     $('#toDateId').val(today);
 })
 
+
+function downloadPDF(){
+    alert("Download PDF!");
+    var pdfsize = 'a0';
+    var pdf = new jsPDF('l', 'pt', pdfsize);
+
+    pdf.autoTable({
+      html: '#schedule-table',
+      startY: 60,
+      styles: {
+        fontSize: 50,
+        cellWidth: 'wrap',
+        fillColor: [172, 112, 136]
+
+      },
+      columnStyles: {
+        1: {columnWidth: 'auto'}
+      }
+    });
+
+    pdf.save("MySchedule.pdf");
+}
+
+function logoutPage(){
+    alert("Logout!");
+}

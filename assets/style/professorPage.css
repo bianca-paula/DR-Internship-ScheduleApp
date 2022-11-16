@@ -82,7 +82,7 @@ body {
 /***************************/
 
 .list {
-    height: 22rem;
+    height: 3.5rem;
     background-color: #DEB6AB;
 }
 
@@ -92,9 +92,12 @@ body {
     overflow-y: scroll;
     margin-top: 0.5rem;
     margin-bottom: 3rem;
-    border-top: 0.75px solid #753A52;
-    border-right: 0.75px solid #753A52;
-    border-bottom: 0.75px solid #753A52;
+    border: 0.75px solid #753A52;
+    background-color: #DEB6AB;
+}
+
+.list-group-item {
+    border: none;
 }
 
 .schedule-header {
@@ -109,7 +112,7 @@ body {
     height: 3.5rem;
     background-color: #DEB6AB;
     color: #753A52;
-    border: 0.75px solid #753A52;
+    border-bottom: 0.75px solid #753A52;
     cursor: pointer;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -119,14 +122,6 @@ body {
 .list-group-item:first-child,
 .list-group-item:last-child {
     border-radius: 0px;
-}
-
-.list-group-item:first-child {
-    border-top: none;
-}
-
-.list-group-item:last-child {
-    border-bottom: none;
 }
 
 .list-group-item-action:active,
