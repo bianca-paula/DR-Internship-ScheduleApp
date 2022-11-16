@@ -64,14 +64,14 @@ class ScheduledCourseHelper{
               
             // Add alternatives to the table
             foreach($alternatives_array as $alternative){
-                    $scheduled_id = $alternative["scheduled_id"];
+                    $scheduled_alternative_id = $alternative["scheduled_id"];
                     $from_date = $alternative["from_date"];
                     $until_date = $alternative["until_date"];
                     $weekday = DateTimeHelper::getDayOfWeek($from_date);
                     $start_hour = DateTimeHelper::getHour($from_date);
                     $end_hour = DateTimeHelper::getHour($until_date);
                     printf("<tr> <td ondblclick = changeCourse('%s') }> %s </td> </tr>",
-                        $_GET['scheduled_id'] . "','" .$scheduled_id . "','" . $name . "','" . $type . "','" . $weekday . "','" . $start_hour . "','" . $end_hour, // changeCourse parameters
+                        $scheduled_id . "','" .$scheduled_alternative_id . "','" . $name . "','" . $type . "','" . $weekday . "','" . $start_hour . "','" . $end_hour, // changeCourse parameters
                         $weekday. ": ". $start_hour." - " . $end_hour); // table data
             }
             
