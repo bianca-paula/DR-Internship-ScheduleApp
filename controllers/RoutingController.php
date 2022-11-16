@@ -1,27 +1,39 @@
 <?php 
     include_once './controllers/ScheduledCourseController.php';
     include_once './controllers/ErrorPageController.php';
-    class RoutingController {        
+    class RoutingController {
+        
         public DbConfiguration $db;
-        public ScheduledCourseController $scheduled_courses;
-        public function __construct(DbConfiguration $db, ScheduledCourseController $scheduled_courses){
+        public ScheduledCourseController $scheduled_course_controller;
+        public function __construct(DbConfiguration $db, ScheduledCourseController $scheduled_course_controller){
             $this->db= $db;
-            $this->scheduled_courses= $scheduled_courses;
+            $this->scheduled_course_controller= $scheduled_course_controller;
         }
 
         public function getRouteHandler(string $request){
+            echo $request;
             switch ($request) {
-                case ('/DR-Internship-ScheduleApp/'):
-                    $this->scheduled_courses->view();
+                case '/':
+                    $this->scheduled_course_controller->view();
                     break;
-                case ('/student'):
-                    $this->scheduled_courses->view();
+                case '/schedule':
+                    $this->scheduled_course_controller->view();
                     break;
-            
-                default:
-                    http_response_code(404);
-                    ErrorPageController::view("Invalid URL!");
 
+                // TO DO
+                case '/schedule/get-course-details':
+                    $this->scheduled_course_controller->getScheduledCourseDetails();
+                    break;
+                default:
+                    if(strpos($request, "/schedule/get-course-details") === 0)
+                    {
+                        echo 'Yes';
+                        echo $request;
+                    }
+                    else{
+                        http_response_code(404);
+                        ErrorPageController::view("Invalid URL!");
+                    }
                     break;
             }
         }
