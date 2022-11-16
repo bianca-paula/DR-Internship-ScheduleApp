@@ -20,10 +20,15 @@
                     break;
 
                 default:
-                    if(strpos($request, "/get-course-details/") === 0)
+                    if(strpos($request, "/get-course-details") === 0)
                     {
-                        $scheduled_course_id = str_replace("/get-course-details/", "",$request);
-                        $this->scheduled_course_controller->getScheduledCourseDetails( $scheduled_course_id);
+                        $this->scheduled_course_controller->getScheduledCourseDetails();
+                    }
+
+                    else if (strpos($request, "/alternative-courses/") === 0){
+                        $params = str_replace("/alternative-courses/", "",$request);
+                        $params_array = explode('&', $params);
+                        $this->scheduled_course_controller->getAlternativesForCourse($params_array[0]);
                     }
                     else{
                         http_response_code(404);

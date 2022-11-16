@@ -49,7 +49,8 @@ class ScheduledCourseController{
         return $scheduled_course;
     }
 
-    public function getScheduledCourseDetails($scheduled_course_id){
+    public function getScheduledCourseDetails(){
+            $scheduled_course_id = $_GET["scheduled_course_id"];
             $scheduled_course_object = $this->scheduled_course_helper->getScheduledCourseDetails($scheduled_course_id);
             if(!$scheduled_course_object){
                 ErrorPageController::view("Invalid scheduled course ID!");
@@ -73,45 +74,9 @@ class ScheduledCourseController{
         return true;
     }
 
-    public function getAlternativesForCourse(){
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['scheduled_id'])) {
-            printf("<tbody> <tr> <th> Alternatives </th> </tr>");
-            
-            // Get scheduled course
-            $query = ScheduledCourseHelper::getScheduledCourseQuery();
-            $scheduled_course = $db->execute($query, array("scheduled_course_ID" => $_GET['scheduled_id'])) -> fetch();
-            $course_id =  $scheduled_course["course_id"];
-            
-            // Get course from scheduled course
-            $query = CourseHelper::getCourseQuery();
-            $course = $db->execute($query, array('course_id' => $course_id))->fetch();
-            
-            $name = $course["name"];
-            $type = $course["type"];
-            
-            // Get all courses of the same type and name
-            $query = ScheduledCourseHelper::getUnfilteredAlternativesForCourse($name, $type);
-            $alternatives_array = $db->execute($query)->fetchAll();
-              
-            // Add alternatives to the table
-            foreach($alternatives_array as $alternative){
-                    $scheduled_id = $alternative["scheduled_id"];
-                    $from_date = $alternative["from_date"];
-                    $until_date = $alternative["until_date"];
-                    $weekday = DateTimeHelper::getDayOfWeek($from_date);
-                    $start_hour = DateTimeHelper::getHour($from_date);
-                    $end_hour = DateTimeHelper::getHour($until_date);
-                    printf("<tr> <td ondblclick = changeCourse('%s') }> %s </td> </tr>",
-                        $_GET['scheduled_id'] . "','" .$scheduled_id . "','" . $name . "','" . $type . "','" . $weekday . "','" . $start_hour . "','" . $end_hour, // changeCourse parameters
-                        $weekday. ": ". $start_hour." - " . $end_hour); // table data
-                //}
-            }
-            
-            printf("</tbody><thead class=''></thead>");
-        }
-        else{
-            echo "No course selected";
-        }
+    public function getAlternativesForCourse($scheduled_id){
+        $this->scheduled_course_helper->getAlternatives($scheduled_id);
+
     }
 }
 ?>

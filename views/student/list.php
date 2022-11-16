@@ -127,7 +127,7 @@ include_once './views/remove-scheduled-course-modal/list.php';
         $('#courseModal').on('show.bs.modal', function (event){
             var modal = $(this);
             var selected_course_ID = $(event.relatedTarget).data('object') // Button that triggered the modal
-            $.get('/get-course-details/'+selected_course_ID, function(data){
+            $.get('/get-course-details', {"scheduled_course_id" : selected_course_ID}, function(data){
               var scheduled_course_json=$.parseJSON(data);
               modal.find('#modal-course-name').text(scheduled_course_json["course_name"]);
               modal.find('#modal-course-type').text("Type: " + scheduled_course_json["course_type"]);
@@ -165,8 +165,8 @@ include_once './views/remove-scheduled-course-modal/list.php';
     <?php $user_id = 634; ?>
 		function populateAlternatives(course_id){
 			var table = document.getElementById("alternatives");
-            $.get('./controllers/AjaxRequests/GetAlternativeCourses.php', 
-            {"scheduled_id": course_id, "user_id": <?php echo $user_id?>} , function(data){
+            $.get('/alternative-courses/'+course_id+'&'+<?php echo $user_id?>, 
+             function(data){
             	var table = document.getElementById("alternatives");
               	table.innerHTML = data;
             });
