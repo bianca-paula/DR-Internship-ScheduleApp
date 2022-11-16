@@ -12,8 +12,8 @@ class DBHelper
                 FROM INFORMATION_SCHEMA.SCHEMATA
                 WHERE SCHEMA_NAME = :database_name;";
     }
-    public static function createDatabase()
+    public static function createDatabase($dbName)
     {
-        return "CREATE DATABASE :database_name";
+        return "CREATE DATABASE " . $dbName;
     }
 }

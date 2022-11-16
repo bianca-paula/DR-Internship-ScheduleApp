@@ -13,10 +13,10 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
+include_once './views/page-parts/header.php';
 $db = new DbConfiguration();
 $scheduled_courses = new ScheduledCourseController($db);
 $router = new RoutingController($db, $scheduled_courses);
 $request = $_SERVER['REQUEST_URI'];
-
 $router->getRouteHandler($request);
 ?>
