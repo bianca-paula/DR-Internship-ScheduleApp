@@ -110,7 +110,7 @@ include_once './views/scheduled-course-modal/list.php'
         $('#courseModal').on('show.bs.modal', function (event){
             var modal = $(this);
             var selected_course_ID = $(event.relatedTarget).data('object') // Button that triggered the modal
-            $.get('/get-course-details/' + selected_course_ID, function(data){
+            $.get('/schedule/get-course-details/' + selected_course_ID, function(data){
               console.log("In Footer");
               console.log($.parseJSON(data));
               var scheduled_course_json=$.parseJSON(data);
