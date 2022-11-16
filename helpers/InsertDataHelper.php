@@ -10,6 +10,13 @@ class InsertDataHelper{
             return $db->execute($sql);
         }
     }
+
+    static function insertCourse(){
+        $action=$_POST['submit'];
+        if ($action == 'submit-add-course'){
+
+        }
+    }
 }
 
 ?>
