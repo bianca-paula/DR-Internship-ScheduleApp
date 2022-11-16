@@ -33,16 +33,16 @@ class DBConfiguration
             // we don't add the database_name to DSN if it is not created
             $conStr = "$this->type:host=$this->server_name;port=$this->port;charset=$this->charset"; // DSN - data source name
 
-            $sql = DBHelper::createDatabase();
+            $sql = DBHelper::createDatabase($this->database_name);
             $sql_check_db_exists = DBHelper::checkDatabase();
-
+          
             //Create connection
             $this->connection = $this->create_connection($conStr, $this->user_name, $this->password, $options);
             $check_if_db = $this->execute($sql_check_db_exists, array('database_name' => $this->database_name));
 
             //if database name isn't given back by fetch create the database
             if (!isset($check_if_db->fetch()['SCHEMA_NAME'])) {
-                $this->execute($sql, array('database_name' => $this->database_name));
+                $this->execute($sql);
             }
             $this->execute("use $this->database_name");
         } catch (PDOException $exception) {
