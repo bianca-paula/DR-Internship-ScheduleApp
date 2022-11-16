@@ -11,19 +11,21 @@
         }
 
         public function getRouteHandler(string $request){
+            echo $request;
             switch ($request) {
                 case '/':
                     $this->scheduled_course_controller->view();
                     break;
-                case '/student':
+                case '/schedule':
                     $this->scheduled_course_controller->view();
                     break;
+
                 // TO DO
-                case '/get-course-details':
+                case '/schedule/get-course-details':
                     $this->scheduled_course_controller->getScheduledCourseDetails();
                     break;
                 default:
-                    if(str_contains($request,"/get-course-details"))
+                    if(strpos($request, "/schedule/get-course-details") === 0)
                     {
                         echo 'Yes';
                         echo $request;
