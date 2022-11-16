@@ -85,9 +85,11 @@ function create_scheduled_course_table(){
 
 function create_course_attendance_table(){
     return "CREATE TABLE IF NOT EXISTS CourseAttendance(
-            user_id INT,
-            scheduled_course_id INT,
-            PRIMARY KEY(user_id, scheduled_course_id)
+        user_id INT,
+        scheduled_course_id INT,
+        attended BOOLEAN NOT NULL DEFAULT 1,
+        `leave` VARCHAR(100),
+        PRIMARY KEY(user_id, scheduled_course_id)
     );";
 }
 

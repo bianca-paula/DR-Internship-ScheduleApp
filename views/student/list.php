@@ -217,18 +217,19 @@ include_once './views/remove-scheduled-course-modal/list.php';
 		function emptyCellWithID(id){
 			var table = document.getElementById("schedule-table");
 			
-			var r = 0;
+			var r = 1;
 			while(row=table.rows[r++]){
 				var c = 0;
 				while(cell=row.cells[c++]){
-          if(cell.getAttribute("id") == id){
-            //alert(cell.children[0]);
-            emptyCell(cell);
+          if(cell.children.length == 2){
+            if(cell.children[0].getAttribute("id") == id){
+              emptyCell(cell);
+            }
           }
-						   
-				}
-			}
-		}
+        }   
+      }
+    }
+		
 		
 		
 		function changeCourse(previous_id, id, name, type, weekday, start_hour, end_hour){
