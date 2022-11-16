@@ -23,8 +23,15 @@
                     $this->scheduled_course_controller->getScheduledCourseDetails();
                     break;
                 default:
-                    http_response_code(404);
-                    ErrorPageController::view("Invalid URL!");
+                    if(str_contains($request,"/get-course-details"))
+                    {
+                        echo 'Yes';
+                        echo $request;
+                    }
+                    else{
+                        http_response_code(404);
+                        ErrorPageController::view("Invalid URL!");
+                    }
                     break;
             }
         }
