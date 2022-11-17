@@ -23,7 +23,9 @@ class ScheduledCourseController{
     }
 
     public function getScheduledCourses(){
-        $scheduled_courses = $this->scheduled_course_helper->getScheduledCourses();
+        // $scheduled_courses = $this->scheduled_course_helper->getScheduledCourses();
+        $user_id = 1;
+        $scheduled_courses = $this->scheduled_course_helper->getScheduledCoursesForUser($user_id);
         return $scheduled_courses;
     }
     

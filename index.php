@@ -7,6 +7,7 @@ include_once './models/Course.php';
 include_once './models/ScheduledCourse.php';
 include_once './helpers/DateTimeHelper.php';
 include_once './controllers/ScheduledCourseController.php';
+include_once './helpers/CourseAttendanceHelper.php';
 require __DIR__ . '/vendor/autoload.php';
 use Dotenv\Dotenv;
 
@@ -14,6 +15,8 @@ $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $db = new DbConfiguration();
+// $attendance = new CourseAttendanceHelper($db);
+// $attendance->populateAttendanceTable();
 $scheduled_courses = new ScheduledCourseController($db);
 $router = new RoutingController($db, $scheduled_courses);
 $request = $_SERVER['REQUEST_URI'];

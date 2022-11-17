@@ -39,6 +39,25 @@ class ScheduledCourseHelper{
                                                 (2, 2, '2022-10-28 14:00:00', '2022-10-28 16:00:00'), 
                                                 (4, 3, '2022-10-28 18:00:00', '2022-10-28 20:00:00')";
     const COURSE_BY_ID = "SELECT id, name, type FROM Course WHERE id = :course_id;";
+
+    const SCHEDULED_COURSES_FOR_USER="SELECT
+                                        scheduledcourse.id as 'id', 
+                                        scheduledcourse.from_date as 'from_date',
+                                        scheduledcourse.until_date as 'until_date',
+                                        scheduledcourse.course_id as 'course_id',
+                                        room_id as 'room_id'
+                                    FROM scheduledcourse 
+                                    INNER JOIN courseattendance ON scheduledcourse.id = courseattendance.scheduled_course_id
+                                    WHERE courseattendance.user_id = :user_id AND courseattendance.attended = 1";
+
+    const SCHEDULED_COURSES_OF_TYPE_AND_NAME = "SELECT
+                                                    scheduledcourse.id as 'scheduled_course_id'
+                                                FROM scheduledcourse 
+                                                INNER JOIN courseattendance ON scheduledcourse.id = courseattendance.scheduled_course_id
+                                                INNER JOIN course on scheduledcourse.course_id = course.id 
+                                                WHERE courseattendance.user_id = :user_id
+                                                AND courseattendance.attended = 1
+                                                AND course.name= :course_name AND course.type= :course_type ";
     
     public function __construct(DbConfiguration $db){
         $this->db = $db;
@@ -96,6 +115,13 @@ class ScheduledCourseHelper{
     public function getScheduledCourses(){
         $sql = self::SCHEDULED_COURSES;
         $scheduled_courses_array = $this->db->execute($sql)->fetchAll();
+        $scheduled_courses = $this->convertToScheduledCourses($scheduled_courses_array);
+        return $scheduled_courses;
+    }
+
+    public function getScheduledCoursesForUser($user_id){
+        $sql = self::SCHEDULED_COURSES_FOR_USER;
+        $scheduled_courses_array = $this->db->execute($sql, array('user_id' => $user_id))->fetchAll();
         $scheduled_courses = $this->convertToScheduledCourses($scheduled_courses_array);
         return $scheduled_courses;
     }
