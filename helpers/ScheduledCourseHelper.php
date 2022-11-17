@@ -39,6 +39,7 @@ class ScheduledCourseHelper{
                                                 (2, 2, '2022-10-28 14:00:00', '2022-10-28 16:00:00'), 
                                                 (4, 3, '2022-10-28 18:00:00', '2022-10-28 20:00:00')";
     const COURSE_BY_ID = "SELECT id, name, type FROM Course WHERE id = :course_id;";
+    
     public function __construct(DbConfiguration $db){
         $this->db = $db;
     }
