@@ -50,14 +50,21 @@ class ScheduledCourseHelper{
                                     INNER JOIN courseattendance ON scheduledcourse.id = courseattendance.scheduled_course_id
                                     WHERE courseattendance.user_id = :user_id AND courseattendance.attended = 1";
 
-    const SCHEDULED_COURSES_OF_TYPE_AND_NAME = "SELECT
-                                                    scheduledcourse.id as 'scheduled_course_id'
+    const UPDATE_USER_COURSE_ATTENDANCE = "UPDATE courseattendance
+                                                set `attended`=0
+                                                where courseattendance.scheduled_course_id IN (
+                                                SELECT
+                                                scheduledcourse.id as 'scheduled_course_id'
                                                 FROM scheduledcourse 
                                                 INNER JOIN courseattendance ON scheduledcourse.id = courseattendance.scheduled_course_id
                                                 INNER JOIN course on scheduledcourse.course_id = course.id 
-                                                WHERE courseattendance.user_id = :user_id
-                                                AND courseattendance.attended = 1
-                                                AND course.name= :course_name AND course.type= :course_type ";
+                                                WHERE courseattendance.attended = 1
+                                                AND course.name= :course_name AND course.type= :course_type
+                                                AND scheduledcourse.from_date >= NOW()
+                                                )
+                                                AND
+                                                courseattendance.user_id = :user_id
+                                                ;";
     
     public function __construct(DbConfiguration $db){
         $this->db = $db;
@@ -134,6 +141,12 @@ class ScheduledCourseHelper{
         }
         return $courses;
     }
+
+    public function updateCourseAttendanceForUser($user_id, $course_name, $course_type){
+        $sql = self::UPDATE_USER_COURSE_ATTENDANCE;
+        $this->db->execute($sql, array('user_id' => $user_id,'course_name' => $course_name, 'course_type' => $course_type));
+    }
+
 
     
     public static function getScheduledCoursesForUserIdQuery(int $user_id){

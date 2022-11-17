@@ -62,6 +62,15 @@ class ScheduledCourseController{
             }
     }
 
+    public function updateCourseAttendanceForUser(){
+        // $user_id = $_POST["user_id"];
+        $user_id = 1;
+        $course_name = $_POST["course_name"];
+        $course_type = $_POST["course_type"];
+        $this->scheduled_course_helper->updateCourseAttendanceForUser($user_id, $course_name, $course_type);
+
+    }
+
     public function view(){
         $results = $this->getScheduledCourses();
         define('WEEKDAYS', array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'));

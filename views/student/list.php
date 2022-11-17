@@ -143,12 +143,14 @@ include_once './views/remove-scheduled-course-modal/list.php';
             var selected_course_ID = $(event.relatedTarget).data('object') // Button that triggered the modal
             var selected_course_name = $(event.relatedTarget).data('name') // Button that triggered the modal
             var selected_course_type = $(event.relatedTarget).data('type') // Button that triggered the modal
+            modal.find('#course_name').val(selected_course_name);
+            modal.find('#course_type').val(selected_course_type);
+            // modal.find('#course_id').val(selected_course_ID);
+            console.log(selected_course_ID);
             console.log(selected_course_name);
-            var remove_message = "Are you sure you want to remove "+ selected_course_name +" "+selected_course_type+" from your schedule?";
-            modal.find('#confirm-message').text(remove_message);
+            console.log(selected_course_type);
 
-            console.log($('div[data-object="1"]')); 
-            $('[data-object="1"]').removeAttr('data-object', 'data-name', 'data-type');
+
         });
 
 

@@ -30,6 +30,12 @@
                         $params_array = explode('&', $params);
                         $this->scheduled_course_controller->getAlternativesForCourse($params_array[0]);
                     }
+                    else if (strpos($request, "/delete-course") === 0)
+                    {
+                        $this->scheduled_course_controller->updateCourseAttendanceForUser();
+                        $this->scheduled_course_controller->view();
+                        
+                    }
                     else{
                         http_response_code(404);
                         ErrorPageController::view("Invalid URL!");
