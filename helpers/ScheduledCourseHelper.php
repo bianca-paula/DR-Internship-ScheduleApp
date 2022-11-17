@@ -60,16 +60,48 @@ class ScheduledCourseHelper{
                                                 INNER JOIN course on scheduledcourse.course_id = course.id 
                                                 WHERE courseattendance.attended = 1
                                                 AND course.name= :course_name AND course.type= :course_type
-                                                AND scheduledcourse.from_date >= NOW()
+                                                -- AND scheduledcourse.from_date >= NOW()
                                                 )
                                                 AND
                                                 courseattendance.user_id = :user_id
                                                 ;";
+
+    const SCHEDULED_COURSE_INFO_BY_ID= "SELECT
+                                        scheduledcourse.from_date,
+                                        course.name,
+                                        course.type
+                                        from scheduledcourse
+                                        inner join course on scheduledcourse.course_id=course.id
+                                        where scheduledcourse.id = :scheduled_course_id;";
+
+    const SAME_HOUR_AND_DAY_SCHEDULED_COURSES = "SELECT scheduledcourse.id
+                                                from scheduledcourse
+                                                inner join course on scheduledcourse.course_id=course.id
+                                                where course.type= :course_type and course.name = :course_name
+                                                and HOUR(scheduledcourse.from_date) = HOUR(:from_date)
+                                                and WEEKDAY(scheduledcourse.from_date) = WEEKDAY(:from_date1);";
+
+    const UPDATE_ALTERNATIVE_COURSE_ATTENDANCES = "INSERT IGNORE INTO CourseAttendance(user_id, scheduled_course_id) values
+                                                    (:user_id, :scheduled_course_id);";
     
     public function __construct(DbConfiguration $db){
         $this->db = $db;
     }
 
+    public function createAttendancesForAlternativeCourse($user_id, $scheduled_course_id){
+        $query = self::SCHEDULED_COURSE_INFO_BY_ID;
+        $scheduled_course = $this->db->execute($query, array("scheduled_course_id" => $scheduled_course_id))->fetch();
+
+        $course_name =  $scheduled_course["name"];
+        $course_type =  $scheduled_course["type"];
+        $from_date =  $scheduled_course["from_date"];
+        $query_future_courses = self::SAME_HOUR_AND_DAY_SCHEDULED_COURSES;
+        $future_courses = $this->db->execute($query_future_courses, array("course_type" => $course_type, "course_name"=>$course_name, "from_date"=>$from_date, "from_date1"=>$from_date))->fetchAll();
+        $insert_query = self::UPDATE_ALTERNATIVE_COURSE_ATTENDANCES;
+        foreach ($future_courses as $future_course) {
+            $this->db->execute($insert_query, array("scheduled_course_id" => $future_course["id"], "user_id" => $user_id));
+        }
+    }
     public function getAlternatives($scheduled_id){
         printf("<tbody> <tr> <th> Alternatives </th> </tr>");
             

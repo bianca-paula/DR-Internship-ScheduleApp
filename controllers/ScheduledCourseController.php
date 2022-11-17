@@ -22,6 +22,18 @@ class ScheduledCourseController{
         return $course;
     }
 
+    public function replaceCourseWithAlternative(){
+        $user_id = 1;
+        $previous_course_id = $_POST["previous_course_id"];
+        $alternative_course_id = $_POST["alternative_course_id"];
+        
+        $course_name = $_POST["course_name"];
+        $course_type = $_POST["course_type"];
+        $this->scheduled_course_helper->updateCourseAttendanceForUser($user_id, $course_name, $course_type);
+        $this->scheduled_course_helper->createAttendancesForAlternativeCourse($user_id, $alternative_course_id);
+        echo true;
+    }
+
     public function getScheduledCourses(){
         // $scheduled_courses = $this->scheduled_course_helper->getScheduledCourses();
         $user_id = 1;

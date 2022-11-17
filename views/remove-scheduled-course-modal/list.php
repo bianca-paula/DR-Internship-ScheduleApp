@@ -11,20 +11,12 @@
       <div class="modal-body">
         <h4 id="confirm-message"> REMOVE </h4>
 
-<!-- 
-          <input type="hidden" id="course_id" name="course_id"><br>
-
-          <label for="course_name">Course name</label><br>
-          <input type="text" id="course_name" name="course_name"><br><br>
-
-          <label for="course_type">Course type</label><br>
-          <input type="text" id="course_type" name="course_type"><br><br> -->
         <form id="remove-course-id" action="/delete-course" method="POST">
-            <!-- <label for="course_name">Course name</label><br> -->
-            <input type="hidden" id="course_name" name="course_name"><br><br>
+            <label for="course_name">Course name</label><br>
+            <input type="text" id="course_name" name="course_name" readonly><br><br>
 
-            <!-- <label for="course_type">Course type</label><br> -->
-            <input type="hidden" id="course_type" name="course_type">
+            <label for="course_type">Course type</label><br>
+            <input type="text" id="course_type" name="course_type" readonly>
         </form>
       </div>
       <div class="modal-footer">

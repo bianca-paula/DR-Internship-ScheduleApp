@@ -36,6 +36,11 @@
                         $this->scheduled_course_controller->view();
                         
                     }
+                    else if (strpos($request, "/replace-course") === 0)
+                    {
+                        $this->scheduled_course_controller->replaceCourseWithAlternative();
+                        
+                    }
                     else{
                         http_response_code(404);
                         ErrorPageController::view("Invalid URL!");

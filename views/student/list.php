@@ -230,35 +230,47 @@ include_once './views/remove-scheduled-course-modal/list.php';
 		
 		
 		function changeCourse(previous_id, id, name, type, weekday, start_hour, end_hour){
-			var table = document.getElementById("schedule-table");
-			var row_idx_to_attach = 0;
-			var column_idx_to_attach = 0;
+
+      $.post( "/replace-course", {
+        "previous_course_id" : previous_id,
+        "alternative_course_id":id,
+        "course_name":name,
+        "course_type":type
+      },function( data ) {
+        if(data==true){
+          location.reload();
+          console.log("Success!");
+        }
+      });
+			// var table = document.getElementById("schedule-table");
+			// var row_idx_to_attach = 0;
+			// var column_idx_to_attach = 0;
 			
 			
-			var r=0; //start counting rows in table
-			while(row=table.rows[r++]){
-				hour_interval = row.cells[0].innerHTML;
-				if(checkStartHourIsFirstInInterval(hour_interval, start_hour))
-					row_idx_to_attach = r-1; // row uses r before the incrementation
-			}
+			// var r=0; //start counting rows in table
+			// while(row=table.rows[r++]){
+			// 	hour_interval = row.cells[0].innerHTML;
+			// 	if(checkStartHourIsFirstInInterval(hour_interval, start_hour))
+			// 		row_idx_to_attach = r-1; // row uses r before the incrementation
+			// }
 			
-			var c=1; // start counting columns in table
-			while(c<=5){
-				var day = table.rows[0].cells[c].querySelector('.th-inner ').textContent;
-				if (weekday == day)
-					column_idx_to_attach = c;
-				c++;
+			// var c=1; // start counting columns in table
+			// while(c<=5){
+			// 	var day = table.rows[0].cells[c].querySelector('.th-inner ').textContent;
+			// 	if (weekday == day)
+			// 		column_idx_to_attach = c;
+			// 	c++;
 				
-			}
+			// }
 			
-			emptyAlternatives();
-			emptyCellWithID(previous_id);
+			// emptyAlternatives();
+			// emptyCellWithID(previous_id);
 			
-			course_length = end_hour - start_hour;
-			for(var hours_added = 0; hours_added < course_length; hours_added++){
-				var cell = table.rows[row_idx_to_attach + hours_added].cells[column_idx_to_attach];
-				addCourseToCell(cell, id, name, type);
-			}
+			// course_length = end_hour - start_hour;
+			// for(var hours_added = 0; hours_added < course_length; hours_added++){
+			// 	var cell = table.rows[row_idx_to_attach + hours_added].cells[column_idx_to_attach];
+			// 	addCourseToCell(cell, id, name, type);
+			// }
 			
 
 		}
