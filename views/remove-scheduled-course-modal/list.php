@@ -11,7 +11,7 @@
       <div class="modal-body">
         <h4 id="confirm-message"> REMOVE </h4>
 
-        <form id="remove-course-id" action="/delete-course" method="POST">
+        <form id="remove-course-id" method="POST">
             <label for="course_name">Course name</label><br>
             <input type="text" id="course_name" name="course_name" readonly><br><br>
 
@@ -26,4 +26,6 @@
     </div>
   </div>
 </div>
+
+
 

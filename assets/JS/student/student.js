@@ -39,17 +39,50 @@ $('#courseModal').on('show.bs.modal', function (event){
 });
 
 $('#removeScheduledCourseModal').on('show.bs.modal', function (event){
-    var modal = $(this);
-    var selected_course_ID = $(event.relatedTarget).data('object') // Button that triggered the modal
-    var selected_course_name = $(event.relatedTarget).data('name') // Button that triggered the modal
-    var selected_course_type = $(event.relatedTarget).data('type') // Button that triggered the modal
-    console.log(selected_course_name);
-    var remove_message = "Are you sure you want to remove "+ selected_course_name +" "+selected_course_type+" from your schedule?";
-    modal.find('#confirm-message').text(remove_message);
+  var modal = $(this);
+  var selected_course_ID = $(event.relatedTarget).data('object') // Button that triggered the modal
+  var selected_course_name = $(event.relatedTarget).data('name') // Button that triggered the modal
+  var selected_course_type = $(event.relatedTarget).data('type') // Button that triggered the modal
+  modal.find('#course_name').val(selected_course_name);
+  modal.find('#course_type').val(selected_course_type);
+  // modal.find('#course_id').val(selected_course_ID);
+  console.log(selected_course_ID);
+  console.log(selected_course_name);
+  console.log(selected_course_type);
 
-    console.log($('div[data-object="1"]')); 
-    $('[data-object="1"]').removeAttr('data-object', 'data-name', 'data-type');
+
 });
+
+
+  $("#remove-course-id").submit(function( event ) {
+  event.preventDefault();
+  console.log(event);
+  // ($("form#remove-course-id").serializeArray()).each(
+  //   function( index ) {
+  //     console.log( index + ": " + $( this ).text() );
+  //   }
+  // );
+  var formData=$("form#remove-course-id").serializeArray();
+
+  const newObject = {};
+  for(let i=0; i<formData.length; i++){
+    console.log(i);
+    newObject[$("form#remove-course-id").serializeArray()[i].name] = $("form#remove-course-id").serializeArray()[i].value;
+
+  }
+  console.log("My object is:");
+  console.log(newObject);
+
+  $.post( "/schedule/delete-course", newObject,function( data ) {
+    console.log(data);
+    if(data!==""){
+      location.reload();
+      alert("Your course was successfully deleted!");
+    }
+
+  });
+});
+
 
 function emptyAlternatives(){
   var table = document.getElementById("alternatives");
@@ -61,7 +94,7 @@ function emptyAlternatives(){
 
 function populateAlternatives(course_id){
   var user_id = "634";
-  $.get('/schedule/alternative-courses', {"course_id" : course_id}, function(data){
+  $.get('/schedule/alternative-courses', {"course_id" : course_id, "user_id" : user_id}, function(data){
     var table = document.getElementById("alternatives");
       table.innerHTML = data;
   });
@@ -112,29 +145,45 @@ function emptyCellWithID(id){
   }
 }
 
-function changeCourse(previous_id, id, name, type, weekday, start_hour, end_hour){
-  var table = document.getElementById("schedule-table");
-  var row_idx_to_attach = 0;
-  var column_idx_to_attach = 0;
-  var r=0; //start counting rows in table
-  while(row=table.rows[r++]){
-    hour_interval = row.cells[0].innerHTML;
-    if(checkStartHourIsFirstInInterval(hour_interval, start_hour))
-      row_idx_to_attach = r-1; // row uses r before the incrementation
-  }
-  var c=1; // start counting columns in table
-  while(c<=5){
-    var day = table.rows[0].cells[c].querySelector('.th-inner ').textContent;
-    if (weekday == day)
-      column_idx_to_attach = c;
-    c++;
-  }
-  emptyAlternatives();
-  emptyCellWithID(previous_id);
-  course_length = end_hour - start_hour;
-  for(var hours_added = 0; hours_added < course_length; hours_added++){
+// function changeCourse(previous_id, id, name, type, weekday, start_hour, end_hour){
+//   var table = document.getElementById("schedule-table");
+//   var row_idx_to_attach = 0;
+//   var column_idx_to_attach = 0;
+//   var r=0; //start counting rows in table
+//   while(row=table.rows[r++]){
+//     hour_interval = row.cells[0].innerHTML;
+//     if(checkStartHourIsFirstInInterval(hour_interval, start_hour))
+//       row_idx_to_attach = r-1; // row uses r before the incrementation
+//   }
+//   var c=1; // start counting columns in table
+//   while(c<=5){
+//     var day = table.rows[0].cells[c].querySelector('.th-inner ').textContent;
+//     if (weekday == day)
+//       column_idx_to_attach = c;
+//     c++;
+//   }
+//   emptyAlternatives();
+//   emptyCellWithID(previous_id);
+//   course_length = end_hour - start_hour;
+//   for(var hours_added = 0; hours_added < course_length; hours_added++){
     
-    var cell = table.rows[row_idx_to_attach + hours_added].cells[column_idx_to_attach];
-    addCourseToCell(cell, id, name, type);
-  }
+//     var cell = table.rows[row_idx_to_attach + hours_added].cells[column_idx_to_attach];
+//     addCourseToCell(cell, id, name, type);
+//   }
+// }
+
+function changeCourse(previous_id, id, name, type, weekday, start_hour, end_hour){
+
+  $.post( "/schedule/replace-course", {
+    "previous_course_id" : previous_id,
+    "alternative_course_id":id,
+    "course_name":name,
+    "course_type":type
+  },function( data ) {
+    console.log(data);
+    if(data!==""){
+      location.reload();
+      console.log("Success!");
+    }
+  });
 }
