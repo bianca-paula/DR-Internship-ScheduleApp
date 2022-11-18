@@ -1,5 +1,5 @@
 <?php
-    include_once('../utils/DBConfiguration.php');
+    
     class ScheduledCourse {
         private int $id;
         private int $room_id;

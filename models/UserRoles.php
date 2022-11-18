@@ -1,7 +1,5 @@
 <?php
 
-include_once('../utils/DBConfig.php');
-
 class UserRoles{
 
     private $user_id;

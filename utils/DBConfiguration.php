@@ -2,6 +2,12 @@
 include_once "DBTables.php";
 include_once "DBData.php";
 include_once "./helpers/DBHelper.php";
+include_once "./helpers/RoomHelper.php";
+include_once "./helpers/CourseHelper.php";
+include_once "./helpers/CourseAttendanceHelper.php";
+include_once "./helpers/ScheduledCourseHelper.php";
+
+
 class DBConfiguration
 {
     protected $type;
@@ -12,6 +18,7 @@ class DBConfiguration
     private $connection;
     protected $port;
     protected $charset;
+    protected $mockData;
 
     function __construct()
     {
@@ -21,7 +28,8 @@ class DBConfiguration
         $this->password = $_ENV['PASSWORD'];
         $this->database_name = $_ENV['DATABASE_NAME'];
         $this->port = $_ENV['CONNECTION_PORT'];
-        $this->charset = 'utf8mb4';
+        $this->charset = $_ENV['CHARSET'];
+        $this->mockData = $_ENV['DB_WITH_MOCK_DATA'];
 
         $options = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -35,16 +43,19 @@ class DBConfiguration
 
             $sql = DBHelper::createDatabase($this->database_name);
             $sql_check_db_exists = DBHelper::checkDatabase();
-          
+            
             //Create connection
             $this->connection = $this->create_connection($conStr, $this->user_name, $this->password, $options);
             $check_if_db = $this->execute($sql_check_db_exists, array('database_name' => $this->database_name));
-
+            
             //if database name isn't given back by fetch create the database
             if (!isset($check_if_db->fetch()['SCHEMA_NAME'])) {
                 $this->execute($sql);
             }
             $this->execute("use $this->database_name");
+
+            // By default we prepare db with mock data for view testing. (param is defined in ENV)
+            $this->prepareDB($this);
         } catch (PDOException $exception) {
             //on failure print message
             echo nl2br("Connection failed: " . $exception->getMessage() . "\n");
@@ -78,6 +89,23 @@ class DBConfiguration
         } catch (InvalidArgumentException $exception) {
             error_log("Parameter was not passed. " . $exception->getMessage(), 0);
             return false;
+        }
+    }
+
+    function prepareDB($db) {
+        //insert db structure
+        RoomHelper::createStructure($db);
+        CourseHelper::createStructure($db);
+        CourseAttendanceHelper::createStructure($db);
+        ScheduledCourseHelper::createStructure($db);
+
+        //insert mock data
+        if ($this->mockData) {
+            RoomHelper::insertData($db);
+            CourseHelper::insertData($db);
+            CourseAttendanceHelper::insertData($db);
+            ScheduledCourseHelper::insertData($db);
+
         }
     }
 }

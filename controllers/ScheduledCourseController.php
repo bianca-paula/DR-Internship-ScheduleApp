@@ -1,10 +1,10 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET");
-include_once './utils/DBConfiguration.php';
+include_once '../utils/DBConfiguration.php';
 include_once '../models/Course.php';
-include_once './helpers/CourseHelper.php';
-include_once './helpers/ScheduledCourseHelper.php';
+include_once '../helpers/CourseHelper.php';
+include_once '../helpers/ScheduledCourseHelper.php';
 
 class ScheduledCourseController{
 

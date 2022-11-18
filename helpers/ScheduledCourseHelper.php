@@ -38,7 +38,41 @@ class ScheduledCourseHelper{
                                                 (1, 1, '2022-10-27 10:00:00', '2022-10-27 12:00:00'), 
                                                 (2, 2, '2022-10-28 14:00:00', '2022-10-28 16:00:00'), 
                                                 (4, 3, '2022-10-28 18:00:00', '2022-10-28 20:00:00')";
+
     const COURSE_BY_ID = "SELECT id, name, type FROM Course WHERE id = :course_id;";
+
+    const COURSES_FOR_PROF = "SELECT course.name, course.type, DATE(from_date) as 'from_date', DATE(until_date) as 'until_date',
+                                date_format(from_date, '%H') as 'from_hour',
+                                date_format(until_date, '%H') as 'until_hour',
+                                WEEKDAY(from_date) as day_of_week 
+                                FROM groupuser
+                                INNER JOIN groupcourse ON groupuser.group_id = groupcourse.group_id 
+                                INNER JOIN scheduledcourse ON scheduledcourse.course_id = groupcourse.course_id
+                                INNER JOIN course ON course.id = scheduledcourse.course_id
+                                WHERE groupuser.user_id = :scheduled_course_for_prof_id
+                                GROUP BY scheduledcourse.course_id";
+
+    public function getScheduledCoursesForProf($scheduled_course_for_prof_id) {
+       
+        $result_courses = array();
+        $sql = self::COURSES_FOR_PROF;
+        $scheduled_courses_for_prof_array = $this->db->execute($sql, array('scheduled_course_for_prof_id' => $scheduled_course_for_prof_id))->fetchAll();
+        foreach($scheduled_courses_for_prof_array as $scheduled_course_for_prof) {
+            $result = array();
+            $result['name'] = $scheduled_course_for_prof['name'];
+            $result['type'] = $scheduled_course_for_prof['type'];
+            $result['from_hour'] = $scheduled_course_for_prof['from_hour'];
+            $result['until_hour'] = $scheduled_course_for_prof['until_hour'];
+            $result['day_of_week'] = $scheduled_course_for_prof['day_of_week'];
+
+            array_push($result_courses, $result);
+
+        }
+        // var_dump($result_courses); die();
+        return $result_courses;
+        
+    }
+
     public function __construct(DbConfiguration $db){
         $this->db = $db;
     }
@@ -130,47 +164,56 @@ class ScheduledCourseHelper{
                 ON course.id = scheduled.course_id
             ) as scheduled
             ON scheduled.room_id = room.id";
-}
+    }
 
-public static function getScheduledForUserQuery(int $user_id){
-    return "SELECT scheduledcourse.id as id, scheduledcourse.course_id as course_id, room_id, from_date, until_date FROM scheduledcourse INNER JOIN
-                    (
-                        SELECT course_id FROM
-                        groupuser INNER JOIN groupcourse ON groupuser.group_id = groupcourse.group_id
-                        WHERE user_id = " . $user_id . "
-                    ) as assignedcourses
-                            
-            ON assignedcourses.course_id = scheduledcourse.course_id";
-}
-
-
-public static function getUnfilteredAlternativesForCourse(string $course_name, string $course_type){
-    // Returns the query for selecting all alternative scheduled courses for a given name and type
-    // [course_id, room_id, from_date, until_date]
-    
-    return "SELECT scheduledcourse.id as scheduled_id, from_date, until_date FROM scheduledcourse
-                INNER JOIN course ON scheduledcourse.course_id = course.id
-                WHERE course.name = '". $course_name ."' AND course.type = '". $course_type ."'";
-}
+    public static function getScheduledForUserQuery(int $user_id){
+        return "SELECT scheduledcourse.id as id, scheduledcourse.course_id as course_id, room_id, from_date, until_date FROM scheduledcourse INNER JOIN
+                        (
+                            SELECT course_id FROM
+                            groupuser INNER JOIN groupcourse ON groupuser.group_id = groupcourse.group_id
+                            WHERE user_id = " . $user_id . "
+                        ) as assignedcourses
+                                
+                ON assignedcourses.course_id = scheduledcourse.course_id";
+    }
 
 
+    public static function getUnfilteredAlternativesForCourse(string $course_name, string $course_type){
+        // Returns the query for selecting all alternative scheduled courses for a given name and type
+        // [course_id, room_id, from_date, until_date]
+        
+        return "SELECT scheduledcourse.id as scheduled_id, from_date, until_date FROM scheduledcourse
+                    INNER JOIN course ON scheduledcourse.course_id = course.id
+                    WHERE course.name = '". $course_name ."' AND course.type = '". $course_type ."'";
+    }
 
-public static function getProfessorForScheduledCourse(int $course_id){
-    // Returns the query for selecting the teacher of a scheduled course
-    // [prefix, first_name, last_name]
-    return "SELECT prefix, first_name, last_name FROM userrole INNER JOIN 
-            (
-                SELECT user_id, first_name, last_name, prefix FROM user INNER JOIN 
+
+
+    public static function getProfessorForScheduledCourse(int $course_id){
+        // Returns the query for selecting the teacher of a scheduled course
+        // [prefix, first_name, last_name]
+        return "SELECT prefix, first_name, last_name FROM userrole INNER JOIN 
                 (
-                    SELECT user_id FROM groupuser INNER JOIN groupcourse ON groupuser.group_id = groupcourse.group_id
-                    WHERE course_id = " . $course_id . "  
-                ) as group_member
-                 ON user.id = group_member.user_id
-                
-            ) as user
-            ON user.user_id = userrole.user_id
-            WHERE role_id = 2";
-}
+                    SELECT user_id, first_name, last_name, prefix FROM user INNER JOIN 
+                    (
+                        SELECT user_id FROM groupuser INNER JOIN groupcourse ON groupuser.group_id = groupcourse.group_id
+                        WHERE course_id = " . $course_id . "  
+                    ) as group_member
+                    ON user.id = group_member.user_id
+                    
+                ) as user
+                ON user.user_id = userrole.user_id
+                WHERE role_id = 2";
+    }
+
+    public static function createStructure($db) {
+        // var_dump($db); die();
+        $db->execute(self::SCHEDULED_COURSE_TABLE);
+    }
+
+    public static function insertData($db) {
+        $db->execute(self::SCHEDULED_COURSE_INSERT_MOCK_DATA);
+    }
 }
 ?>
 

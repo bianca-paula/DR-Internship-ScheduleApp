@@ -140,6 +140,7 @@ body {
     height: 22.5rem;
     border: 0.75px solid #753A52;
     background-color: #DEB6AB;
+    display: none;
 }
 
 .card-body {
@@ -249,16 +250,16 @@ body {
 }
 
 .courses-table td p {
-    margin: 5px auto;
+    margin-top: 5px auto;
 }
 
 .cell-content {
     width: 75%;
     padding: 0;
     margin: 1px;
-    white-space: nowrap;
+    /* white-space: nowrap;
     text-overflow: ellipsis;
-    overflow: hidden;
+    overflow: hidden; */
 }
 
 .courses-table td:active,

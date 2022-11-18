@@ -1,5 +1,5 @@
 <?php
-    include_once('../utils/DBConfiguration.php');
+
     class Room {
 
         private int $id;
@@ -11,11 +11,11 @@
             $this->capacity = $capacity;   
         }
 
-        public function getID(){
+        public static function getID(){
             return $this->id;
         }
 
-        public function getName(){
+        public static function getName(){
             return $this->name;
         }
         

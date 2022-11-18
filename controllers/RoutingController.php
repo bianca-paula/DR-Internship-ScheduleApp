@@ -1,13 +1,16 @@
 <?php 
     include_once './controllers/ScheduledCourseController.php';
+    include_once './controllers/ProfessorScheduleController.php';
     include_once './controllers/ErrorPageController.php';
     class RoutingController {
         
         public DbConfiguration $db;
         public ScheduledCourseController $scheduled_course_controller;
-        public function __construct(DbConfiguration $db, ScheduledCourseController $scheduled_course_controller){
+        public ProfessorScheduleController $professor_schedule_controller;
+        public function __construct(DbConfiguration $db, ScheduledCourseController $scheduled_course_controller, ProfessorScheduleController $professor_schedule_controller){
             $this->db= $db;
             $this->scheduled_course_controller= $scheduled_course_controller;
+            $this->professor_schedule_controller = $professor_schedule_controller;
         }
 
         public function getRouteHandler(string $request){
@@ -17,6 +20,10 @@
                     break;
                 case '/schedule':
                     $this->scheduled_course_controller->view();
+                    break;
+
+                case '/professor':
+                    $this->professor_schedule_controller->view();
                     break;
 
                 default:

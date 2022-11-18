@@ -1,5 +1,5 @@
 <?php
-include_once './views/page-parts/header.php';
+include_once '../page-parts/header.php';
 ?>
 <div class="container-fluid">
         <div class="row px-4 py-4">
