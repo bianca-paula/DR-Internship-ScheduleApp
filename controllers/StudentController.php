@@ -5,16 +5,17 @@ include_once './utils/DBConfiguration.php';
 include_once '../models/Course.php';
 include_once './helpers/CourseHelper.php';
 include_once './helpers/ScheduledCourseHelper.php';
+include_once './helpers/DateTimeHelper.php';
 
-class ScheduledCourseController{
+class StudentController{
 
     private DbConfiguration $db;
     private CourseHelper $course_helper;
     private ScheduledCourseHelper $scheduled_course_helper;
-    public function __construct(DbConfiguration $db){
-        $this->db=$db;
-        $this->course_helper = new CourseHelper($db);
-        $this->scheduled_course_helper = new ScheduledCourseHelper($db);
+    public function __construct(){
+        $this->db = new DbConfiguration();
+        $this->course_helper = new CourseHelper($this->db);
+        $this->scheduled_course_helper = new ScheduledCourseHelper($this->db);
     }
 
     public function getCourseById(int $course_id){
@@ -26,7 +27,6 @@ class ScheduledCourseController{
         $user_id = 1;
         $previous_course_id = $_POST["previous_course_id"];
         $alternative_course_id = $_POST["alternative_course_id"];
-        
         $course_name = $_POST["course_name"];
         $course_type = $_POST["course_type"];
         $this->scheduled_course_helper->updateCourseAttendanceForUser($user_id, $course_name, $course_type);
@@ -37,22 +37,14 @@ class ScheduledCourseController{
     public function getScheduledCourses(){
         // $scheduled_courses = $this->scheduled_course_helper->getScheduledCourses();
         $user_id = 1;
-        $scheduled_courses = $this->scheduled_course_helper->getScheduledCoursesForUser($user_id);
+        $scheduled_courses_array = $this->scheduled_course_helper->getScheduledCoursesForUser($user_id);
+        // $scheduled_courses_array = $this->scheduled_course_helper->getScheduledCourses();
+        $scheduled_courses = $this->convertToScheduledCourses($scheduled_courses_array);
         return $scheduled_courses;
     }
     
-    
     public function getScheduleForUser(int $user_id){
-        $sql = "SELECT scheduledcourse.id as id, scheduledcourse.course_id as course_id, room_id, from_date, until_date FROM scheduledcourse INNER JOIN
-                    (
-                        SELECT course_id FROM
-                        groupuser INNER JOIN groupcourse ON groupuser.group_id = groupcourse.group_id
-                        WHERE user_id = " . $user_id . "
-                    ) as assignedcourses
-                            
-            ON assignedcourses.course_id = scheduledcourse.course_id";
-        $statement = $this->db->connection->query($sql);
-        $scheduled_courses_array = $statement->fetchAll(PDO::FETCH_OBJ);
+        $schedule_course = $this->scheduled_course_helper->getScheduledCourseByUser($user_id);
         $scheduled_courses = $this->convertToScheduledCourses($scheduled_courses_array);
         return $scheduled_courses;
     }
@@ -67,7 +59,7 @@ class ScheduledCourseController{
             $scheduled_course_id = $_GET["scheduled_course_id"];
             $scheduled_course_object = $this->scheduled_course_helper->getScheduledCourseDetails($scheduled_course_id);
             if(!$scheduled_course_object){
-                ErrorPageController::view("Invalid scheduled course ID!");
+                ErrorPageController::view("Selected course doesn't exist!");
             }
             else{
                 echo json_encode($scheduled_course_object);
@@ -80,14 +72,15 @@ class ScheduledCourseController{
         $course_name = $_POST["course_name"];
         $course_type = $_POST["course_type"];
         $this->scheduled_course_helper->updateCourseAttendanceForUser($user_id, $course_name, $course_type);
+        echo true;
 
     }
 
-    public function view(){
-        $results = $this->getScheduledCourses();
-        define('WEEKDAYS', array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'));
-        print TemplateEngine::template('./views/student/list.php', array( 'results' => $results, 'WEEKDAYS' => WEEKDAYS, 'scheduled_courses' => $this ));
-    }
+    // public function view(){
+    //     $results = $this->getScheduledCourses();
+    //     define('WEEKDAYS', array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'));
+    //     print TemplateEngine::template('./views/student/list.php', array( 'results' => $results, 'WEEKDAYS' => WEEKDAYS, 'scheduled_courses' => $this ));
+    // }
 
     public function checkTimePeriodIsFree($scheduled_courses_array, $starting_date){
         foreach($scheduled_courses_array as $course){
@@ -97,9 +90,31 @@ class ScheduledCourseController{
         return true;
     }
 
-    public function getAlternativesForCourse($scheduled_id){
-        $this->scheduled_course_helper->getAlternatives($scheduled_id);
+    public function getAlternativesForCourse(){
+        $course_id = $_GET["course_id"];
+        $this->scheduled_course_helper->getAlternatives($course_id);
+    }
 
+    public function convertToScheduledCourses($all_scheduled_courses){
+        $scheduled_courses_array = [];
+        foreach($all_scheduled_courses as $scheduled_course){ 
+            $scheduled_course_map["scheduled_course"] = new ScheduledCourse($scheduled_course['id'], $scheduled_course['room_id'], 
+                                                        $scheduled_course['course_id'], $scheduled_course['course_name'],
+                                                        $scheduled_course['course_type'], $scheduled_course['from_date'], 
+                                                        $scheduled_course['until_date']);
+            $scheduled_course_map["from_hour"] = DateTimeHelper::getHour($scheduled_course['from_date']);
+            $scheduled_course_map["until_hour"] = DateTimeHelper::getHour($scheduled_course['until_date']);
+            $scheduled_course_map["day_of_week"] = DateTimeHelper::getDayOfWeek($scheduled_course['from_date']);
+
+            $scheduled_courses_array[] = $scheduled_course_map;
+        }
+        return $scheduled_courses_array;
+    }
+
+    public function view(){
+        $scheduled_courses = $this->getScheduledCourses();
+        define('WEEKDAYS', array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'));
+        print TemplateEngine::template('./views/student/list.php', array( 'all_scheduled_courses' => $scheduled_courses, 'WEEKDAYS' => WEEKDAYS));
     }
 }
 ?>
