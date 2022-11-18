@@ -2,44 +2,52 @@
 
 class UserHelper{
     
-    static function setUpUserTable (DbConfiguration $db_config) {
+    private DbConfiguration $db;
+
+    public function __construct(DbConfiguration $db){
+        $this->db = $db;
+    }
+
+
+    const CHECK_TABLE_QUERY = "SELECT table_name FROM information_schema.tables
+                                WHERE table_name = 'user';";
+
+    const CREATE_USER_TABLE_STMT = "CREATE TABLE IF NOT EXISTS User(
+                                    id INT AUTO_INCREMENT PRIMARY KEY,
+                                    email VARCHAR(30) NOT NULL UNIQUE,
+                                    password VARCHAR(50) NOT NULL,
+                                    first_name VARCHAR(30) NOT NULL,
+                                    last_name VARCHAR(20) NOT NULL,
+                                    prefix VARCHAR(10)
+                                    );";
+
+    const FIND_USER_BY_CREDENTIALS_QUERY = "SELECT * FROM `user` WHERE
+                                            `user`.email = ':email' AND
+                                            `user`.`password` = ':password';";
+
+    const GET_USER_ROLE_QUERY = "SELECT role.name FROM role INNER JOIN userrole
+    ON role.id = userrole.role_id WHERE userrole.user_id = :user_id";
+
+    function setUpUserTable () {
         
-        $table_exists = $db_config->execute(self::checkTableQuery());
+
+        $table_exists = $this->db->execute(self::CHECK_TABLE_QUERY)->fetch();
         
         if($table_exists == false){
-            $db_config->execute(self::createUserTableQuery());
-            $db_config->execute(self::insertUsersStatement());
+            $this->db->execute(self::CREATE_USER_TABLE_STMT);
+            $this->db->execute(self::insertUsersStatement());
         }
         
     }
-
-    
-    private static function checkTableQuery(){
-        return "SELECT table_name FROM information_schema.tables
-            where table_name = 'user'
-            ;";
-    }
     
     
-    private static function createUserTableQuery(){
-        return "CREATE TABLE IF NOT EXISTS User(
-                    id INT AUTO_INCREMENT PRIMARY KEY,
-                    email VARCHAR(30) NOT NULL UNIQUE,
-                    password VARCHAR(50) NOT NULL,
-                    first_name VARCHAR(30) NOT NULL,
-                    last_name VARCHAR(20) NOT NULL,
-                    prefix VARCHAR(10)
-            );";
-    }
-    
-    
-    private static function insertUsersStatement(){
+    private function insertUsersStatement(){
         $sql__insert_stmt = "INSERT IGNORE INTO User(email, password, first_name, last_name, prefix) values ";
         
         // Adding Student accounts
         for($ind=1; $ind<=600; $ind++){
             $email = "student" . $ind . "@studmail.com";
-            $password = md5(self::createRandomPassword());
+            $password = md5($this->createRandomPassword());
             $first_name = "First" . $ind;
             $last_name = "Last" . $ind;
             
@@ -50,7 +58,7 @@ class UserHelper{
         // Adding Teacher Accounts
         for($ind=1; $ind<=30; $ind++){
             $email = "professor" . $ind . "@studmail.com";
-            $password = md5(self::createRandomPassword());
+            $password = md5($this->createRandomPassword());
             $first_name = "PFirst" . $ind;
             $last_name = "PLast" . $ind;
             $prefix = "";
@@ -64,22 +72,14 @@ class UserHelper{
         
         
         // Adding Admin Account
-        $password = md5(self::createRandomPassword());
+        $password = md5($this->createRandomPassword());
         $sql__insert_stmt = $sql__insert_stmt .  "('admin@studmail.com', '" . $password . "', 'ADMIN_FN', 'ADMIN_LN', '')";
         
-        
         return $sql__insert_stmt;
-        
-        /* Adding some test accounts
-         return $sql__insert_stmt . "('test_admin@studmail.com' , '" . md5('test') . "', 'FNAT', 'LNAT', ''),
-         ('test_professor@studmail.com' , '" . md5('test') . "', 'FNPT', 'LNPT', 'drd.'),
-         ('test_student@studmail.com' , '" . md5('test') . "', 'FNST', 'LNST', '');";
-         */
-        
     }
     
     
-    private static function createRandomPassword() {
+    private function createRandomPassword() {
         $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
         $pass = array(); //remember to declare $pass as an array
         $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
@@ -90,41 +90,29 @@ class UserHelper{
         return implode($pass); //turn the array into a string
     }
     
-    static function verifyUser(DbConfiguration $db_config, string $email, string $password){
+    function verifyUser(string $email, string $password){
         // Checks that the credentials are valid
         // Returns the user if it can be found
         
-        $query = "SELECT * FROM `user` WHERE
-        `user`.email = '" . $email . "' AND
-        `user`.`password` = '" . md5($password) . "';";
         
-        $response = $db_config->execute($query);
+        $response = $this->db->execute(self::FIND_USER_BY_CREDENTIALS_QUERY,
+         array('email' => $email, 'password' => md5($password)))->fetch();
         if ($response != false){
-            foreach($response as $user){
-                // will stop  at first and only user found
-                $result = new User($user->email, $user -> password,
-                    $user->first_name, $user->last_name, $user->prefix);
-                $result->set_id($user->id);
-                return $result;
-            }
+            $result = new User($response['id'], $response['email'], $response['password'],
+                    $response['first_name'], $response['last_name'], $response['prefix']);
+            return $result;
         }
         
         return null;
     }
     
-    
-    
-    static function getUserRole(DbConfiguration $db_config, $user_id){
-        $query = "SELECT role.name FROM role INNER JOIN userrole
-        ON role.id = userrole.role_id WHERE userrole.user_id = " . $user_id;
+    function getUserRole($user_id){
         
-        $response = $db_config->execute($query);
+        $response = $this->db->execute(self::GET_USER_ROLE_QUERY,
+        array('user_id' => $user_id))->fetch();
         
         if ($response != false){
-            foreach($response as $role){
-                // will stop  at first and only role found
-                return $role->name;
-            }
+            return $response['name'];
         }
         
         return null;

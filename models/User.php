@@ -10,14 +10,14 @@ class User {
     private $prefix;
     
     // Constructor
-    function __construct(string $email,
-        string $password, string $first_name, string $last_name, ?string $prefix){
+    function __construct($id, $email,$password, $first_name, $last_name, ?string $prefix){
             
-            $this->email = $email;
-            $this->password = $password;
-            $this->first_name = $first_name;
-            $this->last_name = $last_name;
-            $this->prefix = $prefix;
+        $this->id = $id;
+        $this->email = $email;
+        $this->password = $password;
+        $this->first_name = $first_name;
+        $this->last_name = $last_name;
+        $this->prefix = $prefix;
             
     }
     
