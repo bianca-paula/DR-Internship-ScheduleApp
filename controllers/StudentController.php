@@ -35,10 +35,8 @@ class StudentController{
     }
 
     public function getScheduledCourses(){
-        // $scheduled_courses = $this->scheduled_course_helper->getScheduledCourses();
         $user_id = 1;
         $scheduled_courses_array = $this->scheduled_course_helper->getScheduledCoursesForUser($user_id);
-        // $scheduled_courses_array = $this->scheduled_course_helper->getScheduledCourses();
         $scheduled_courses = $this->convertToScheduledCourses($scheduled_courses_array);
         return $scheduled_courses;
     }
@@ -75,12 +73,6 @@ class StudentController{
         echo true;
 
     }
-
-    // public function view(){
-    //     $results = $this->getScheduledCourses();
-    //     define('WEEKDAYS', array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'));
-    //     print TemplateEngine::template('./views/student/list.php', array( 'results' => $results, 'WEEKDAYS' => WEEKDAYS, 'scheduled_courses' => $this ));
-    // }
 
     public function checkTimePeriodIsFree($scheduled_courses_array, $starting_date){
         foreach($scheduled_courses_array as $course){

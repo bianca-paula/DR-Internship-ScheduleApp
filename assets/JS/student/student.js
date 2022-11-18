@@ -45,7 +45,6 @@ $('#removeScheduledCourseModal').on('show.bs.modal', function (event){
   var selected_course_type = $(event.relatedTarget).data('type') // Button that triggered the modal
   modal.find('#course_name').val(selected_course_name);
   modal.find('#course_type').val(selected_course_type);
-  // modal.find('#course_id').val(selected_course_ID);
   console.log(selected_course_ID);
   console.log(selected_course_name);
   console.log(selected_course_type);
@@ -56,14 +55,7 @@ $('#removeScheduledCourseModal').on('show.bs.modal', function (event){
 
   $("#remove-course-id").submit(function( event ) {
   event.preventDefault();
-  console.log(event);
-  // ($("form#remove-course-id").serializeArray()).each(
-  //   function( index ) {
-  //     console.log( index + ": " + $( this ).text() );
-  //   }
-  // );
   var formData=$("form#remove-course-id").serializeArray();
-
   const newObject = {};
   for(let i=0; i<formData.length; i++){
     console.log(i);
@@ -144,33 +136,6 @@ function emptyCellWithID(id){
     }   
   }
 }
-
-// function changeCourse(previous_id, id, name, type, weekday, start_hour, end_hour){
-//   var table = document.getElementById("schedule-table");
-//   var row_idx_to_attach = 0;
-//   var column_idx_to_attach = 0;
-//   var r=0; //start counting rows in table
-//   while(row=table.rows[r++]){
-//     hour_interval = row.cells[0].innerHTML;
-//     if(checkStartHourIsFirstInInterval(hour_interval, start_hour))
-//       row_idx_to_attach = r-1; // row uses r before the incrementation
-//   }
-//   var c=1; // start counting columns in table
-//   while(c<=5){
-//     var day = table.rows[0].cells[c].querySelector('.th-inner ').textContent;
-//     if (weekday == day)
-//       column_idx_to_attach = c;
-//     c++;
-//   }
-//   emptyAlternatives();
-//   emptyCellWithID(previous_id);
-//   course_length = end_hour - start_hour;
-//   for(var hours_added = 0; hours_added < course_length; hours_added++){
-    
-//     var cell = table.rows[row_idx_to_attach + hours_added].cells[column_idx_to_attach];
-//     addCourseToCell(cell, id, name, type);
-//   }
-// }
 
 function changeCourse(previous_id, id, name, type, weekday, start_hour, end_hour){
 

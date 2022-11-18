@@ -28,7 +28,6 @@
                                 self::$student_controller->updateCourseAttendanceForUser();
                                 self::$student_controller->view();
                             case 'replace-course':
-                                // echo "HEEELP";
                                 self::$student_controller->replaceCourseWithAlternative();
                                 self::$student_controller->view();
                             default:

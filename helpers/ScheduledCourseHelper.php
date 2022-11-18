@@ -183,18 +183,9 @@ class ScheduledCourseHelper{
     public function getScheduledCoursesForUser($user_id){
         $sql = self::SCHEDULED_COURSES_FOR_USER;
         $scheduled_courses_array = $this->db->execute($sql, array('user_id' => $user_id))->fetchAll();
-        // $scheduled_courses = $this->convertToScheduledCourses($scheduled_courses_array);
         return $scheduled_courses_array;
     }
 
-    // public function convertToScheduledCourses($scheduled_courses){
-    //     $courses = [];
-    //     foreach($scheduled_courses as $course){
-            
-    //         $courses[] =new ScheduledCourse($course['id'], $course['room_id'], $course['course_id'], $course['from_date'], $course['until_date']);
-    //     }
-    //     return $courses;
-    // }
 
     public function updateCourseAttendanceForUser($user_id, $course_name, $course_type){
         $sql = self::UPDATE_USER_COURSE_ATTENDANCE;
