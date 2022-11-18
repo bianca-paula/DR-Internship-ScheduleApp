@@ -11,8 +11,8 @@
                 <span class="course-title"></span> - Type <span class="course-type"> </span>
             </div>
             <div class="modal-footer justify-content-around">
-                <form action="./delete-course.php" method="get" id="delete-course">
-                    <input class="course-id" name="id" hidden>
+                <form id="delete-course">
+                    <input class="course-id" name="course-id" hidden>
                     <button type="submit" name="submit-delete-course" class="btn px-4 btn-yes delete" data-bs-dismiss="modal">Yes</button>
                 </form>
                 <button type="button" class="btn px-4 btn-no" data-bs-dismiss="modal">No</button>
@@ -21,3 +21,7 @@
     </div>
 </div>
 
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script src="../../assets/JS/admin/deleteCourse.js"></script>

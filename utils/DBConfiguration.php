@@ -2,6 +2,14 @@
 include_once "DBTables.php";
 include_once "DBData.php";
 include_once "./helpers/DBHelper.php";
+include_once "./helpers/CourseAttendanceHelper.php";
+include_once "./helpers/CourseHelper.php";
+include_once "./helpers/RoleHelper.php";
+include_once "./helpers/RoomHelper.php";
+include_once "./helpers/ScheduledCourseHelper.php";
+include_once "./helpers/UserHelper.php";
+include_once "./helpers/UserRoleHelper.php";
+
 class DBConfiguration
 {
     protected $type;
@@ -11,6 +19,7 @@ class DBConfiguration
     protected $database_name;
     private $connection;
     protected $port;
+    protected $mock_data;
     protected $charset;
 
     function __construct()
@@ -21,6 +30,7 @@ class DBConfiguration
         $this->password = $_ENV['PASSWORD'];
         $this->database_name = $_ENV['DATABASE_NAME'];
         $this->port = $_ENV['CONNECTION_PORT'];
+        $this->mockData = $_ENV['MOCK_DATA'];
         $this->charset = 'utf8mb4';
 
         $options = [
@@ -45,6 +55,8 @@ class DBConfiguration
                 $this->execute($sql, array('database_name' => $this->database_name));
             }
             $this->execute("use $this->database_name");
+
+            // $this->prepareDB($this);
         } catch (PDOException $exception) {
             //on failure print message
             echo nl2br("Connection failed: " . $exception->getMessage() . "\n");
@@ -78,6 +90,29 @@ class DBConfiguration
         } catch (InvalidArgumentException $exception) {
             error_log("Parameter was not passed. " . $exception->getMessage(), 0);
             return false;
+        }
+    }
+
+    //create and insert data when DbConfiguration is instantiated
+    function prepareDB($db){
+        RoomHelper::createStructure($db);
+        CourseAttendanceHelper::createStructure($db);
+        CourseHelper::createStructure($db);
+        RoleHelper::createStructure($db);
+        RoomHelper::createStructure($db);
+        ScheduledCourseHelper::createStructure($db);
+        UserHelper::createStructure($db);
+        UserRoleHelper::createStructure($db);
+
+        if($this->mock_data){
+            RoomHelper::insertData($db);
+            CourseAttendanceHelper::insertData($db);
+            CourseHelper::insertData($db);
+            RoleHelper::insertData($db);
+            RoomHelper::insertData($db);
+            ScheduledCourseHelper::insertData($db);
+            UserHelper::insertData($db);
+            UserRoleHelper::insertData($db);
         }
     }
 }

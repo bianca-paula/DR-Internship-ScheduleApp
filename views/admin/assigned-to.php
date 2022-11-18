@@ -16,8 +16,8 @@ $groups = array('231', '232', '233', '234', '235', '236', '237');
             <div class="row assigned-block-rows">
                 <!-- Form -->
                 <div class="col px-0 ">
-                    <form id="assigned-block-form" action="./delete-course.php" method="POST" >
-
+                    <form id="assigned-block-form" action="./asign-course" method="POST">
+                        <input class="course-id" name="course-id" hidden>
                         <?php
                         foreach ($groups as $group) {
                         ?>
@@ -40,7 +40,7 @@ $groups = array('231', '232', '233', '234', '235', '236', '237');
 
     <div class="row mt-3">
         <div class="col px-0">
-            <button class="w-100 py-2"  form="assigned-block-form" type="submit" name="submit-assigned">SAVE</button>
+            <button class="w-100 py-2" form="assigned-block-form" type="submit" name="submit-assigned">SAVE</button>
         </div>
     </div>
 </div>

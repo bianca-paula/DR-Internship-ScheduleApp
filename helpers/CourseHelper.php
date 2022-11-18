@@ -21,33 +21,60 @@ class CourseHelper
                                     ('AI', 'Laboratory'), ('ASC', 'Lecture'), 
                                     ('ASC', 'Seminary'), ('ASC', 'Laboratory')";
 
-    const GET_ALL_COURSE = "SELECT * FROM Course";
+    const GET_ALL_COURSE = "SELECT id, name as course_name, type
+                            FROM Course";
+
+    const ADD_COURSE = "INSERT INTO Course (name, type) VALUES (:course_name, :course_type)";
 
     public function getCourseByID(int $course_id)
     {
-        $sql = self::COURSE_BY_ID;
-        $course_object = $this->db->execute($sql, array('course_id' => $course_id))->fetch();
-        $course = new Course($course_object['id'], $course_object['name'], $course_object['type']);
-        return $course;
+        if($course_id){
+            $sql = self::COURSE_BY_ID;
+            $course_object = $this->db->execute($sql, array('course_id' => $course_id))->fetch();
+            $course = new Course($course_object['id'], $course_object['name'], $course_object['type']);
+            return $course;
+        }
     }
 
     public function deleteCourse($course_id)
     {
-        $sql = "DELETE FROM Course WHERE id = :course_id";
-        return $this->db->execute($sql, array('course_id' => $course_id))->fetch();
+        if ($course_id) {
+            $sql = "DELETE FROM Course WHERE id = :course_id";
+            return $this->db->execute($sql, array('course_id' => $course_id))->fetch();
+        }
     }
 
     public function addCourse($course_name, $course_type)
     {
-        $sql = "INSERT INTO Course (course_name, course_type) VALUES (:course_name, :course_type)";
-        return $this->db->execute($sql, array(
-            'course_name' => $course_name,
-            'course-type' => $course_type
-        ))->fetch();
+        if ($course_name && $course_type) {
+            $sql = self::ADD_COURSE;
+            return $this->db->execute($sql, array(
+                'course_name' => $course_name,
+                'course_type' => $course_type
+            ));
+        }
     }
     public function getAllCourses()
     {
         $sql = self::GET_ALL_COURSE;
-        return $this->db->execute($sql)->fetchAll();
+        $courses_arr = $this->db->execute($sql)->fetchAll();
+        $courses = [];
+
+        //curse object
+        foreach ($courses_arr as $course) {
+            $courses[] = new Course($course['id'], $course['course_name'], $course['type']);
+        }
+        // echo $courses;
+        return $courses;
+    }
+
+    static function createStructure($db)
+    {
+        $db->execute(self::COURSE_TABLE);
+    }
+
+    static function insertData($db)
+    {
+        $db->execute(self::COURSE_INSERT_MOCK_DATA);
     }
 }

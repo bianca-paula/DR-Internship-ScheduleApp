@@ -1,17 +1,22 @@
 <?php
-function createCourseAttendanceTable(){
-    return "CREATE TABLE IF NOT EXISTS Course_Attendance(
-        user_id INT,
-        scheduled_course_id INT,
-        PRIMARY KEY(user_id, scheduled_course_id)
-    );";
-}
+class CourseAttendanceHelper{
 
-function insertMockData(){
-        return "INSERT IGNORE INTO Course_Attendance(user_id, scheduled_course_id) values 
-        (2, 1), 
-        (3, 1), 
-        (3, 2), 
-        (3, 3)";
+    const COURSE_ATTENDANCE_TABLE = "CREATE TABLE IF NOT EXISTS Course_Attendance(
+                                    user_id INT,
+                                    scheduled_course_id INT,
+                                    PRIMARY KEY(user_id, scheduled_course_id));";
+
+    const COURSE_ATTENDANCE_INSERT_MOCK_DATA = "INSERT IGNORE INTO Course_Attendance(user_id, scheduled_course_id) 
+                                                values (2, 1), (3, 1), (3, 2), (3, 3)";
+
+    static function createStructure($db)
+    {
+        $db->execute(self::COURSE_ATTENDANCE_TABLE);
+    }
+
+    static function insertData($db)
+    {
+        $db->execute(self::COURSE_ATTENDANCE_INSERT_MOCK_DATA);
+    }
+
 }
-?>

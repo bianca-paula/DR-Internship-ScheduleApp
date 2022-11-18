@@ -1,6 +1,6 @@
 <!-- Add Courses -->
 <div class="row course-input justify-content-center mb-5 p-2">
-    <form action="./delete-course.php" method="POST">
+    <form id="add-form">
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-4 ">
                 <div class="mb-0 px-4">
@@ -25,3 +25,7 @@
         </div>
     </form>
 </div>
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script src="../../assets/JS/admin/addCourse.js"></script>

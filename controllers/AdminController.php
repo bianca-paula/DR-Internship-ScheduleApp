@@ -1,6 +1,6 @@
 <?php
 
-include './helpers/CourseHelper.php';
+include '../helpers/CourseHelper.php';
 
 class AdminController
 {
@@ -13,20 +13,35 @@ class AdminController
     }
 
     //delete course by id
-    public function deleteCourse($course_id)
+    public function deleteCourse()
     {
-        return $this->course_helper->deleteCourse($course_id);
+        // var_dump(true);
+        if (isset($_POST['course-id'])) {
+            $course_id = $_POST['course-id'];
+            return $this->course_helper->deleteCourse($course_id);
+        }
     }
 
     //add course
-    public function addCourse($course_name, $course_type)
+    public function addCourse()
     {
-        return $this->course_helper->addCourse($course_name, $course_type);
+        if (isset($_POST['course-name']) && isset($_POST['course-type'])) {
+            echo $_POST;
+            $course_name = $_POST['course-name'];
+            $course_type = $_POST['course-type'];
+            return $this->course_helper->addCourse($course_name, $course_type);
+        }
     }
 
     //get all courses
     public function getAllCourses()
     {
         return $this->course_helper->getAllCourses();
+    }
+
+    public function view()
+    {
+        $results = $this->getAllCourses();
+        print TemplateEngine::template('./views/admin/list.php', array("results" => $results));
     }
 }

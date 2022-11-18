@@ -1,5 +1,4 @@
 <?php
-    include_once('../utils/DBConfiguration.php');
     class CourseAttendance {
         private int $id;
         private int $user_id;
@@ -8,12 +7,7 @@
         function __construct(int $id, int $user_id, int $scheduled_course_id){
             $this->id = $id;
             $this->user_id = $user_id;
-            $this->scheduled_course_id = $scheduled_course_id;
-            // $sql_check_table_exists = $this->checkTable();
-            // $check_if_table = $this->db->connection->query($sql_check_table_exists);
-            // if(!isset($check_if_table->fetch()['TABLE_NAME'])){
-            //     $this->db->connection->query($this->createCourseAttendanceTable()); 
-            // }   
+            $this->scheduled_course_id = $scheduled_course_id;   
         }
 
         public function getID(){

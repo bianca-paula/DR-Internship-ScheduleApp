@@ -1,22 +1,6 @@
 <?php
 
-$course_table = array(
-    array(
-        'id' => 1,
-        'course_name' => 'Inteligenta artificiala',
-        'type' => 'Curs'
-    ),
-    array(
-        'id' => 2,
-        'course_name' => 'Medii de proiectare sis programare',
-        'type' => 'Seminar'
-    ),
-    array(
-        'id' => 3,
-        'course_name' => 'Metodologii pentru procese software',
-        'type' => 'Curs'
-    )
-);
+use Dotenv\Parser\Value;
 
 ?>
 
@@ -30,21 +14,21 @@ $course_table = array(
 
 
         <?php
-        foreach ($course_table as $row => $value) {
+        foreach ($results as $row => $value) {
         ?>
             <div class="row data-record">
 
-                <div class="col-2 d-flex align-content-center justify-content-center id-col" data-course-id="<?php print($value['id']) ?>"> <?php print($value['id']) ?></div>
+                <div class="col-2 d-flex align-content-center justify-content-center id-col" data-course-id="<?php print($value->getID()); ?>"> <?php print($value->getID()); ?></div>
                 <div class="col-8">
                     <div class="row">
-                        <div class="col-11 title" data-course-title="<?php print($value['course_name']) ?>"> <?php print($value['course_name']) ?> </div>
+                        <div class="col-11 title" data-course-title="<?php print($value->getName()); ?>"> <?php print($value->getName()); ?> </div>
                         <div class="col-1 d-flex align-items-center justify-content-end see-more">
                             <i class="fa-solid fa-ellipsis-vertical"></i>
                             <div class="row choice-modal">
                                 <div class="col">
                                     <!-- Delete button -->
                                     <div class="row">
-                                        <button type="button" class="col mx-auto delete-button delete" data-bs-toggle="modal" data-bs-target="delete-modal">
+                                        <button type="button" class="col mx-auto delete-button delete" data-toggle="modal" data-target="delete-modal">
                                             Delete Course
                                         </button>
                                     </div>
@@ -62,7 +46,7 @@ $course_table = array(
                         </div>
                     </div>
                 </div>
-                <div class="col-2 course-type" data-course-type="<?php print($value['type']) ?>"> <?php print($value['type']) ?> </div>
+                <div class="col-2 course-type" data-course-type="<?php print($value->getType()); ?>"> <?php print($value->getType()); ?> </div>
             </div>
         <?php } ?>
     </div>

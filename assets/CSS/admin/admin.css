@@ -118,6 +118,12 @@ body {
     color: #FFFBD6;
 }
 
+.is-active {
+    background: rgba(172, 112, 136, 0.5);
+    color: #FFFBD6;
+}
+
+
 .course-table .col-md .row:hover:not(.course-table .row.header) .fa-ellipsis-vertical {
     display: inline;
     cursor: pointer;
@@ -378,4 +384,18 @@ td {
 .title-content {
     font-family: 'Roboto', sans-serif;
     font-weight: 700;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 74.5%;
+    height: auto;
+    width: 100vw;
+}
+
+.alert-success,
+.alert-danger {
+    width: 25%;
+    display: none;
 }

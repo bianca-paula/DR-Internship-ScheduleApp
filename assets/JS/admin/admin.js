@@ -25,9 +25,15 @@ $(document).ready(function (e) {
         var id = $(this).parents('.data-record').find('.id-col').data('course-id');
         var courseTitle = $(this).parents('.data-record').find('.title').data('course-title');
         var courseType = $(this).parents('.data-record').find('.course-type').data('course-type');
-        
-        $('#delete-modal').find("input[name='id']").val(id);
+
+        $('#delete-modal').find("input[name='course-id']").val(id);
         $('#delete-modal').find(".course-title").html(courseTitle);
         $('#delete-modal').find(".course-type").html(courseType);
     });
+
+    $('.data-record').click(function () {
+        $(this).toggleClass('is-active');
+        var id = $(this).find('.id-col').data('course-id');
+        
+    })
 })
