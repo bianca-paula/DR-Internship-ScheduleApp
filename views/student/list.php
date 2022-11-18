@@ -92,4 +92,8 @@ include_once './views/page-parts/Footer.php';
 <script src="https://kit.fontawesome.com/aca3ebed9c.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
 <script src="https://unpkg.com/jspdf-autotable@3.5.22/dist/jspdf.plugin.autotable.js"></script>
+
+<?php
+include_once './views/page-parts/Footer.php';
+?>
 <script type="text/javascript" src="./assets/JS/student/student.js"></script>

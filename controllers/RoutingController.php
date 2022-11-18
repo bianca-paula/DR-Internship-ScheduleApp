@@ -20,13 +20,21 @@
                     $position++;
                     if(array_key_exists($position, $request_array)){
                         $path = strtok($request_array[$position], '?');
+
                         switch($path){
+                            
                             case 'get-course-details':
                                 self::$student_controller->getScheduledCourseDetails();
                                 break;
                             case 'alternative-courses':
                                 self::$student_controller->getAlternativesForCourse();
                                 break;
+                            case 'delete-course':
+                                self::$student_controller->updateCourseAttendanceForUser();
+                                self::$student_controller->view();
+                            case 'replace-course':
+                                self::$student_controller->replaceCourseWithAlternative();
+                                self::$student_controller->view();
                             default:
                                 http_response_code(404);
                                 ErrorPageController::view("Invalid URL!");

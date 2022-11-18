@@ -23,8 +23,20 @@ class StudentController{
         return $course;
     }
 
+    public function replaceCourseWithAlternative(){
+        $user_id = 1;
+        $previous_course_id = $_POST["previous_course_id"];
+        $alternative_course_id = $_POST["alternative_course_id"];
+        $course_name = $_POST["course_name"];
+        $course_type = $_POST["course_type"];
+        $this->scheduled_course_helper->updateCourseAttendanceForUser($user_id, $course_name, $course_type);
+        $this->scheduled_course_helper->createAttendancesForAlternativeCourse($user_id, $alternative_course_id);
+        echo true;
+    }
+
     public function getScheduledCourses(){
-        $scheduled_courses_array = $this->scheduled_course_helper->getScheduledCourses();
+        $user_id = 1;
+        $scheduled_courses_array = $this->scheduled_course_helper->getScheduledCoursesForUser($user_id);
         $scheduled_courses = $this->convertToScheduledCourses($scheduled_courses_array);
         return $scheduled_courses;
     }
@@ -50,6 +62,16 @@ class StudentController{
             else{
                 echo json_encode($scheduled_course_object);
             }
+    }
+
+    public function updateCourseAttendanceForUser(){
+        // $user_id = $_POST["user_id"];
+        $user_id = 1;
+        $course_name = $_POST["course_name"];
+        $course_type = $_POST["course_type"];
+        $this->scheduled_course_helper->updateCourseAttendanceForUser($user_id, $course_name, $course_type);
+        echo true;
+
     }
 
     public function checkTimePeriodIsFree($scheduled_courses_array, $starting_date){
