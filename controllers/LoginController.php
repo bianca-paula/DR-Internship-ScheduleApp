@@ -17,6 +17,10 @@ class LoginController{
 
         session_start();
 
+        if($_SERVER['REQUEST_METHOD']=='GET'){
+            setcookie('logged_in', 'false', $expires, '/');
+        }
+
         if($_SERVER['REQUEST_METHOD']=='POST'
             && !empty($_POST['input_email'])
             && !empty($_POST['input_password'])) 
@@ -39,6 +43,7 @@ class LoginController{
                 $expires = time()+7*24*60*60; // one week
                 setcookie('user_id', $user->get_id(),  $expires, '/');
                 setcookie('user_role', $user_role, $expires, '/');
+                setcookie('user_email', $email, $expires, '/');
                 setcookie('logged_in', 'true', $expires, '/');
                 
                 
@@ -50,7 +55,7 @@ class LoginController{
                         header("Location: professor.php");  // to replace with Professor Main Page
                         exit();
                     case 'student':
-                        header("Location: http://scheduleapp.com/schedule");
+                        header("Location: /schedule");
                         exit();
                     default:
                         echo "Unknown user role!";

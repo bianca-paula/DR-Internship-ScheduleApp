@@ -13,7 +13,7 @@
         <div id="course-details" class="pl-2">
             <p id="modal-course-type">Type: </p>
             <p id="modal-course-room">Room: </p>
-            <p id="modal-course-professor">Professor: </p>
+            <!-- <p id="modal-course-professor">Professor: </p> -->
             <p id="modal-course-date">Date: </p>
             <p id="modal-course-time">Time: </p>
         </div>

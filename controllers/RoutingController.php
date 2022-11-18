@@ -18,8 +18,8 @@
                     self::$login_controller->login();
                     break;
                 case 'schedule':
-                    if(!(isset($_COOKIE['user_role']) && $_COOKIE['user_role'] == "student"
-                    && isset($_COOKIE['logged_in']) && $_COOKIE['logged_in'] == "true")){
+                    if(!isset($_COOKIE['user_role']) || $_COOKIE['user_role'] != "student"
+                    || !isset($_COOKIE['logged_in']) || $_COOKIE['logged_in'] == "false"){
                         header("Location: http://scheduleapp.com/login");
                         exit();
                     }
