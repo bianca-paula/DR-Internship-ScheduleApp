@@ -9,7 +9,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <h4 id="confirm-message"> REMOVE </h4>
+        <h4 id="confirm-message"> Are you sure you want to delete this course? </h4>
 
         <form id="remove-course-id" method="POST">
             <label for="course_name">Course name</label><br>
