@@ -1,8 +1,11 @@
 <?php 
     include_once './controllers/StudentController.php';
     include_once './controllers/ErrorPageController.php';
+    include_once './controllers/LoginController.php';
+
     class RoutingController {
         public static StudentController $student_controller;
+        public static LoginController $login_controller;
         public function __construct(){}
         public static function getRouteHandler(){
             $request = $_SERVER['REQUEST_URI'];
@@ -10,7 +13,16 @@
             array_shift($request_array);
             $position = 0;
             switch($request_array[$position]){
+                case 'login':
+                    self::$login_controller = new LoginController();
+                    self::$login_controller->login();
+                    break;
                 case 'schedule':
+                    if(!isset($_COOKIE['user_role']) || $_COOKIE['user_role'] != "student"
+                    || !isset($_COOKIE['logged_in']) || $_COOKIE['logged_in'] == "false"){
+                        header("Location: http://scheduleapp.com/login");
+                        exit();
+                    }
                     self::$student_controller= new StudentController();
                     $position++;
                     if(array_key_exists($position, $request_array)){

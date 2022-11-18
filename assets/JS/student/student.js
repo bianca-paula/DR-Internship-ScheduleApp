@@ -21,7 +21,7 @@ function downloadPDF(){
 }
 
 function logoutPage(){
-    alert("Logout!");
+  location.href = "/login";
 }
 
 $('#courseModal').on('show.bs.modal', function (event){
@@ -32,7 +32,7 @@ $('#courseModal').on('show.bs.modal', function (event){
       modal.find('#modal-course-name').text(scheduled_course_json["course_name"]);
       modal.find('#modal-course-type').text("Type: " + scheduled_course_json["course_type"]);
       modal.find('#modal-course-room').text("Room: " + scheduled_course_json["room_name"]);
-      modal.find('#modal-course-professor').text("Professor: ");
+      // modal.find('#modal-course-professor').text("Professor: ");
       modal.find('#modal-course-date').text("Date: " + scheduled_course_json["from_date"]);
       modal.find('#modal-course-time').text("Time: " + scheduled_course_json["from_hour"] + " - " + scheduled_course_json["until_hour"]);
     });
@@ -84,8 +84,24 @@ function emptyAlternatives(){
       }
 }
 
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
 function populateAlternatives(course_id){
-  var user_id = "634";
+  var user_id = getCookie('user_id');
   $.get('/schedule/alternative-courses', {"course_id" : course_id, "user_id" : user_id}, function(data){
     var table = document.getElementById("alternatives");
       table.innerHTML = data;

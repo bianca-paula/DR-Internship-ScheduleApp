@@ -19,7 +19,7 @@
             </div>
             <div class="col-4"></div>
             <div class="col-4 pr-5">
-                <h3 class="float-right">Username &nbsp;<span onclick="logoutPage()"><i class="fa-solid fa-right-from-bracket"></span></i></h3>
+                <h3 class="float-right"><?php echo $_COOKIE["user_email"]; ?> &nbsp;<span onclick="logoutPage()"><i class="fa-solid fa-right-from-bracket"></span></i></h3>
             </div>
         </div>
     </header>
