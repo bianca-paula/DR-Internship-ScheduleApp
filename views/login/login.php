@@ -21,7 +21,7 @@
             <label>ScheduleApp</label>
         </div>
         
-        <form method="get" action="scheduleapp.com/login.php">
+        <form method="post" action="/login/">
             <input type="email" class="credential_input" id="input_email" placeholder="E-mail" name="input_email">
             <input type="password" class="credential_input" id="input_password" placeholder="Password" name="input_password">
             <p style="visibility:<?php echo $error_visibility; ?>"> Credentials don't match! Try again.</p>

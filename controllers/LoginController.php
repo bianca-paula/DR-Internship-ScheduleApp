@@ -1,6 +1,6 @@
 <?php 
 
-include_once "../helpers/UserHelper.php";
+include_once "./helpers/UserHelper.php";
 
 class LoginController{
     private DbConfiguration $db;
@@ -11,27 +11,20 @@ class LoginController{
         $this->user_helper = new UserHelper($this->db);
     }
 
-    function view(){
-        $error_visibility = 'hidden';
-        print TemplateEngine::template('./views/login/login.php', array('error_visibility' => $error_visibility));
-    }
 
-    function viewWithError(){
-        $error_visibility = 'visible';
-        print TemplateEngine::template('./views/login/login.php', array('error_visibility' => $error_visibility));
-    }
 
     function login(){
 
         session_start();
 
-        if($_SERVER['REQUEST_METHOD']=='GET'
-            && !empty($_GET['input_email'])
-            && !empty($_GET['input_password'])) {
+        if($_SERVER['REQUEST_METHOD']=='POST'
+            && !empty($_POST['input_email'])
+            && !empty($_POST['input_password'])) 
+        {
        
             // will be changed so that it uses a UserHelper class
-            $email = $_GET['input_email'];
-            $password = $_GET['input_password'];
+            $email = $_POST['input_email'];
+            $password = $_POST['input_password'];
             $user = $this->user_helper->verifyUser($email, $password);
             
             
@@ -57,7 +50,7 @@ class LoginController{
                         header("Location: professor.php");  // to replace with Professor Main Page
                         exit();
                     case 'student':
-                        header("Location: student.php");  // to replace with Student Main Page
+                        header("Location: http://scheduleapp.com/schedule");
                         exit();
                     default:
                         echo "Unknown user role!";
@@ -66,13 +59,15 @@ class LoginController{
             
             }
             else{ 
-                    $this->viewWithError();
+                print TemplateEngine::template('./views/login/login.php', array('error_visibility' => 'visible'));
             }
             
         }
-
-        $this->view();
+        else{
+        print TemplateEngine::template('./views/login/login.php', array('error_visibility' => 'hidden'));
+        }
     }
+
 
 
 

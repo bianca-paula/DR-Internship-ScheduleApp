@@ -1,5 +1,7 @@
 <?php
 
+include_once "./models/User.php";
+
 class UserHelper{
     
     private DbConfiguration $db;
@@ -22,8 +24,8 @@ class UserHelper{
                                     );";
 
     const FIND_USER_BY_CREDENTIALS_QUERY = "SELECT * FROM `user` WHERE
-                                            `user`.email = ':email' AND
-                                            `user`.`password` = ':password';";
+                                            `user`.email = ':user_email' AND
+                                            `user`.`password` = ':user_password';";
 
     const GET_USER_ROLE_QUERY = "SELECT role.name FROM role INNER JOIN userrole
     ON role.id = userrole.role_id WHERE userrole.user_id = :user_id";
@@ -93,10 +95,10 @@ class UserHelper{
     function verifyUser(string $email, string $password){
         // Checks that the credentials are valid
         // Returns the user if it can be found
-        
-        
-        $response = $this->db->execute(self::FIND_USER_BY_CREDENTIALS_QUERY,
-         array('email' => $email, 'password' => md5($password)))->fetch();
+        $query = "SELECT * FROM `user` WHERE
+        `user`.email = '" . $email . "' AND
+        `user`.`password` = '" . md5($password) . "';";
+        $response = $this->db->execute($query)->fetch();
         if ($response != false){
             $result = new User($response['id'], $response['email'], $response['password'],
                     $response['first_name'], $response['last_name'], $response['prefix']);
@@ -107,16 +109,14 @@ class UserHelper{
     }
     
     function getUserRole($user_id){
-        
         $response = $this->db->execute(self::GET_USER_ROLE_QUERY,
-        array('user_id' => $user_id))->fetch();
+        array('user_id'=>$user_id))->fetch();
         
         if ($response != false){
             return $response['name'];
         }
         
         return null;
-        
     }
     
     
