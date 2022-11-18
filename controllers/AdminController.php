@@ -6,10 +6,11 @@ class AdminController
 {
     private DBConfiguration $db;
 
-    public  function __construct(DBConfiguration $db)
+    public  function __construct()
     {
-        $this->db = $db;
-        $this->course_helper = new CourseHelper($db);
+        $this->db = new DbConfiguration();
+
+        $this->course_helper = new CourseHelper($this->db);
     }
 
     //delete course by id
