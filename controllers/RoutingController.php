@@ -3,6 +3,7 @@
     include_once './controllers/ErrorPageController.php';
     class RoutingController {
         public static StudentController $student_controller;
+        public static LoginController $login_controller;
         public function __construct(){}
         public static function getRouteHandler(){
             $request = $_SERVER['REQUEST_URI'];
@@ -10,6 +11,10 @@
             array_shift($request_array);
             $position = 0;
             switch($request_array[$position]){
+                case 'login':
+                    self::$login_controller = new LoginController();
+                    self::$login_controller->view();
+                    break;
                 case 'schedule':
                     self::$student_controller= new StudentController();
                     $position++;

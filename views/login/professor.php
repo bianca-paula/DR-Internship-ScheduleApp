@@ -1,9 +1,9 @@
 <?php
-if(isset($_COOKIE['role']) && $_COOKIE['role'] == "professor"
+if(isset($_COOKIE['user_role']) && $_COOKIE['user_role'] == "professor"
     && isset($_COOKIE['logged_in']) && $_COOKIE['logged_in'] == "true")
 {
     
-    echo "HELLO, " . $_COOKIE['role'] . "! <br />";
+    echo "HELLO, " . $_COOKIE['user_role'] . "! <br />";
 }
 else
 {
