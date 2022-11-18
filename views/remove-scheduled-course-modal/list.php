@@ -9,14 +9,23 @@
         </button>
       </div>
       <div class="modal-body">
-        <h4 id="confirm-message"> </h4>
+        <h4 id="confirm-message"> REMOVE </h4>
 
+        <form id="remove-course-id" method="POST">
+            <label for="course_name">Course name</label><br>
+            <input type="text" id="course_name" name="course_name" readonly><br><br>
+
+            <label for="course_type">Course type</label><br>
+            <input type="text" id="course_type" name="course_type" readonly>
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary upload-button">Yes</button>
+        <button form="remove-course-id" type="submit" class="btn btn-primary upload-button">Yes</button>
         <button type="button" class="btn btn-secondary cancel-button ml-auto" data-dismiss="modal">No</button>
       </div>
     </div>
   </div>
 </div>
+
+
 
