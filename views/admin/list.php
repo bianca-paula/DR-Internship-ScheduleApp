@@ -24,6 +24,7 @@
         rel="stylesheet">
     <!-- CSS stylesheet -->
     <link rel="stylesheet" href="../../assets/CSS/admin/admin.css">
+    
     <title>Profesor</title>
 </head>
 

@@ -9,16 +9,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./assets/style/style.css">
+    <!-- <link rel="stylesheet" href="../../assets/CSS/admin/admin.css"> -->
+
 
 </head>
 <div class="container-fluid">
     <header>
-        <div class="row header-container py-3">
-            <div class="col-4 pl-5">
+        <div class="row header-container py-3 d-flex align-items-center justify-content-center">
+            <div class="col-6 d-flex align-items-center justify-content-start ps-4 py-auto">
                 <h3><img src="./assets/images/logo_books.png" alt="Logo Books" height="40em">&nbsp;ScheduleApp</h3>
             </div>
-            <div class="col-4"></div>
-            <div class="col-4 pr-5">
+            <!-- <div class="col-4"></div> -->
+            <div class="col-6 d-flex align-items-center justify-content-end pe-4 py-auto">
                 <h3 class="float-right"><?php echo $_COOKIE["user_email"]; ?> &nbsp;<span onclick="logoutPage()"><i class="fa-solid fa-right-from-bracket"></span></i></h3>
             </div>
         </div>
